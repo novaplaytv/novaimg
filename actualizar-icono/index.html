@@ -257,18 +257,6 @@ button:disabled {
 
 }
 
-@media (max-height: 600px) {
-
-    main {
-        align-items: flex-start;
-    }
-
-    .preview img {
-        max-height: 200px;
-    }
-
-}
-
 </style>
 
 </head>
@@ -298,7 +286,7 @@ button:disabled {
 
 <h1>NOVAIMG</h1>
 
-<p>Panel de actualización de Iconos</p>
+<p>Panel de actualización de iconos</p>
 
 </div>
 
@@ -324,7 +312,9 @@ button:disabled {
 
 <div class="field">
 
-<label>Usuario</label>
+<label for="username">
+Usuario
+</label>
 
 <input
     id="username"
@@ -336,7 +326,9 @@ button:disabled {
 
 <div class="field">
 
-<label>Contraseña</label>
+<label for="password">
+Contraseña
+</label>
 
 <input
     id="password"
@@ -377,7 +369,9 @@ button:disabled {
 
 <div class="field">
 
-<label>Canal</label>
+<label for="canal">
+Canal
+</label>
 
 <select id="canal">
 
@@ -391,7 +385,9 @@ Cargando canales...
 
 <div class="field">
 
-<label>URL de la nueva imagen</label>
+<label for="imagenUrl">
+URL de la nueva imagen
+</label>
 
 <input
     id="imagenUrl"
@@ -442,8 +438,16 @@ Cargando canales...
 
 <script>
 
+/* =========================
+   CONFIGURACIÓN
+========================= */
+
 const API_URL =
     "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
+
+
+const CATALOGO_URL =
+    "../index.html";
 
 
 let usuario = "";
@@ -496,12 +500,6 @@ async function iniciarSesion() {
     const boton =
         document.getElementById(
             "loginButton"
-        );
-
-
-    const status =
-        document.getElementById(
-            "loginStatus"
         );
 
 
@@ -576,32 +574,19 @@ async function iniciarSesion() {
                 "block";
 
 
-        cargarCanales();
+        await cargarCanales();
 
 
     } catch (error) {
 
         console.error(error);
 
-
-        if (
-            error.message ===
-            "Failed to fetch"
-        ) {
-
-            mostrarError(
-                "loginStatus",
-                "No se pudo conectar con el servidor. Verifica que la Edge Function esté activa."
-            );
-
-        } else {
-
-            mostrarError(
-                "loginStatus",
-                error.message
-            );
-
-        }
+        mostrarError(
+            "loginStatus",
+            error.message === "Failed to fetch"
+                ? "No se pudo conectar con el servidor."
+                : error.message
+        );
 
     } finally {
 
@@ -627,17 +612,26 @@ async function cargarCanales() {
         );
 
 
+    select.innerHTML =
+        '<option value="">Cargando canales...</option>';
+
+
     try {
 
         const response =
             await fetch(
-                "../index.html"
+                CATALOGO_URL,
+                {
+                    cache: "no-store"
+                }
             );
 
 
         if (!response.ok) {
 
-            throw new Error();
+            throw new Error(
+                "No se pudo cargar el catálogo."
+            );
 
         }
 
@@ -667,8 +661,15 @@ async function cargarCanales() {
             '<option value="">Selecciona un canal</option>';
 
 
+        let encontrados = 0;
+
+
         tarjetas.forEach(
             tarjeta => {
+
+                /*
+                NOMBRE DEL CANAL
+                */
 
                 const nombre =
                     tarjeta
@@ -677,61 +678,165 @@ async function cargarCanales() {
                     ?.trim();
 
 
-                const numero =
-                    tarjeta
-                    .querySelector(
+                /*
+                NÚMERO DEL CANAL
+                */
+
+                const elementoNumero =
+                    tarjeta.querySelector(
                         ".channel-number"
-                    )
+                    );
+
+
+                const numero =
+                    elementoNumero
                     ?.textContent
                     ?.replace(
-                        "CANAL",
+                        /CANAL/gi,
                         ""
                     )
                     ?.trim();
 
 
-                if (nombre && numero) {
+                /*
+                BUSCAR LA IMAGEN REAL
+                */
 
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-
-                    option.value =
-                        numero;
-
-
-                    option.textContent =
-                        `${nombre} (${numero})`;
-
-
-                    select.appendChild(
-                        option
+                const imagen =
+                    tarjeta.querySelector(
+                        "img"
                     );
 
+
+                const rutaIcono =
+                    imagen
+                    ?.getAttribute(
+                        "src"
+                    );
+
+
+                /*
+                VALIDACIÓN
+                */
+
+                if (
+                    !nombre ||
+                    !numero ||
+                    !rutaIcono
+                ) {
+
+                    return;
+
                 }
+
+
+                /*
+                OBTENER NOMBRE REAL DEL
+                ARCHIVO WEBP
+
+                Ejemplos:
+
+                icons/001.webp
+                → 001.webp
+
+                https://.../icons/001.webp
+                → 001.webp
+                */
+
+                const coincidencia =
+                    rutaIcono.match(
+                        /(?:icons\/)([^/?#]+\.webp)/i
+                    );
+
+
+                if (
+                    !coincidencia
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                ARCHIVO REAL
+
+                Ejemplo:
+                001.webp
+                */
+
+                const archivoIcono =
+                    coincidencia[1];
+
+
+                /*
+                CREAR OPCIÓN
+                */
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                /*
+                IMPORTANTE:
+
+                VALUE = ARCHIVO REAL
+
+                Ejemplo:
+                001.webp
+                */
+
+                option.value =
+                    archivoIcono;
+
+
+                /*
+                Lo que ve el usuario
+                */
+
+                option.textContent =
+                    `${nombre} (Canal ${numero})`;
+
+
+                select.appendChild(
+                    option
+                );
+
+
+                encontrados++;
 
             }
         );
 
 
         if (
-            select.options.length <= 1
+            encontrados === 0
         ) {
 
             select.innerHTML =
-                '<option value="">No se encontraron canales</option>';
+                '<option value="">No se encontraron canales con iconos</option>';
 
         }
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando catálogo:",
+            error
+        );
+
 
         select.innerHTML =
             '<option value="">Error cargando canales</option>';
+
+
+        mostrarError(
+            "status",
+            "No se pudo leer el catálogo de canales."
+        );
 
     }
 
@@ -764,12 +869,25 @@ function verImagen() {
     }
 
 
-    document
-        .getElementById(
+    const imagen =
+        document.getElementById(
             "previewImage"
-        )
-        .src =
-            url;
+        );
+
+
+    imagen.src =
+        url;
+
+
+    imagen.onerror =
+        () => {
+
+            mostrarError(
+                "status",
+                "No se pudo cargar la imagen desde esa URL."
+            );
+
+        };
 
 
     document
@@ -783,12 +901,12 @@ function verImagen() {
 
 
 /* =========================
-   ACTUALIZAR
+   ACTUALIZAR ICONO
 ========================= */
 
 async function actualizarIcono() {
 
-    const canal =
+    const archivoIcono =
         document
         .getElementById(
             "canal"
@@ -811,7 +929,10 @@ async function actualizarIcono() {
         );
 
 
-    if (!canal || !imagenUrl) {
+    if (
+        !archivoIcono ||
+        !imagenUrl
+    ) {
 
         mostrarError(
             "status",
@@ -844,11 +965,30 @@ async function actualizarIcono() {
 
                     body:
                         JSON.stringify({
-                            action: "actualizar",
-                            username: usuario,
-                            password: password,
-                            canal: canal,
-                            imagen_url: imagenUrl
+
+                            action:
+                                "actualizar",
+
+                            username:
+                                usuario,
+
+                            password:
+                                password,
+
+                            /*
+                            AQUÍ ENVIAMOS EL
+                            ARCHIVO REAL
+
+                            Ejemplo:
+                            001.webp
+                            */
+
+                            canal:
+                                archivoIcono,
+
+                            imagen_url:
+                                imagenUrl
+
                         })
                 }
             );
@@ -862,7 +1002,7 @@ async function actualizarIcono() {
 
             throw new Error(
                 data.error ||
-                "Error al actualizar"
+                "Error al actualizar."
             );
 
         }
@@ -879,6 +1019,7 @@ async function actualizarIcono() {
 
 
         status.textContent =
+            data.message ||
             "✓ Actualización iniciada correctamente.";
 
 
@@ -886,11 +1027,9 @@ async function actualizarIcono() {
 
         console.error(error);
 
-
         mostrarError(
             "status",
-            error.message ===
-            "Failed to fetch"
+            error.message === "Failed to fetch"
                 ? "No se pudo conectar con el servidor."
                 : error.message
         );
