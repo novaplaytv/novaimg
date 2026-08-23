@@ -61,30 +61,57 @@ jobs:
 
           entrada = "/tmp/imagen_original"
 
-          canal = "${{ inputs.canal }}"
+          canal_original = "${{ inputs.canal }}"
+
+          # Convertir a número y formatear siempre con 3 dígitos.
+          # Ejemplos:
+          # 1   -> 001
+          # 10  -> 010
+          # 99  -> 099
+          # 100 -> 100
+
+          try:
+
+              canal_numero = int(canal_original)
+
+              canal = f"{canal_numero:03d}"
+
+          except ValueError:
+
+              # Si por alguna razón no es numérico,
+              # se mantiene el valor original.
+
+              canal = canal_original
+
 
           salida = f"icons/{canal}.webp"
+
 
           os.makedirs(
               "icons",
               exist_ok=True
           )
 
+
           imagen = Image.open(
               entrada
           )
+
 
           if imagen.mode not in (
               "RGB",
               "RGBA"
           ):
+
               imagen = imagen.convert(
                   "RGBA"
               )
 
+
           imagen.thumbnail(
               (512, 512)
           )
+
 
           imagen.save(
               salida,
@@ -93,6 +120,7 @@ jobs:
               method=6
           )
 
+
           print(
               f"Icono actualizado: {salida}"
           )
@@ -100,17 +128,27 @@ jobs:
           PY
 
 
+      - name: Mostrar nombre final
+        run: |
+
+          CANAL=$(printf "%03d" "${{ inputs.canal }}")
+
+          echo "Canal original: ${{ inputs.canal }}"
+
+          echo "Archivo final: icons/$CANAL.webp"
+
+
       - name: Verificar archivo
         run: |
 
           ls -lh icons/
 
-          file \
-            "icons/${{ inputs.canal }}.webp"
-
 
       - name: Guardar cambios
         run: |
+
+          CANAL=$(printf "%03d" "${{ inputs.canal }}")
+
 
           git config user.name "NovaImg Bot"
 
@@ -119,7 +157,7 @@ jobs:
 
 
           git add \
-            "icons/${{ inputs.canal }}.webp"
+            "icons/$CANAL.webp"
 
 
           if git diff --cached --quiet; then
@@ -132,7 +170,7 @@ jobs:
 
 
           git commit \
-            -m "Actualizar icono del canal ${{ inputs.canal }}"
+            -m "Actualizar icono del canal $CANAL"
 
 
           git push
