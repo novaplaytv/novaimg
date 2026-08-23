@@ -2,9 +2,11 @@ name: Actualizar Icono
 
 on:
   workflow_dispatch:
+
     inputs:
+
       canal:
-        description: "Número o identificador del canal"
+        description: "Archivo real del icono"
         required: true
         type: string
 
@@ -13,8 +15,10 @@ on:
         required: true
         type: string
 
+
 permissions:
   contents: write
+
 
 jobs:
 
@@ -22,7 +26,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+
     steps:
+
 
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -43,10 +49,29 @@ jobs:
           pip install Pillow
 
 
+      - name: Validar archivo del icono
+        run: |
+
+          ARCHIVO="${{ inputs.canal }}"
+
+          echo "Archivo solicitado: $ARCHIVO"
+
+          if [[ ! "$ARCHIVO" =~ ^[a-zA-Z0-9_-]+\.webp$ ]]; then
+
+            echo "Nombre de archivo inválido"
+
+            exit 1
+
+          fi
+
+
       - name: Descargar imagen
         run: |
 
-          curl -L \
+          curl \
+            --fail \
+            --location \
+            --retry 3 \
             "${{ inputs.imagen_url }}" \
             -o /tmp/imagen_original
 
@@ -61,30 +86,12 @@ jobs:
 
           entrada = "/tmp/imagen_original"
 
-          canal_original = "${{ inputs.canal }}"
+          archivo = "${{ inputs.canal }}"
 
-          # Convertir a número y formatear siempre con 3 dígitos.
-          # Ejemplos:
-          # 1   -> 001
-          # 10  -> 010
-          # 99  -> 099
-          # 100 -> 100
-
-          try:
-
-              canal_numero = int(canal_original)
-
-              canal = f"{canal_numero:03d}"
-
-          except ValueError:
-
-              # Si por alguna razón no es numérico,
-              # se mantiene el valor original.
-
-              canal = canal_original
-
-
-          salida = f"icons/{canal}.webp"
+          salida = os.path.join(
+              "icons",
+              archivo
+          )
 
 
           os.makedirs(
@@ -122,32 +129,28 @@ jobs:
 
 
           print(
-              f"Icono actualizado: {salida}"
+              f"Icono actualizado correctamente: {salida}"
           )
 
           PY
 
 
-      - name: Mostrar nombre final
-        run: |
-
-          CANAL=$(printf "%03d" "${{ inputs.canal }}")
-
-          echo "Canal original: ${{ inputs.canal }}"
-
-          echo "Archivo final: icons/$CANAL.webp"
-
-
       - name: Verificar archivo
         run: |
 
-          ls -lh icons/
+          ARCHIVO="${{ inputs.canal }}"
+
+          echo "Archivo generado:"
+
+          ls -lh "icons/$ARCHIVO"
+
+          file "icons/$ARCHIVO"
 
 
       - name: Guardar cambios
         run: |
 
-          CANAL=$(printf "%03d" "${{ inputs.canal }}")
+          ARCHIVO="${{ inputs.canal }}"
 
 
           git config user.name "NovaImg Bot"
@@ -157,7 +160,7 @@ jobs:
 
 
           git add \
-            "icons/$CANAL.webp"
+            "icons/$ARCHIVO"
 
 
           if git diff --cached --quiet; then
@@ -170,7 +173,7 @@ jobs:
 
 
           git commit \
-            -m "Actualizar icono del canal $CANAL"
+            -m "Actualizar icono $ARCHIVO"
 
 
           git push
