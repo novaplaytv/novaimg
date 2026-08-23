@@ -26,250 +26,411 @@
 
 html,
 body {
-    margin: 0;
     width: 100%;
     min-height: 100%;
 }
 
 body {
+    margin: 0;
     min-height: 100vh;
     min-height: 100dvh;
-    font-family: Arial, sans-serif;
+
+    font-family:
+        Arial,
+        sans-serif;
+
     background: #f3f4f6;
     color: #111827;
+
     display: flex;
     flex-direction: column;
 }
 
-header {
-    width: 100%;
-    background: #111827;
-    color: white;
-    padding: clamp(15px, 3vw, 30px);
-}
 
-.header-container {
-    max-width: 1100px;
-    margin: auto;
-}
-
-.header-title {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.header-icon {
-    width: clamp(42px, 7vw, 60px);
-    height: clamp(42px, 7vw, 60px);
-    object-fit: contain;
-}
-
-.header-title h1 {
-    margin: 0;
-    font-size: clamp(24px, 5vw, 36px);
-}
-
-.header-title p {
-    margin: 5px 0 0;
-    opacity: .8;
-}
+/* =========================
+   BOTONES SUPERIORES
+========================= */
 
 .top-actions {
     position: fixed;
-    top: 15px;
-    right: 15px;
+
+    top: clamp(10px, 2vw, 20px);
+    right: clamp(10px, 2vw, 25px);
+
     z-index: 9999;
+
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
+
 
 .top-button {
     width: auto;
     min-height: auto;
+
     margin: 0;
-    padding: 10px 14px;
+    padding: 10px 15px;
+
+    border: none;
+    border-radius: 10px;
+
     background: white;
     color: #111827;
-    font-size: 13px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.18);
+
+    font-size: 14px;
+    font-weight: bold;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.18);
 }
+
+
+.top-button:hover {
+    background: #e5e7eb;
+}
+
 
 .logout-button {
     display: none;
+
     background: #dc2626;
     color: white;
 }
+
 
 .logout-button:hover {
     background: #b91c1c;
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    width: 100%;
+
+    background: #111827;
+    color: white;
+
+    padding:
+        clamp(18px, 3vw, 30px)
+        clamp(15px, 5vw, 40px);
+}
+
+
+.header-container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: auto;
+}
+
+
+.header-title {
+    display: flex;
+    align-items: center;
+
+    gap:
+        clamp(10px, 2vw, 16px);
+}
+
+
+.header-icon {
+    width:
+        clamp(42px, 7vw, 60px);
+
+    height:
+        clamp(42px, 7vw, 60px);
+
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+
+.header-text h1 {
+    margin: 0;
+
+    font-size:
+        clamp(25px, 5vw, 36px);
+}
+
+
+.header-text p {
+    margin: 6px 0 0;
+
+    font-size:
+        clamp(13px, 2.5vw, 16px);
+
+    opacity: .85;
+}
+
+
+/* =========================
+   CONTENIDO
+========================= */
+
 main {
     flex: 1;
+
     width: 100%;
-    padding: clamp(15px, 3vw, 35px);
+
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+
+    padding:
+        clamp(15px, 3vw, 35px);
 }
+
 
 .container {
     width: 100%;
     max-width: 850px;
 }
 
+
 .login-container {
+    width: 100%;
     max-width: 450px;
-    margin-top: 30px;
 }
 
+
 .card {
+    width: 100%;
+
     background: white;
-    padding: clamp(18px, 4vw, 30px);
-    border-radius: 16px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.08);
+
+    padding:
+        clamp(18px, 4vw, 30px);
+
+    border-radius:
+        clamp(10px, 2vw, 16px);
+
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,.08);
 }
+
 
 .panel {
     display: none;
 }
 
+
 h2 {
-    margin-top: 0;
+    margin:
+        0
+        0
+        clamp(20px, 4vw, 30px);
+
+    font-size:
+        clamp(20px, 4vw, 28px);
 }
 
+
+/* =========================
+   FORMULARIOS
+========================= */
+
 .field {
-    margin-bottom: 18px;
+    width: 100%;
+
+    margin-bottom:
+        clamp(14px, 2vw, 20px);
 }
+
 
 label {
     display: block;
+
     font-weight: bold;
+
     margin-bottom: 8px;
 }
+
 
 input,
 select {
     width: 100%;
-    padding: 13px;
-    border: 1px solid #d1d5db;
+
+    padding:
+        clamp(11px, 2vw, 14px);
+
+    font-size:
+        clamp(14px, 2vw, 16px);
+
+    border:
+        1px solid #d1d5db;
+
     border-radius: 8px;
-    font-size: 16px;
+
+    background: white;
 }
+
 
 input:focus,
 select:focus {
     outline: none;
+
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,.15);
 }
+
 
 button {
     width: 100%;
+
     min-height: 48px;
-    padding: 13px;
+
+    margin-top: 10px;
+
+    padding:
+        clamp(12px, 2vw, 15px);
+
     border: none;
     border-radius: 8px;
+
     background: #2563eb;
     color: white;
-    font-size: 15px;
+
+    font-size:
+        clamp(14px, 2vw, 16px);
+
     font-weight: bold;
+
     cursor: pointer;
-    margin-top: 8px;
 }
+
 
 button:hover {
     background: #1d4ed8;
 }
+
 
 button:disabled {
     background: #9ca3af;
     cursor: not-allowed;
 }
 
-.separator {
+
+/* =========================
+   MÉTODO DE IMAGEN
+========================= */
+
+.method-buttons {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 25px 0;
-    color: #6b7280;
+    gap: 10px;
+
+    margin-bottom: 20px;
 }
 
-.separator::before,
-.separator::after {
-    content: "";
-    height: 1px;
-    flex: 1;
-    background: #d1d5db;
+
+.method-button {
+    margin: 0;
 }
+
+
+.method-button.active {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   ESTADO
+========================= */
 
 .status {
     display: none;
+
+    width: 100%;
+
     margin-top: 20px;
+
     padding: 14px;
+
     border-radius: 8px;
+
     overflow-wrap: anywhere;
 }
 
+
 .success {
     display: block;
+
     background: #dcfce7;
     color: #166534;
 }
 
+
 .error {
     display: block;
+
     background: #fee2e2;
     color: #991b1b;
 }
 
+
+.info {
+    display: block;
+
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
 .preview {
     display: none;
-    margin-top: 20px;
+
+    width: 100%;
+
     text-align: center;
+
+    margin-top: 20px;
 }
+
 
 .preview img {
-    max-width: 100%;
-    max-height: 350px;
-    object-fit: contain;
-    border-radius: 10px;
-}
-
-.file-info {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #6b7280;
-}
-
-.mode-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.mode-button {
-    margin: 0;
-}
-
-.mode-button.active {
-    background: #1d4ed8;
-}
-
-.source-section {
-    display: none;
-}
-
-.source-section.active {
     display: block;
+
+    max-width: 100%;
+    max-height: min(40dvh, 350px);
+
+    margin: auto;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+    border:
+        1px solid #e5e7eb;
 }
+
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 600px) {
 
+    main {
+        align-items: flex-start;
+    }
+
     .top-actions {
-        top: 8px;
-        right: 8px;
+        gap: 6px;
     }
 
     .top-button {
@@ -277,8 +438,8 @@ button:disabled {
         font-size: 12px;
     }
 
-    .mode-buttons {
-        grid-template-columns: 1fr;
+    .method-buttons {
+        flex-direction: column;
     }
 
 }
@@ -290,13 +451,17 @@ button:disabled {
 <body>
 
 
+<!-- =========================
+     BOTONES
+========================= -->
+
 <div class="top-actions">
 
 <a
     href="https://thedarksoldier996.github.io/novaimg"
     class="top-button"
 >
-← Volver
+    ← Volver
 </a>
 
 <button
@@ -305,11 +470,15 @@ button:disabled {
     type="button"
     onclick="cerrarSesion()"
 >
-Cerrar sesión
+    Cerrar sesión
 </button>
 
 </div>
 
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
@@ -323,11 +492,13 @@ Cerrar sesión
     alt="NOVAIMG"
 >
 
-<div>
+<div class="header-text">
 
 <h1>NOVAIMG</h1>
 
-<p>Panel de actualización de iconos</p>
+<p>
+Panel de actualización de iconos
+</p>
 
 </div>
 
@@ -338,19 +509,24 @@ Cerrar sesión
 </header>
 
 
+<!-- =========================
+     CONTENIDO
+========================= -->
+
 <main>
 
 
 <!-- LOGIN -->
 
 <div
-    class="container login-container"
+    class="login-container"
     id="loginContainer"
 >
 
 <div class="card">
 
 <h2>Iniciar sesión</h2>
+
 
 <div class="field">
 
@@ -387,7 +563,7 @@ Contraseña
     type="button"
     onclick="iniciarSesion()"
 >
-Ingresar
+    Ingresar
 </button>
 
 
@@ -413,6 +589,8 @@ Ingresar
 <h2>Actualizar icono</h2>
 
 
+<!-- CANAL -->
+
 <div class="field">
 
 <label for="canal">
@@ -430,29 +608,36 @@ Cargando canales...
 </div>
 
 
+<!-- MÉTODO -->
+
+<div class="field">
+
 <label>
 Origen de la imagen
 </label>
 
-<div class="mode-buttons">
+<div class="method-buttons">
 
 <button
-    id="urlModeButton"
-    class="mode-button active"
+    id="urlMethodButton"
+    class="method-button active"
     type="button"
-    onclick="cambiarModo('url')"
+    onclick="cambiarMetodo('url')"
 >
-Usar URL
+    Usar URL
 </button>
 
+
 <button
-    id="fileModeButton"
-    class="mode-button"
+    id="fileMethodButton"
+    class="method-button"
     type="button"
-    onclick="cambiarModo('file')"
+    onclick="cambiarMetodo('file')"
 >
-Subir archivo
+    Subir archivo
 </button>
+
+</div>
 
 </div>
 
@@ -460,24 +645,19 @@ Subir archivo
 <!-- URL -->
 
 <div
-    id="urlSection"
-    class="source-section active"
+    id="urlContainer"
+    class="field"
 >
 
-<div class="field">
-
 <label for="imagenUrl">
-URL de la imagen
+URL de la nueva imagen
 </label>
 
 <input
     id="imagenUrl"
     type="url"
     placeholder="https://ejemplo.com/logo.png"
-    oninput="limpiarArchivo()"
 >
-
-</div>
 
 </div>
 
@@ -485,29 +665,28 @@ URL de la imagen
 <!-- ARCHIVO -->
 
 <div
-    id="fileSection"
-    class="source-section"
+    id="fileContainer"
+    class="field"
+    style="display:none;"
 >
 
-<div class="field">
-
-<label for="imagenFile">
+<label for="imagenArchivo">
 Seleccionar imagen
 </label>
 
 <input
-    id="imagenFile"
+    id="imagenArchivo"
     type="file"
     accept="image/*"
     onchange="seleccionarArchivo()"
 >
 
-<div
+<p
     id="fileInfo"
-    class="file-info"
-></div>
-
-</div>
+    style="font-size:13px;color:#6b7280;margin-top:8px;"
+>
+    Máximo 25 MB
+</p>
 
 </div>
 
@@ -516,9 +695,11 @@ Seleccionar imagen
     type="button"
     onclick="verImagen()"
 >
-Vista previa
+    Vista previa
 </button>
 
+
+<!-- PREVIEW -->
 
 <div
     id="preview"
@@ -533,12 +714,14 @@ Vista previa
 </div>
 
 
+<!-- ACTUALIZAR -->
+
 <button
     id="updateButton"
     type="button"
     onclick="actualizarIcono()"
 >
-Actualizar icono
+    Actualizar icono
 </button>
 
 
@@ -556,6 +739,7 @@ Actualizar icono
 
 <script>
 
+
 /* =========================
    CONFIGURACIÓN
 ========================= */
@@ -563,49 +747,30 @@ Actualizar icono
 const API_URL =
     "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
 
+
 const CATALOGO_URL =
     "../index.html";
 
-const SESSION_KEY =
-    "novaimg_session_token";
 
-
-let sessionToken =
-    localStorage.getItem(
-        SESSION_KEY
-    ) || "";
-
-
-let modoActual =
-    "url";
-
-
-let archivoSeleccionado =
-    null;
+const MAX_FILE_SIZE =
+    25 * 1024 * 1024;
 
 
 /* =========================
-   INICIO
+   VARIABLES
 ========================= */
 
-window.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+let sessionToken = "";
 
-        if (sessionToken) {
+let modoActual = "url";
 
-            mostrarPanel();
+let archivoSeleccionado = null;
 
-            await cargarCanales();
-
-        }
-
-    }
-);
+let previewObjectUrl = null;
 
 
 /* =========================
-   UTILIDADES
+   UTILIDAD ESTADO
 ========================= */
 
 function mostrarEstado(
@@ -619,56 +784,10 @@ function mostrarEstado(
         );
 
     status.className =
-        `status ${tipo}`;
+        "status " + tipo;
 
     status.textContent =
         mensaje;
-
-}
-
-
-function mostrarLoginError(
-    mensaje
-) {
-
-    const status =
-        document.getElementById(
-            "loginStatus"
-        );
-
-    status.className =
-        "status error";
-
-    status.textContent =
-        mensaje;
-
-}
-
-
-function mostrarPanel() {
-
-    document
-        .getElementById(
-            "loginContainer"
-        )
-        .style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "panel"
-        )
-        .style.display =
-        "block";
-
-
-    document
-        .getElementById(
-            "logoutButton"
-        )
-        .style.display =
-        "block";
 
 }
 
@@ -689,7 +808,14 @@ async function iniciarSesion() {
     const password =
         document
         .getElementById("password")
-        .value;
+        .value
+        .trim();
+
+
+    const loginStatus =
+        document.getElementById(
+            "loginStatus"
+        );
 
 
     const boton =
@@ -700,9 +826,11 @@ async function iniciarSesion() {
 
     if (!username || !password) {
 
-        mostrarLoginError(
-            "Completa usuario y contraseña."
-        );
+        loginStatus.className =
+            "status error";
+
+        loginStatus.textContent =
+            "Completa usuario y contraseña.";
 
         return;
 
@@ -722,8 +850,7 @@ async function iniciarSesion() {
                 API_URL,
                 {
 
-                    method:
-                        "POST",
+                    method: "POST",
 
                     headers: {
 
@@ -758,7 +885,7 @@ async function iniciarSesion() {
 
             throw new Error(
                 data.error ||
-                "Acceso denegado"
+                "Acceso denegado."
             );
 
         }
@@ -777,23 +904,32 @@ async function iniciarSesion() {
             data.token;
 
 
+        /*
+        GUARDAR SESIÓN
+        */
+
         localStorage.setItem(
-            SESSION_KEY,
+            "novaimg_session",
             sessionToken
         );
 
 
         mostrarPanel();
 
-        await cargarCanales();
-
 
     } catch (error) {
 
-        mostrarLoginError(
-            error.message ||
-            "No se pudo iniciar sesión."
-        );
+        console.error(error);
+
+
+        loginStatus.className =
+            "status error";
+
+
+        loginStatus.textContent =
+            error.message === "Failed to fetch"
+                ? "No se pudo conectar con el servidor."
+                : error.message;
 
     } finally {
 
@@ -808,34 +944,97 @@ async function iniciarSesion() {
 
 
 /* =========================
-   CERRAR SESIÓN
+   RESTAURAR SESIÓN
 ========================= */
 
-function cerrarSesion() {
+async function verificarSesionGuardada() {
 
-    const confirmar =
-        confirm(
-            "¿Deseas cerrar sesión?"
+    const token =
+        localStorage.getItem(
+            "novaimg_session"
         );
 
 
-    if (!confirmar) {
-
+    if (!token) {
         return;
-
     }
 
 
-    localStorage.removeItem(
-        SESSION_KEY
-    );
+    sessionToken =
+        token;
 
 
-    sessionToken = "";
+    try {
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${sessionToken}`
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "verificar_sesion"
+
+                        })
+
+                }
+            );
 
 
-    archivoSeleccionado =
-        null;
+        if (!response.ok) {
+
+            localStorage.removeItem(
+                "novaimg_session"
+            );
+
+            sessionToken = "";
+
+            return;
+
+        }
+
+
+        mostrarPanel();
+
+
+    } catch (error) {
+
+        console.error(
+            "No se pudo verificar la sesión:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================
+   MOSTRAR PANEL
+========================= */
+
+async function mostrarPanel() {
+
+    document
+        .getElementById(
+            "loginContainer"
+        )
+        .style.display =
+            "none";
 
 
     document
@@ -843,15 +1042,7 @@ function cerrarSesion() {
             "panel"
         )
         .style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "loginContainer"
-        )
-        .style.display =
-        "block";
+            "block";
 
 
     document
@@ -859,7 +1050,53 @@ function cerrarSesion() {
             "logoutButton"
         )
         .style.display =
-        "none";
+            "block";
+
+
+    await cargarCanales();
+
+}
+
+
+/* =========================
+   CERRAR SESIÓN
+========================= */
+
+function cerrarSesion() {
+
+    localStorage.removeItem(
+        "novaimg_session"
+    );
+
+
+    sessionToken = "";
+
+
+    archivoSeleccionado = null;
+
+
+    document
+        .getElementById(
+            "loginContainer"
+        )
+        .style.display =
+            "block";
+
+
+    document
+        .getElementById(
+            "panel"
+        )
+        .style.display =
+            "none";
+
+
+    document
+        .getElementById(
+            "logoutButton"
+        )
+        .style.display =
+            "none";
 
 
     document
@@ -867,7 +1104,15 @@ function cerrarSesion() {
             "password"
         )
         .value =
-        "";
+            "";
+
+
+    document
+        .getElementById(
+            "loginStatus"
+        )
+        .className =
+            "status";
 
 
     document
@@ -875,7 +1120,7 @@ function cerrarSesion() {
             "status"
         )
         .className =
-        "status";
+            "status";
 
 }
 
@@ -942,8 +1187,7 @@ async function cargarCanales() {
             '<option value="">Selecciona un canal</option>';
 
 
-        let encontrados =
-            0;
+        let encontrados = 0;
 
 
         tarjetas.forEach(
@@ -956,11 +1200,14 @@ async function cargarCanales() {
                     ?.trim();
 
 
-                const numero =
-                    tarjeta
-                    .querySelector(
+                const elementoNumero =
+                    tarjeta.querySelector(
                         ".channel-number"
-                    )
+                    );
+
+
+                const numero =
+                    elementoNumero
                     ?.textContent
                     ?.replace(
                         /CANAL/gi,
@@ -987,9 +1234,7 @@ async function cargarCanales() {
                     !numero ||
                     !rutaIcono
                 ) {
-
                     return;
-
                 }
 
 
@@ -1000,9 +1245,7 @@ async function cargarCanales() {
 
 
                 if (!coincidencia) {
-
                     return;
-
                 }
 
 
@@ -1015,14 +1258,6 @@ async function cargarCanales() {
                         "option"
                     );
 
-
-                /*
-                El valor es el archivo real.
-
-                Ejemplo:
-
-                008.webp
-                */
 
                 option.value =
                     archivoIcono;
@@ -1043,7 +1278,7 @@ async function cargarCanales() {
         );
 
 
-        if (!encontrados) {
+        if (encontrados === 0) {
 
             select.innerHTML =
                 '<option value="">No se encontraron canales</option>';
@@ -1055,12 +1290,14 @@ async function cargarCanales() {
 
         console.error(error);
 
+
         select.innerHTML =
             '<option value="">Error cargando canales</option>';
 
+
         mostrarEstado(
             "error",
-            "No se pudo cargar el catálogo."
+            "No se pudo leer el catálogo."
         );
 
     }
@@ -1069,85 +1306,86 @@ async function cargarCanales() {
 
 
 /* =========================
-   CAMBIAR MODO
+   CAMBIAR MÉTODO
 ========================= */
 
-function cambiarModo(
-    modo
+function cambiarMetodo(
+    metodo
 ) {
 
     modoActual =
-        modo;
+        metodo;
 
 
     document
         .getElementById(
-            "urlSection"
+            "urlContainer"
+        )
+        .style.display =
+            metodo === "url"
+                ? "block"
+                : "none";
+
+
+    document
+        .getElementById(
+            "fileContainer"
+        )
+        .style.display =
+            metodo === "file"
+                ? "block"
+                : "none";
+
+
+    document
+        .getElementById(
+            "urlMethodButton"
         )
         .classList.toggle(
             "active",
-            modo === "url"
+            metodo === "url"
         );
 
 
     document
         .getElementById(
-            "fileSection"
+            "fileMethodButton"
         )
         .classList.toggle(
             "active",
-            modo === "file"
+            metodo === "file"
         );
 
 
     document
         .getElementById(
-            "urlModeButton"
+            "preview"
         )
-        .classList.toggle(
-            "active",
-            modo === "url"
-        );
-
-
-    document
-        .getElementById(
-            "fileModeButton"
-        )
-        .classList.toggle(
-            "active",
-            modo === "file"
-        );
+        .style.display =
+            "none";
 
 }
 
 
 /* =========================
-   ARCHIVO
+   SELECCIONAR ARCHIVO
 ========================= */
 
 function seleccionarArchivo() {
 
     const input =
         document.getElementById(
-            "imagenFile"
+            "imagenArchivo"
         );
 
 
-    archivoSeleccionado =
-        input.files[0] || null;
+    const archivo =
+        input.files[0];
 
 
-    const info =
-        document.getElementById(
-            "fileInfo"
-        );
+    if (!archivo) {
 
-
-    if (!archivoSeleccionado) {
-
-        info.textContent =
-            "";
+        archivoSeleccionado = null;
 
         return;
 
@@ -1155,32 +1393,65 @@ function seleccionarArchivo() {
 
 
     if (
-        !archivoSeleccionado.type.startsWith(
-            "image/"
-        )
+        archivo.size >
+        MAX_FILE_SIZE
     ) {
 
-        info.textContent =
-            "El archivo seleccionado no es una imagen.";
+        input.value = "";
 
-        archivoSeleccionado =
-            null;
+        archivoSeleccionado = null;
+
+
+        mostrarEstado(
+            "error",
+            "La imagen supera el límite máximo de 25 MB."
+        );
 
         return;
 
     }
 
 
-    info.textContent =
-        `${archivoSeleccionado.name} · ${Math.round(archivoSeleccionado.size / 1024)} KB`;
+    if (
+        !archivo.type.startsWith(
+            "image/"
+        )
+    ) {
 
-}
+        input.value = "";
+
+        archivoSeleccionado = null;
 
 
-function limpiarArchivo() {
+        mostrarEstado(
+            "error",
+            "El archivo seleccionado no es una imagen."
+        );
+
+        return;
+
+    }
+
 
     archivoSeleccionado =
-        null;
+        archivo;
+
+
+    const tamañoMB =
+        (
+            archivo.size /
+            1024 /
+            1024
+        )
+        .toFixed(2);
+
+
+    document
+        .getElementById(
+            "fileInfo"
+        )
+        .textContent =
+            `${archivo.name} — ${tamañoMB} MB`;
 
 }
 
@@ -1191,19 +1462,34 @@ function limpiarArchivo() {
 
 function verImagen() {
 
-    const imagen =
-        document.getElementById(
-            "previewImage"
-        );
-
-
     const preview =
         document.getElementById(
             "preview"
         );
 
 
-    if (modoActual === "url") {
+    const imagen =
+        document.getElementById(
+            "previewImage"
+        );
+
+
+    if (
+        previewObjectUrl
+    ) {
+
+        URL.revokeObjectURL(
+            previewObjectUrl
+        );
+
+        previewObjectUrl = null;
+
+    }
+
+
+    if (
+        modoActual === "url"
+    ) {
 
         const url =
             document
@@ -1216,8 +1502,9 @@ function verImagen() {
 
         if (!url) {
 
-            alert(
-                "Ingresa una URL."
+            mostrarEstado(
+                "error",
+                "Ingresa una URL de imagen."
             );
 
             return;
@@ -1228,14 +1515,15 @@ function verImagen() {
         imagen.src =
             url;
 
-    }
 
+    } else {
 
-    if (modoActual === "file") {
+        if (
+            !archivoSeleccionado
+        ) {
 
-        if (!archivoSeleccionado) {
-
-            alert(
+            mostrarEstado(
+                "error",
                 "Selecciona una imagen."
             );
 
@@ -1244,12 +1532,27 @@ function verImagen() {
         }
 
 
-        imagen.src =
+        previewObjectUrl =
             URL.createObjectURL(
                 archivoSeleccionado
             );
 
+
+        imagen.src =
+            previewObjectUrl;
+
     }
+
+
+    imagen.onerror =
+        () => {
+
+            mostrarEstado(
+                "error",
+                "No se pudo cargar la imagen."
+            );
+
+        };
 
 
     preview.style.display =
@@ -1259,58 +1562,7 @@ function verImagen() {
 
 
 /* =========================
-   CONVERTIR ARCHIVO A BASE64
-========================= */
-
-function archivoABase64(
-    archivo
-) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                () => {
-
-                    const resultado =
-                        String(
-                            reader.result
-                        );
-
-
-                    const base64 =
-                        resultado.split(
-                            ","
-                        )[1];
-
-
-                    resolve(
-                        base64
-                    );
-
-                };
-
-
-            reader.onerror =
-                reject;
-
-
-            reader.readAsDataURL(
-                archivo
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================
-   ACTUALIZAR
+   ACTUALIZAR ICONO
 ========================= */
 
 async function actualizarIcono() {
@@ -1321,6 +1573,15 @@ async function actualizarIcono() {
             "canal"
         )
         .value;
+
+
+    const imagenUrl =
+        document
+        .getElementById(
+            "imagenUrl"
+        )
+        .value
+        .trim();
 
 
     const boton =
@@ -1341,92 +1602,48 @@ async function actualizarIcono() {
     }
 
 
-    let imagenUrl =
-        "";
+    if (
+        modoActual === "url" &&
+        !imagenUrl
+    ) {
 
-    let archivoBase64 =
-        "";
+        mostrarEstado(
+            "error",
+            "Ingresa la URL de la imagen."
+        );
 
-    let archivoNombre =
-        "";
-
-    let archivoTipo =
-        "";
-
-
-    if (modoActual === "url") {
-
-        imagenUrl =
-            document
-            .getElementById(
-                "imagenUrl"
-            )
-            .value
-            .trim();
-
-
-        if (!imagenUrl) {
-
-            mostrarEstado(
-                "error",
-                "Ingresa la URL de la imagen."
-            );
-
-            return;
-
-        }
+        return;
 
     }
 
 
-    if (modoActual === "file") {
+    if (
+        modoActual === "file" &&
+        !archivoSeleccionado
+    ) {
 
-        if (!archivoSeleccionado) {
+        mostrarEstado(
+            "error",
+            "Selecciona una imagen."
+        );
 
-            mostrarEstado(
-                "error",
-                "Selecciona una imagen desde tu dispositivo."
-            );
+        return;
 
-            return;
-
-        }
-
-
-        /*
-        Límite recomendado.
-
-        Las imágenes grandes se deben
-        reducir antes de enviarlas.
-        */
-
-        if (
-            archivoSeleccionado.size >
-            25 * 1024 * 1024
-        ) {
-
-            mostrarEstado(
-                "error",
-                "La imagen es demasiado grande. Máximo 5 MB."
-            );
-
-            return;
-
-        }
+    }
 
 
-        archivoBase64 =
-            await archivoABase64(
-                archivoSeleccionado
-            );
+    if (
+        modoActual === "file" &&
+        archivoSeleccionado.size >
+        MAX_FILE_SIZE
+    ) {
 
+        mostrarEstado(
+            "error",
+            "La imagen supera el límite máximo de 25 MB."
+        );
 
-        archivoNombre =
-            archivoSeleccionado.name;
-
-
-        archivoTipo =
-            archivoSeleccionado.type;
+        return;
 
     }
 
@@ -1434,17 +1651,60 @@ async function actualizarIcono() {
     boton.disabled =
         true;
 
+
     boton.textContent =
         "Actualizando...";
 
 
     mostrarEstado(
-        "success",
-        "Procesando actualización..."
+        "info",
+        "Procesando imagen..."
     );
 
 
     try {
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "action",
+            "actualizar"
+        );
+
+
+        formData.append(
+            "canal",
+            archivoIcono
+        );
+
+
+        if (
+            modoActual === "url"
+        ) {
+
+            formData.append(
+                "imagen_url",
+                imagenUrl
+            );
+
+        }
+
+
+        if (
+            modoActual === "file" &&
+            archivoSeleccionado
+        ) {
+
+            formData.append(
+                "imagen",
+                archivoSeleccionado,
+                archivoSeleccionado.name
+            );
+
+        }
+
 
         const response =
             await fetch(
@@ -1456,59 +1716,38 @@ async function actualizarIcono() {
 
                     headers: {
 
-                        "Content-Type":
-                            "application/json",
-
                         "Authorization":
                             `Bearer ${sessionToken}`
 
                     },
 
                     body:
-                        JSON.stringify({
-
-                            action:
-                                "actualizar",
-
-                            canal:
-                                archivoIcono,
-
-                            imagen_url:
-                                imagenUrl,
-
-                            archivo_base64:
-                                archivoBase64,
-
-                            archivo_nombre:
-                                archivoNombre,
-
-                            archivo_tipo:
-                                archivoTipo
-
-                        })
+                        formData
 
                 }
             );
 
 
-        const data =
-            await response.json();
+        let data;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch {
+
+            data = {};
+
+        }
 
 
         if (!response.ok) {
 
-            if (
-                response.status === 401
-            ) {
-
-                cerrarSesion();
-
-            }
-
-
             throw new Error(
                 data.error ||
-                "Error al actualizar."
+                `Error del servidor (${response.status})`
             );
 
         }
@@ -1521,20 +1760,28 @@ async function actualizarIcono() {
         );
 
 
+        /*
+        LIMPIAR
+        */
+
         document
             .getElementById(
                 "imagenUrl"
             )
             .value =
-            "";
+                "";
 
 
         document
             .getElementById(
-                "imagenFile"
+                "imagenArchivo"
             )
             .value =
-            "";
+                "";
+
+
+        archivoSeleccionado =
+            null;
 
 
         document
@@ -1542,25 +1789,26 @@ async function actualizarIcono() {
                 "fileInfo"
             )
             .textContent =
-            "";
-
-
-        archivoSeleccionado =
-            null;
+                "Máximo 25 MB";
 
 
     } catch (error) {
 
+        console.error(error);
+
+
         mostrarEstado(
             "error",
-            error.message ||
-            "No se pudo actualizar."
+            error.message === "Failed to fetch"
+                ? "No se pudo conectar con el servidor."
+                : error.message
         );
 
     } finally {
 
         boton.disabled =
             false;
+
 
         boton.textContent =
             "Actualizar icono";
@@ -1569,7 +1817,23 @@ async function actualizarIcono() {
 
 }
 
+
+/* =========================
+   INICIO
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        verificarSesionGuardada();
+
+    }
+);
+
+
 </script>
 
 </body>
+
 </html>
