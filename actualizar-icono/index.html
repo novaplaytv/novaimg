@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Actualizar Icono - NovaImg</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f4f6;
+    color: #111827;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 30px 20px;
+}
+
+.header-content,
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+h1 {
+    margin: 0;
+}
+
+.subtitle {
+    margin-top: 8px;
+    color: #d1d5db;
+}
+
+.container {
+    padding: 30px 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.08);
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #2563eb;
+    border-color: transparent;
+}
+
+.info {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.preview {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.preview img {
+    max-width: 250px;
+    max-height: 250px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.status {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.status.success {
+    display: block;
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.error {
+    display: block;
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.warning {
+    margin-bottom: 20px;
+    padding: 14px;
+    background: #fef3c7;
+    border-radius: 8px;
+    color: #92400e;
+    font-size: 13px;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 15px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header-content">
+
+<h1>Actualizar icono</h1>
+
+<div class="subtitle">
+Selecciona un canal y reemplaza automáticamente su icono WebP
+</div>
+
+</div>
+
+</header>
+
+<main class="container">
+
+<div class="card">
+
+<div class="warning">
+
+El token se utiliza únicamente para ejecutar GitHub Actions.
+No se guarda en el navegador.
+
+</div>
+
+<div class="field">
+
+<label for="token">
+GitHub Personal Access Token
+</label>
+
+<input
+type="password"
+id="token"
+placeholder="github_pat_..."
+autocomplete="off"
+>
+
+</div>
+
+<div class="field">
+
+<label for="canal">
+Canal
+</label>
+
+<select id="canal">
+
+<option value="">
+Cargando canales...
+</option>
+
+</select>
+
+</div>
+
+<div
+class="info"
+id="canalInfo"
+>
+
+Selecciona un canal.
+
+</div>
+
+<br>
+
+<div class="field">
+
+<label for="imagenUrl">
+URL de la nueva imagen
+</label>
+
+<input
+type="url"
+id="imagenUrl"
+placeholder="https://ejemplo.com/imagen.png"
+>
+
+</div>
+
+<button
+type="button"
+id="previewButton"
+>
+
+Ver imagen
+
+</button>
+
+<div
+class="preview"
+id="preview"
+>
+
+<p>
+<strong>
+Vista previa
+</strong>
+</p>
+
+<img
+id="previewImage"
+alt="Vista previa de nueva imagen"
+>
+
+</div>
+
+<button
+type="button"
+id="actualizarButton"
+>
+
+Actualizar icono
+
+</button>
+
+<div
+class="status"
+id="status"
+></div>
+
+<a
+href="../"
+class="back"
+>
+
+← Volver al catálogo
+
+</a>
+
+</div>
+
+</main>
+
+<script>
+
+const OWNER = "ThedarkSoldier996";
+
+const REPO = "novaimg";
+
+let canales = [];
+
+
+async function cargarCanales() {
+
+    const select =
+        document.getElementById("canal");
+
+    try {
+
+        /*
+        Estamos dentro de:
+
+        actualizar-icono/index.html
+
+        Por eso subimos un nivel:
+
+        ../index.html
+        */
+
+        const response =
+            await fetch("../index.html");
+
+        if (!response.ok) {
+
+            throw new Error(
+                "No se pudo cargar el catálogo principal."
+            );
+
+        }
+
+        const texto =
+            await response.text();
+
+        const parser =
+            new DOMParser();
+
+        const documentHTML =
+            parser.parseFromString(
+                texto,
+                "text/html"
+            );
+
+        const tarjetas =
+            documentHTML.querySelectorAll(
+                ".card"
+            );
+
+        tarjetas.forEach(tarjeta => {
+
+            const nombre =
+                tarjeta.querySelector("h2")
+                ?.textContent
+                ?.trim();
+
+            const numeroTexto =
+                tarjeta.querySelector(
+                    ".channel-number"
+                )
+                ?.textContent
+                ?.trim();
+
+            if (!nombre) {
+                return;
+            }
+
+            let numero = "";
+
+            if (numeroTexto) {
+
+                numero =
+                    numeroTexto
+                    .replace("CANAL", "")
+                    .trim();
+
+            }
+
+            canales.push({
+
+                nombre: nombre,
+
+                numero: numero
+
+            });
+
+        });
+
+
+        canales.sort(
+            (a, b) =>
+                a.nombre.localeCompare(
+                    b.nombre
+                )
+        );
+
+
+        select.innerHTML =
+            '<option value="">Selecciona un canal</option>';
+
+
+        canales.forEach(canal => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                canal.numero;
+
+            option.textContent =
+                canal.numero
+                    ? `${canal.nombre} (${canal.numero})`
+                    : canal.nombre;
+
+            option.dataset.nombre =
+                canal.nombre;
+
+            select.appendChild(
+                option
+            );
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        select.innerHTML =
+            '<option value="">Error cargando canales</option>';
+
+    }
+
+}
+
+
+document
+    .getElementById("canal")
+    .addEventListener(
+        "change",
+        function() {
+
+            const selected =
+                this.options[
+                    this.selectedIndex
+                ];
+
+            const nombre =
+                selected.dataset.nombre;
+
+            const numero =
+                selected.value;
+
+            const info =
+                document.getElementById(
+                    "canalInfo"
+                );
+
+            if (!numero) {
+
+                info.textContent =
+                    "Selecciona un canal.";
+
+                return;
+
+            }
+
+
+            info.innerHTML = `
+                <strong>
+                    Canal seleccionado
+                </strong>
+
+                ${nombre}<br>
+
+                Número: ${numero}<br><br>
+
+                GitHub Actions buscará automáticamente
+                el icono actual de este canal y reemplazará
+                su archivo WEBP dentro de <code>icons/</code>.
+            `;
+
+        }
+    );
+
+
+document
+    .getElementById("previewButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            const url =
+                document
+                    .getElementById(
+                        "imagenUrl"
+                    )
+                    .value
+                    .trim();
+
+            if (!url) {
+
+                alert(
+                    "Ingresa una URL de imagen."
+                );
+
+                return;
+
+            }
+
+
+            const image =
+                document.getElementById(
+                    "previewImage"
+                );
+
+            image.src = url;
+
+
+            document
+                .getElementById(
+                    "preview"
+                )
+                .style.display = "block";
+
+        }
+    );
+
+
+document
+    .getElementById("actualizarButton")
+    .addEventListener(
+        "click",
+        async function() {
+
+            const token =
+                document
+                    .getElementById(
+                        "token"
+                    )
+                    .value
+                    .trim();
+
+
+            const canal =
+                document
+                    .getElementById(
+                        "canal"
+                    )
+                    .value
+                    .trim();
+
+
+            const imagenUrl =
+                document
+                    .getElementById(
+                        "imagenUrl"
+                    )
+                    .value
+                    .trim();
+
+
+            const status =
+                document.getElementById(
+                    "status"
+                );
+
+
+            if (
+                !token ||
+                !canal ||
+                !imagenUrl
+            ) {
+
+                status.className =
+                    "status error";
+
+                status.textContent =
+                    "Completa todos los campos.";
+
+                return;
+
+            }
+
+
+            const button =
+                document.getElementById(
+                    "actualizarButton"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Enviando solicitud...";
+
+
+            status.className =
+                "status";
+
+
+            try {
+
+                const response =
+                    await fetch(
+
+                        `https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/actualizar-icono.yml/dispatches`,
+
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Accept":
+                                    "application/vnd.github+json",
+
+                                "Authorization":
+                                    `Bearer ${token}`,
+
+                                "X-GitHub-Api-Version":
+                                    "2022-11-28",
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    ref: "main",
+
+                                    inputs: {
+
+                                        canal: canal,
+
+                                        imagen_url:
+                                            imagenUrl
+
+                                    }
+
+                                })
+
+                        }
+
+                    );
+
+
+                if (
+                    response.status === 204
+                ) {
+
+                    status.className =
+                        "status success";
+
+                    status.innerHTML = `
+                        ✓ Solicitud enviada correctamente.<br><br>
+
+                        El workflow descargará la imagen,
+                        la convertirá a WebP y reemplazará
+                        el icono del canal seleccionado.
+                    `;
+
+                } else {
+
+                    const error =
+                        await response.text();
+
+                    throw new Error(
+                        error
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                status.className =
+                    "status error";
+
+                status.textContent =
+                    "Error al ejecutar el workflow. "
+                    + "Verifica el token y sus permisos.";
+
+            }
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "Actualizar icono";
+
+        }
+    );
+
+
+cargarCanales();
+
+</script>
+
+</body>
+</html>
