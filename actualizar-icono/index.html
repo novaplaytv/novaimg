@@ -1,119 +1,464 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
 <title>PANEL NOVAIMG</title>
 
+<!-- FAVICON -->
+
+<link
+    rel="icon"
+    type="image/webp"
+    href="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/novasplash.webp"
+>
+
 <style>
+
+/* =========================
+   CONFIGURACIÓN GENERAL
+========================= */
 
 * {
     box-sizing: border-box;
 }
 
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    font-family:
+        Arial,
+        sans-serif;
+
     background: #f3f4f6;
     color: #111827;
+
+    display: flex;
+    flex-direction: column;
 }
+
+
+/* =========================
+   HEADER
+========================= */
 
 header {
     background: #111827;
     color: white;
-    padding: 30px;
+
+    padding:
+        clamp(15px, 3vw, 30px)
+        clamp(15px, 5vw, 40px);
+
+    width: 100%;
 }
 
-.container {
-    max-width: 850px;
+.header-container {
+    width: 100%;
+    max-width: 1100px;
+
     margin: auto;
-    padding: 25px;
+
+    display: flex;
+    align-items: center;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+
+    gap: clamp(10px, 2vw, 16px);
+
+    min-width: 0;
+}
+
+.header-icon {
+    width: clamp(40px, 7vw, 60px);
+    height: clamp(40px, 7vw, 60px);
+
+    object-fit: contain;
+
+    flex-shrink: 0;
+}
+
+.header-text {
+    min-width: 0;
+}
+
+.header-title h1 {
+    margin: 0;
+
+    font-size:
+        clamp(24px, 5vw, 36px);
+
+    line-height: 1.1;
+
+    overflow-wrap: anywhere;
+}
+
+.header-title p {
+    margin:
+        clamp(3px, 1vw, 6px)
+        0
+        0;
+
+    font-size:
+        clamp(13px, 2.5vw, 16px);
+
+    opacity: .85;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   ÁREA PRINCIPAL
+========================= */
+
+main {
+    flex: 1;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding:
+        clamp(15px, 3vw, 35px);
+}
+
+
+/* =========================
+   CONTENEDORES
+========================= */
+
+.container {
+    width: 100%;
+    max-width: 850px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
 }
 
 .card {
+    width: 100%;
+
     background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.08);
+
+    padding:
+        clamp(18px, 4vw, 30px);
+
+    border-radius:
+        clamp(10px, 2vw, 16px);
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.08);
+
+    overflow: hidden;
 }
 
-.login {
-    max-width: 450px;
-    margin: 40px auto;
-}
+
+/* =========================
+   PANEL
+========================= */
 
 .panel {
     display: none;
 }
 
+
+/* =========================
+   TÍTULOS
+========================= */
+
+h2 {
+    margin:
+        0
+        0
+        clamp(20px, 4vw, 30px);
+
+    font-size:
+        clamp(20px, 4vw, 28px);
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   FORMULARIO
+========================= */
+
 .field {
-    margin-bottom: 18px;
+    width: 100%;
+
+    margin-bottom:
+        clamp(14px, 2vw, 20px);
 }
 
 label {
     display: block;
+
     font-weight: bold;
-    margin-bottom: 7px;
+
+    margin-bottom:
+        clamp(6px, 1vw, 9px);
+
+    font-size:
+        clamp(14px, 2vw, 16px);
 }
 
 input,
 select {
     width: 100%;
-    padding: 13px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
+    max-width: 100%;
+
+    padding:
+        clamp(11px, 2vw, 14px);
+
+    font-size:
+        clamp(14px, 2vw, 16px);
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius:
+        8px;
+
+    background: white;
+
+    color: #111827;
 }
+
+input:focus,
+select:focus {
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,.15);
+}
+
+
+/* =========================
+   BOTONES
+========================= */
 
 button {
     width: 100%;
-    padding: 14px;
+
+    min-height: 48px;
+
+    padding:
+        clamp(12px, 2vw, 15px);
+
     border: none;
+
     border-radius: 8px;
+
     background: #2563eb;
+
     color: white;
+
+    font-size:
+        clamp(14px, 2vw, 16px);
+
     font-weight: bold;
+
     cursor: pointer;
+
     margin-top: 10px;
+
+    transition:
+        background .2s ease,
+        transform .1s ease;
 }
 
 button:hover {
     background: #1d4ed8;
 }
 
+button:active {
+    transform: scale(.98);
+}
+
+button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   MENSAJES
+========================= */
+
 .status {
     display: none;
-    margin-top: 20px;
-    padding: 14px;
+
+    width: 100%;
+
+    margin-top:
+        clamp(15px, 3vw, 22px);
+
+    padding:
+        clamp(12px, 2vw, 16px);
+
     border-radius: 8px;
+
+    font-size:
+        clamp(13px, 2vw, 15px);
+
+    overflow-wrap: anywhere;
 }
 
 .success {
-    background: #dcfce7;
-    color: #166534;
     display: block;
+
+    background: #dcfce7;
+
+    color: #166534;
 }
 
 .error {
-    background: #fee2e2;
-    color: #991b1b;
     display: block;
+
+    background: #fee2e2;
+
+    color: #991b1b;
 }
+
+
+/* =========================
+   VISTA PREVIA
+========================= */
 
 .preview {
     display: none;
+
+    width: 100%;
+
     text-align: center;
-    margin-top: 20px;
+
+    margin-top:
+        clamp(15px, 3vw, 25px);
+
+    margin-bottom:
+        clamp(5px, 2vw, 15px);
 }
 
 .preview img {
-    max-width: 250px;
-    max-height: 250px;
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+
+    max-height:
+        min(40dvh, 350px);
+
+    margin: auto;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+}
+
+
+/* =========================
+   TABLETS Y CELULARES
+========================= */
+
+@media (max-width: 600px) {
+
+    main {
+        align-items: flex-start;
+    }
+
+    .header-container {
+        justify-content: flex-start;
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+
+}
+
+
+/* =========================
+   PANTALLAS MUY PEQUEÑAS
+========================= */
+
+@media (max-width: 360px) {
+
+    header {
+        padding: 12px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .header-title {
+        gap: 8px;
+    }
+
+}
+
+
+/* =========================
+   PANTALLAS ALTAS
+========================= */
+
+@media (min-height: 800px) {
+
+    main {
+        align-items: center;
+    }
+
+}
+
+
+/* =========================
+   PANTALLAS BAJAS
+========================= */
+
+@media (max-height: 600px) {
+
+    main {
+        align-items: flex-start;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .preview img {
+        max-height: 200px;
+    }
+
 }
 
 </style>
@@ -122,9 +467,24 @@ button:hover {
 
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-<div class="container">
+<div class="header-container">
+
+<div class="header-title">
+
+<img
+    class="header-icon"
+    src="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/novasplash.webp"
+    alt="NOVAIMG"
+>
+
+<div class="header-text">
 
 <h1>NOVAIMG</h1>
 
@@ -134,19 +494,31 @@ Panel de actualización de Iconos
 
 </div>
 
+</div>
+
+</div>
+
 </header>
+
+
+<!-- =========================
+     CONTENIDO PRINCIPAL
+========================= -->
+
+<main>
 
 
 <!-- LOGIN -->
 
 <div
-    class="container"
+    class="login-container"
     id="loginContainer"
 >
 
-<div class="card login">
+<div class="card">
 
 <h2>Iniciar sesión</h2>
+
 
 <div class="field">
 
@@ -174,7 +546,10 @@ Panel de actualización de Iconos
 </div>
 
 
-<button onclick="iniciarSesion()">
+<button
+    type="button"
+    onclick="iniciarSesion()"
+>
 
 Ingresar
 
@@ -231,7 +606,10 @@ Cargando canales...
 </div>
 
 
-<button onclick="verImagen()">
+<button
+    type="button"
+    onclick="verImagen()"
+>
 
 Vista previa
 
@@ -243,12 +621,18 @@ Vista previa
     class="preview"
 >
 
-<img id="previewImage">
+<img
+    id="previewImage"
+    alt="Vista previa"
+>
 
 </div>
 
 
-<button onclick="actualizarIcono()">
+<button
+    type="button"
+    onclick="actualizarIcono()"
+>
 
 Actualizar icono
 
@@ -260,31 +644,27 @@ Actualizar icono
     class="status"
 ></div>
 
-
 </div>
 
 </div>
+
+
+</main>
 
 
 <script>
 
-/*
-CAMBIA ESTA URL
-
-Por la URL de tu Supabase Edge Function
-*/
-
 const API_URL =
-    "https://TU-PROYECTO.supabase.co/functions/v1/actualizar-icono";
+    "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
 
 
 let usuario = "";
 let password = "";
 
 
-/*
-LOGIN
-*/
+/* =========================
+   LOGIN
+========================= */
 
 async function iniciarSesion() {
 
@@ -303,15 +683,10 @@ async function iniciarSesion() {
 
 
     const status =
-        document.getElementById(
-            "loginStatus"
-        );
+        document.getElementById("loginStatus");
 
 
-    if (
-        !usuario ||
-        !password
-    ) {
+    if (!usuario || !password) {
 
         status.className =
             "status error";
@@ -330,30 +705,19 @@ async function iniciarSesion() {
             await fetch(
                 API_URL,
                 {
-
                     method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json"
-
                     },
 
                     body:
                         JSON.stringify({
-
-                            action:
-                                "login",
-
-                            username:
-                                usuario,
-
-                            password:
-                                password
-
+                            action: "login",
+                            username: usuario,
+                            password: password
                         })
-
                 }
             );
 
@@ -373,17 +737,13 @@ async function iniciarSesion() {
 
 
         document
-            .getElementById(
-                "loginContainer"
-            )
+            .getElementById("loginContainer")
             .style.display =
                 "none";
 
 
         document
-            .getElementById(
-                "panel"
-            )
+            .getElementById("panel")
             .style.display =
                 "block";
 
@@ -404,24 +764,20 @@ async function iniciarSesion() {
 }
 
 
-/*
-CARGAR CANALES DESDE EL CATÁLOGO
-*/
+/* =========================
+   CARGAR CANALES
+========================= */
 
 async function cargarCanales() {
 
     const select =
-        document.getElementById(
-            "canal"
-        );
+        document.getElementById("canal");
 
 
     try {
 
         const response =
-            await fetch(
-                "../index.html"
-            );
+            await fetch("../index.html");
 
 
         const texto =
@@ -461,23 +817,16 @@ async function cargarCanales() {
 
                 const numero =
                     tarjeta
-                    .querySelector(
-                        ".channel-number"
-                    )
+                    .querySelector(".channel-number")
                     ?.textContent
                     ?.replace("CANAL", "")
                     ?.trim();
 
 
-                if (
-                    nombre &&
-                    numero
-                ) {
+                if (nombre && numero) {
 
                     const option =
-                        document.createElement(
-                            "option"
-                        );
+                        document.createElement("option");
 
 
                     option.value =
@@ -488,9 +837,7 @@ async function cargarCanales() {
                         `${nombre} (${numero})`;
 
 
-                    select.appendChild(
-                        option
-                    );
+                    select.appendChild(option);
 
                 }
 
@@ -500,6 +847,8 @@ async function cargarCanales() {
 
     } catch (error) {
 
+        console.error(error);
+
         select.innerHTML =
             '<option>Error cargando canales</option>';
 
@@ -508,83 +857,70 @@ async function cargarCanales() {
 }
 
 
-/*
-VISTA PREVIA
-*/
+/* =========================
+   VISTA PREVIA
+========================= */
 
 function verImagen() {
 
     const url =
         document
-        .getElementById(
-            "imagenUrl"
-        )
+        .getElementById("imagenUrl")
         .value
         .trim();
 
 
     if (!url) {
 
-        alert(
-            "Ingresa una URL."
-        );
+        alert("Ingresa una URL.");
 
         return;
 
     }
 
 
-    document
-        .getElementById(
+    const imagen =
+        document.getElementById(
             "previewImage"
-        )
-        .src =
-            url;
+        );
+
+
+    imagen.src =
+        url;
 
 
     document
-        .getElementById(
-            "preview"
-        )
+        .getElementById("preview")
         .style.display =
             "block";
 
 }
 
 
-/*
-ACTUALIZAR ICONO
-*/
+/* =========================
+   ACTUALIZAR ICONO
+========================= */
 
 async function actualizarIcono() {
 
     const canal =
         document
-        .getElementById(
-            "canal"
-        )
+        .getElementById("canal")
         .value;
 
 
     const imagenUrl =
         document
-        .getElementById(
-            "imagenUrl"
-        )
+        .getElementById("imagenUrl")
         .value
         .trim();
 
 
     const status =
-        document.getElementById(
-            "status"
-        );
+        document.getElementById("status");
 
 
-    if (
-        !canal ||
-        !imagenUrl
-    ) {
+    if (!canal || !imagenUrl) {
 
         status.className =
             "status error";
@@ -603,36 +939,21 @@ async function actualizarIcono() {
             await fetch(
                 API_URL,
                 {
-
                     method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json"
-
                     },
 
                     body:
                         JSON.stringify({
-
-                            action:
-                                "actualizar",
-
-                            username:
-                                usuario,
-
-                            password:
-                                password,
-
-                            canal:
-                                canal,
-
-                            imagen_url:
-                                imagenUrl
-
+                            action: "actualizar",
+                            username: usuario,
+                            password: password,
+                            canal: canal,
+                            imagen_url: imagenUrl
                         })
-
                 }
             );
 
