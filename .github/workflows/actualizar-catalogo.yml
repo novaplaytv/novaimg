@@ -1,0 +1,48 @@
+name: Actualizar catálogo de iconos
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "icons/**"
+      - "scripts/generar_catalogo.py"
+      - ".github/workflows/actualizar-catalogo.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generar-catalogo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generar catálogo
+        env:
+          NOVAPLAY_JSON_URL: ${{ secrets.NOVAPLAY_JSON_URL }}
+        run: |
+          python scripts/generar_catalogo.py
+
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add index.html
+
+          if git diff --cached --quiet; then
+            echo "No hay cambios para guardar"
+          else
+            git commit -m "Actualizar catálogo de iconos"
+            git push
+          fi
