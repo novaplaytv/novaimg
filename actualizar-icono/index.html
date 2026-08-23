@@ -12,11 +12,7 @@
 
 <title>PANEL NOVAIMG</title>
 
-<link
-    rel="icon"
-    type="image/webp"
-    href="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/novasplash.webp"
->
+<link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/novasplash.webp">
 
 <style>
 
@@ -305,18 +301,30 @@ button:disabled {
 
 </style>
 
+<style id="nova-global-nav-style">
+.nova-global-nav{position:sticky;top:0;z-index:9999;background:rgba(8,10,16,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.12);font-family:Arial,Helvetica,sans-serif}
+.nova-global-nav-inner{max-width:1400px;margin:auto;min-height:56px;padding:8px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nova-global-brand{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none;font-weight:800;margin-right:10px}.nova-global-brand img{width:32px;height:32px;border-radius:8px;object-fit:contain}
+.nova-global-nav a:not(.nova-global-brand){color:#d7dbe4;text-decoration:none;padding:9px 12px;border-radius:9px;font-size:14px;font-weight:700}
+.nova-global-nav a:not(.nova-global-brand):hover,.nova-global-nav a.active{background:#e50914;color:#fff}.nova-global-nav .panel-link{margin-left:0;background:#2563eb!important;color:#fff!important}
+@media(max-width:700px){.nova-global-nav-inner{justify-content:center}.nova-global-brand{width:100%;justify-content:center;margin-right:0}.nova-global-nav .panel-link{margin-left:0}}
+</style>
+
+<style id="demo-popup-style">
+.demo-popup-permission{position:fixed;inset:0;z-index:20000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
+.demo-popup-box{width:min(480px,100%);background:#11151f;color:#fff;border:1px solid #30394c;border-radius:20px;padding:28px;text-align:center;font-family:Arial,Helvetica,sans-serif;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.demo-popup-box h2{margin:0 0 12px}.demo-popup-box p{color:#b8c1d1;line-height:1.55}.demo-popup-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.demo-popup-btn{border:0;border-radius:11px;padding:13px 18px;font-weight:800;cursor:pointer;background:#e50914;color:#fff}.demo-popup-btn.alt{background:#273044}
+</style>
+
 </head>
 
 
 <body>
+<nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://thedarksoldier996.github.io/"><img src="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://thedarksoldier996.github.io/" class="">INICIO</a><a href="https://thedarksoldier996.github.io/novaimg/" class="active">NOVAIMG</a><a href="https://thedarksoldier996.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://thedarksoldier996.github.io/novaplay/panel-canales/" class=" panel-link">PANEL CANALES</a><a href="https://thedarksoldier996.github.io/novaimg/actualizar-icono/" class="panel-link">PANEL IMAGENES</a></div></nav>
 
 
-<a
-    href="https://thedarksoldier996.github.io/novaimg"
-    class="back-button"
->
-    ← Volver
-</a>
+
 
 
 <header>
@@ -1850,6 +1858,46 @@ document
 restaurarSesion();
 
 
+</script>
+
+
+<footer class="novaplay-footer">
+  <div>Desarrollado con ❤️ por ThedarkSoldier996</div>
+  <div>© 2026 M.S.G.T SOLUTIONS</div>
+</footer>
+<style>
+.novaplay-footer{
+  width:100%; text-align:center; padding:28px 16px 24px;
+  color:#aeb6c5; font-family:Arial,Helvetica,sans-serif;
+  font-size:13px; line-height:1.8; margin-top:40px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+</style>
+
+
+<script>
+function abrirDemoNovaPlay(){
+  const url='https://thedarksoldier996.github.io/DEMO-NOVAPLAY/';
+  const w=Math.min(1280,Math.max(800,Math.round(screen.availWidth*.9)));
+  const h=Math.min(820,Math.max(600,Math.round(screen.availHeight*.86)));
+  const left=Math.max(0,Math.round((screen.availWidth-w)/2));
+  const top=Math.max(0,Math.round((screen.availHeight-h)/2));
+  const win=window.open(url,'NOVAPLAY_DEMO','popup=yes,width='+w+',height='+h+',left='+left+',top='+top+',resizable=yes,scrollbars=yes');
+  if(win){win.focus();document.getElementById('demo-popup-permission')?.remove();}
+  else{document.getElementById('demo-popup-blocked').style.display='block';}
+}
+function pedirDemoPopup(){
+  const old=document.getElementById('demo-popup-permission'); if(old) old.remove();
+  document.body.insertAdjacentHTML('beforeend',
+    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acción se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
+  document.getElementById('demo-popup-open').addEventListener('click',abrirDemoNovaPlay);
+  document.getElementById('demo-popup-cancel').addEventListener('click',()=>document.getElementById('demo-popup-permission').remove());
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('a[href="https://thedarksoldier996.github.io/DEMO-NOVAPLAY/"]').forEach(a=>{
+    a.addEventListener('click',e=>{e.preventDefault();pedirDemoPopup();});
+  });
+});
 </script>
 
 </body>
