@@ -24,14 +24,14 @@
     box-sizing: border-box;
 }
 
-html {
+html,
+body {
+    margin: 0;
     width: 100%;
     min-height: 100%;
 }
 
 body {
-    margin: 0;
-    width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
     font-family: Arial, sans-serif;
@@ -41,45 +41,14 @@ body {
     flex-direction: column;
 }
 
-.back-button {
-    position: fixed;
-    top: clamp(10px, 2vw, 20px);
-    right: clamp(10px, 2vw, 25px);
-    z-index: 9999;
-    width: auto;
-    min-height: auto;
-    margin: 0;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    background: white;
-    color: #111827;
-    border-radius: 10px;
-    font-size: clamp(12px, 2vw, 15px);
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,.18);
-    transition: transform .2s ease, background .2s ease;
-}
-
-.back-button:hover {
-    background: #e5e7eb;
-    transform: translateY(-2px);
-}
-
-.back-button:active {
-    transform: scale(.97);
-}
-
 header {
     width: 100%;
     background: #111827;
     color: white;
-    padding: clamp(15px, 3vw, 30px) clamp(15px, 5vw, 40px);
+    padding: clamp(15px, 3vw, 30px);
 }
 
 .header-container {
-    width: 100%;
     max-width: 1100px;
     margin: auto;
 }
@@ -87,40 +56,62 @@ header {
 .header-title {
     display: flex;
     align-items: center;
-    gap: clamp(10px, 2vw, 16px);
-    min-width: 0;
+    gap: 15px;
 }
 
 .header-icon {
-    width: clamp(40px, 7vw, 60px);
-    height: clamp(40px, 7vw, 60px);
+    width: clamp(42px, 7vw, 60px);
+    height: clamp(42px, 7vw, 60px);
     object-fit: contain;
-    flex-shrink: 0;
-}
-
-.header-text {
-    min-width: 0;
 }
 
 .header-title h1 {
     margin: 0;
     font-size: clamp(24px, 5vw, 36px);
-    line-height: 1.1;
 }
 
 .header-title p {
-    margin: 6px 0 0;
-    font-size: clamp(13px, 2.5vw, 16px);
-    opacity: .85;
+    margin: 5px 0 0;
+    opacity: .8;
+}
+
+.top-actions {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 9999;
+    display: flex;
+    gap: 8px;
+}
+
+.top-button {
+    width: auto;
+    min-height: auto;
+    margin: 0;
+    padding: 10px 14px;
+    background: white;
+    color: #111827;
+    font-size: 13px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.18);
+}
+
+.logout-button {
+    display: none;
+    background: #dc2626;
+    color: white;
+}
+
+.logout-button:hover {
+    background: #b91c1c;
 }
 
 main {
     flex: 1;
     width: 100%;
+    padding: clamp(15px, 3vw, 35px);
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: clamp(15px, 3vw, 35px);
+    align-items: flex-start;
 }
 
 .container {
@@ -129,17 +120,15 @@ main {
 }
 
 .login-container {
-    width: 100%;
     max-width: 450px;
+    margin-top: 30px;
 }
 
 .card {
-    width: 100%;
     background: white;
     padding: clamp(18px, 4vw, 30px);
-    border-radius: clamp(10px, 2vw, 16px);
+    border-radius: 16px;
     box-shadow: 0 5px 25px rgba(0,0,0,.08);
-    overflow: hidden;
 }
 
 .panel {
@@ -147,32 +136,26 @@ main {
 }
 
 h2 {
-    margin: 0 0 clamp(20px, 4vw, 30px);
-    font-size: clamp(20px, 4vw, 28px);
+    margin-top: 0;
 }
 
 .field {
-    width: 100%;
-    margin-bottom: clamp(14px, 2vw, 20px);
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
-    font-size: clamp(14px, 2vw, 16px);
 }
 
 input,
 select {
     width: 100%;
-    max-width: 100%;
-    padding: clamp(11px, 2vw, 14px);
-    font-size: clamp(14px, 2vw, 16px);
+    padding: 13px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
-    background: white;
-    color: #111827;
+    font-size: 16px;
 }
 
 input:focus,
@@ -185,15 +168,15 @@ select:focus {
 button {
     width: 100%;
     min-height: 48px;
-    padding: clamp(12px, 2vw, 15px);
+    padding: 13px;
     border: none;
     border-radius: 8px;
     background: #2563eb;
     color: white;
-    font-size: clamp(14px, 2vw, 16px);
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 button:hover {
@@ -205,11 +188,26 @@ button:disabled {
     cursor: not-allowed;
 }
 
+.separator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0;
+    color: #6b7280;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: #d1d5db;
+}
+
 .status {
     display: none;
-    width: 100%;
-    margin-top: clamp(15px, 3vw, 22px);
-    padding: clamp(12px, 2vw, 16px);
+    margin-top: 20px;
+    padding: 14px;
     border-radius: 8px;
     overflow-wrap: anywhere;
 }
@@ -228,31 +226,59 @@ button:disabled {
 
 .preview {
     display: none;
-    width: 100%;
-    text-align: center;
     margin-top: 20px;
+    text-align: center;
 }
 
 .preview img {
-    display: block;
-    width: auto;
-    height: auto;
     max-width: 100%;
-    max-height: min(40dvh, 350px);
-    margin: auto;
+    max-height: 350px;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 10px;
+}
+
+.file-info {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.mode-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.mode-button {
+    margin: 0;
+}
+
+.mode-button.active {
+    background: #1d4ed8;
+}
+
+.source-section {
+    display: none;
+}
+
+.source-section.active {
+    display: block;
 }
 
 @media (max-width: 600px) {
 
-    main {
-        align-items: flex-start;
+    .top-actions {
+        top: 8px;
+        right: 8px;
     }
 
-    .back-button {
-        padding: 8px 12px;
+    .top-button {
+        padding: 8px 10px;
         font-size: 12px;
+    }
+
+    .mode-buttons {
+        grid-template-columns: 1fr;
     }
 
 }
@@ -263,12 +289,27 @@ button:disabled {
 
 <body>
 
+
+<div class="top-actions">
+
 <a
     href="https://thedarksoldier996.github.io/novaimg"
-    class="back-button"
+    class="top-button"
 >
-    ← Volver
+← Volver
 </a>
+
+<button
+    id="logoutButton"
+    class="top-button logout-button"
+    type="button"
+    onclick="cerrarSesion()"
+>
+Cerrar sesión
+</button>
+
+</div>
+
 
 <header>
 
@@ -282,7 +323,7 @@ button:disabled {
     alt="NOVAIMG"
 >
 
-<div class="header-text">
+<div>
 
 <h1>NOVAIMG</h1>
 
@@ -296,13 +337,14 @@ button:disabled {
 
 </header>
 
+
 <main>
 
 
 <!-- LOGIN -->
 
 <div
-    class="login-container"
+    class="container login-container"
     id="loginContainer"
 >
 
@@ -324,6 +366,7 @@ Usuario
 
 </div>
 
+
 <div class="field">
 
 <label for="password">
@@ -338,13 +381,15 @@ Contraseña
 
 </div>
 
+
 <button
     id="loginButton"
     type="button"
     onclick="iniciarSesion()"
 >
-    Ingresar
+Ingresar
 </button>
+
 
 <div
     id="loginStatus"
@@ -367,6 +412,7 @@ Contraseña
 
 <h2>Actualizar icono</h2>
 
+
 <div class="field">
 
 <label for="canal">
@@ -383,26 +429,96 @@ Cargando canales...
 
 </div>
 
+
+<label>
+Origen de la imagen
+</label>
+
+<div class="mode-buttons">
+
+<button
+    id="urlModeButton"
+    class="mode-button active"
+    type="button"
+    onclick="cambiarModo('url')"
+>
+Usar URL
+</button>
+
+<button
+    id="fileModeButton"
+    class="mode-button"
+    type="button"
+    onclick="cambiarModo('file')"
+>
+Subir archivo
+</button>
+
+</div>
+
+
+<!-- URL -->
+
+<div
+    id="urlSection"
+    class="source-section active"
+>
+
 <div class="field">
 
 <label for="imagenUrl">
-URL de la nueva imagen
+URL de la imagen
 </label>
 
 <input
     id="imagenUrl"
     type="url"
     placeholder="https://ejemplo.com/logo.png"
+    oninput="limpiarArchivo()"
 >
 
 </div>
+
+</div>
+
+
+<!-- ARCHIVO -->
+
+<div
+    id="fileSection"
+    class="source-section"
+>
+
+<div class="field">
+
+<label for="imagenFile">
+Seleccionar imagen
+</label>
+
+<input
+    id="imagenFile"
+    type="file"
+    accept="image/*"
+    onchange="seleccionarArchivo()"
+>
+
+<div
+    id="fileInfo"
+    class="file-info"
+></div>
+
+</div>
+
+</div>
+
 
 <button
     type="button"
     onclick="verImagen()"
 >
-    Vista previa
+Vista previa
 </button>
+
 
 <div
     id="preview"
@@ -416,13 +532,15 @@ URL de la nueva imagen
 
 </div>
 
+
 <button
     id="updateButton"
     type="button"
     onclick="actualizarIcono()"
 >
-    Actualizar icono
+Actualizar icono
 </button>
+
 
 <div
     id="status"
@@ -445,27 +563,77 @@ URL de la nueva imagen
 const API_URL =
     "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
 
-
 const CATALOGO_URL =
     "../index.html";
 
+const SESSION_KEY =
+    "novaimg_session_token";
 
-let usuario = "";
-let password = "";
+
+let sessionToken =
+    localStorage.getItem(
+        SESSION_KEY
+    ) || "";
+
+
+let modoActual =
+    "url";
+
+
+let archivoSeleccionado =
+    null;
 
 
 /* =========================
-   UTILIDAD
+   INICIO
 ========================= */
 
-function mostrarError(
-    elemento,
+window.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        if (sessionToken) {
+
+            mostrarPanel();
+
+            await cargarCanales();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   UTILIDADES
+========================= */
+
+function mostrarEstado(
+    tipo,
     mensaje
 ) {
 
     const status =
         document.getElementById(
-            elemento
+            "status"
+        );
+
+    status.className =
+        `status ${tipo}`;
+
+    status.textContent =
+        mensaje;
+
+}
+
+
+function mostrarLoginError(
+    mensaje
+) {
+
+    const status =
+        document.getElementById(
+            "loginStatus"
         );
 
     status.className =
@@ -477,24 +645,51 @@ function mostrarError(
 }
 
 
+function mostrarPanel() {
+
+    document
+        .getElementById(
+            "loginContainer"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "panel"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "logoutButton"
+        )
+        .style.display =
+        "block";
+
+}
+
+
 /* =========================
    LOGIN
 ========================= */
 
 async function iniciarSesion() {
 
-    usuario =
+    const username =
         document
         .getElementById("username")
         .value
         .trim();
 
 
-    password =
+    const password =
         document
         .getElementById("password")
-        .value
-        .trim();
+        .value;
 
 
     const boton =
@@ -503,10 +698,9 @@ async function iniciarSesion() {
         );
 
 
-    if (!usuario || !password) {
+    if (!username || !password) {
 
-        mostrarError(
-            "loginStatus",
+        mostrarLoginError(
             "Completa usuario y contraseña."
         );
 
@@ -527,19 +721,31 @@ async function iniciarSesion() {
             await fetch(
                 API_URL,
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body:
                         JSON.stringify({
-                            action: "login",
-                            username: usuario,
-                            password: password
+
+                            action:
+                                "login",
+
+                            username:
+                                username,
+
+                            password:
+                                password
+
                         })
+
                 }
             );
 
@@ -558,34 +764,35 @@ async function iniciarSesion() {
         }
 
 
-        document
-            .getElementById(
-                "loginContainer"
-            )
-            .style.display =
-                "none";
+        if (!data.token) {
+
+            throw new Error(
+                "El servidor no devolvió un token de sesión."
+            );
+
+        }
 
 
-        document
-            .getElementById(
-                "panel"
-            )
-            .style.display =
-                "block";
+        sessionToken =
+            data.token;
 
+
+        localStorage.setItem(
+            SESSION_KEY,
+            sessionToken
+        );
+
+
+        mostrarPanel();
 
         await cargarCanales();
 
 
     } catch (error) {
 
-        console.error(error);
-
-        mostrarError(
-            "loginStatus",
-            error.message === "Failed to fetch"
-                ? "No se pudo conectar con el servidor."
-                : error.message
+        mostrarLoginError(
+            error.message ||
+            "No se pudo iniciar sesión."
         );
 
     } finally {
@@ -596,6 +803,79 @@ async function iniciarSesion() {
             "Ingresar";
 
     }
+
+}
+
+
+/* =========================
+   CERRAR SESIÓN
+========================= */
+
+function cerrarSesion() {
+
+    const confirmar =
+        confirm(
+            "¿Deseas cerrar sesión?"
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        SESSION_KEY
+    );
+
+
+    sessionToken = "";
+
+
+    archivoSeleccionado =
+        null;
+
+
+    document
+        .getElementById(
+            "panel"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "loginContainer"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "logoutButton"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "password"
+        )
+        .value =
+        "";
+
+
+    document
+        .getElementById(
+            "status"
+        )
+        .className =
+        "status";
 
 }
 
@@ -622,7 +902,8 @@ async function cargarCanales() {
             await fetch(
                 CATALOGO_URL,
                 {
-                    cache: "no-store"
+                    cache:
+                        "no-store"
                 }
             );
 
@@ -661,15 +942,12 @@ async function cargarCanales() {
             '<option value="">Selecciona un canal</option>';
 
 
-        let encontrados = 0;
+        let encontrados =
+            0;
 
 
         tarjetas.forEach(
             tarjeta => {
-
-                /*
-                NOMBRE DEL CANAL
-                */
 
                 const nombre =
                     tarjeta
@@ -678,18 +956,11 @@ async function cargarCanales() {
                     ?.trim();
 
 
-                /*
-                NÚMERO DEL CANAL
-                */
-
-                const elementoNumero =
-                    tarjeta.querySelector(
-                        ".channel-number"
-                    );
-
-
                 const numero =
-                    elementoNumero
+                    tarjeta
+                    .querySelector(
+                        ".channel-number"
+                    )
                     ?.textContent
                     ?.replace(
                         /CANAL/gi,
@@ -697,10 +968,6 @@ async function cargarCanales() {
                     )
                     ?.trim();
 
-
-                /*
-                BUSCAR LA IMAGEN REAL
-                */
 
                 const imagen =
                     tarjeta.querySelector(
@@ -715,10 +982,6 @@ async function cargarCanales() {
                     );
 
 
-                /*
-                VALIDACIÓN
-                */
-
                 if (
                     !nombre ||
                     !numero ||
@@ -730,48 +993,22 @@ async function cargarCanales() {
                 }
 
 
-                /*
-                OBTENER NOMBRE REAL DEL
-                ARCHIVO WEBP
-
-                Ejemplos:
-
-                icons/001.webp
-                → 001.webp
-
-                https://.../icons/001.webp
-                → 001.webp
-                */
-
                 const coincidencia =
                     rutaIcono.match(
-                        /(?:icons\/)([^/?#]+\.webp)/i
+                        /icons\/([^/?#]+\.webp)/i
                     );
 
 
-                if (
-                    !coincidencia
-                ) {
+                if (!coincidencia) {
 
                     return;
 
                 }
 
 
-                /*
-                ARCHIVO REAL
-
-                Ejemplo:
-                001.webp
-                */
-
                 const archivoIcono =
                     coincidencia[1];
 
-
-                /*
-                CREAR OPCIÓN
-                */
 
                 const option =
                     document.createElement(
@@ -780,21 +1017,16 @@ async function cargarCanales() {
 
 
                 /*
-                IMPORTANTE:
-
-                VALUE = ARCHIVO REAL
+                El valor es el archivo real.
 
                 Ejemplo:
-                001.webp
+
+                008.webp
                 */
 
                 option.value =
                     archivoIcono;
 
-
-                /*
-                Lo que ve el usuario
-                */
 
                 option.textContent =
                     `${nombre} (Canal ${numero})`;
@@ -811,34 +1043,144 @@ async function cargarCanales() {
         );
 
 
-        if (
-            encontrados === 0
-        ) {
+        if (!encontrados) {
 
             select.innerHTML =
-                '<option value="">No se encontraron canales con iconos</option>';
+                '<option value="">No se encontraron canales</option>';
 
         }
 
 
     } catch (error) {
 
-        console.error(
-            "Error cargando catálogo:",
-            error
-        );
-
+        console.error(error);
 
         select.innerHTML =
             '<option value="">Error cargando canales</option>';
 
-
-        mostrarError(
-            "status",
-            "No se pudo leer el catálogo de canales."
+        mostrarEstado(
+            "error",
+            "No se pudo cargar el catálogo."
         );
 
     }
+
+}
+
+
+/* =========================
+   CAMBIAR MODO
+========================= */
+
+function cambiarModo(
+    modo
+) {
+
+    modoActual =
+        modo;
+
+
+    document
+        .getElementById(
+            "urlSection"
+        )
+        .classList.toggle(
+            "active",
+            modo === "url"
+        );
+
+
+    document
+        .getElementById(
+            "fileSection"
+        )
+        .classList.toggle(
+            "active",
+            modo === "file"
+        );
+
+
+    document
+        .getElementById(
+            "urlModeButton"
+        )
+        .classList.toggle(
+            "active",
+            modo === "url"
+        );
+
+
+    document
+        .getElementById(
+            "fileModeButton"
+        )
+        .classList.toggle(
+            "active",
+            modo === "file"
+        );
+
+}
+
+
+/* =========================
+   ARCHIVO
+========================= */
+
+function seleccionarArchivo() {
+
+    const input =
+        document.getElementById(
+            "imagenFile"
+        );
+
+
+    archivoSeleccionado =
+        input.files[0] || null;
+
+
+    const info =
+        document.getElementById(
+            "fileInfo"
+        );
+
+
+    if (!archivoSeleccionado) {
+
+        info.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    if (
+        !archivoSeleccionado.type.startsWith(
+            "image/"
+        )
+    ) {
+
+        info.textContent =
+            "El archivo seleccionado no es una imagen.";
+
+        archivoSeleccionado =
+            null;
+
+        return;
+
+    }
+
+
+    info.textContent =
+        `${archivoSeleccionado.name} · ${Math.round(archivoSeleccionado.size / 1024)} KB`;
+
+}
+
+
+function limpiarArchivo() {
+
+    archivoSeleccionado =
+        null;
 
 }
 
@@ -849,59 +1191,126 @@ async function cargarCanales() {
 
 function verImagen() {
 
-    const url =
-        document
-        .getElementById(
-            "imagenUrl"
-        )
-        .value
-        .trim();
-
-
-    if (!url) {
-
-        alert(
-            "Ingresa una URL."
-        );
-
-        return;
-
-    }
-
-
     const imagen =
         document.getElementById(
             "previewImage"
         );
 
 
-    imagen.src =
-        url;
+    const preview =
+        document.getElementById(
+            "preview"
+        );
 
 
-    imagen.onerror =
-        () => {
+    if (modoActual === "url") {
 
-            mostrarError(
-                "status",
-                "No se pudo cargar la imagen desde esa URL."
+        const url =
+            document
+            .getElementById(
+                "imagenUrl"
+            )
+            .value
+            .trim();
+
+
+        if (!url) {
+
+            alert(
+                "Ingresa una URL."
             );
 
-        };
+            return;
+
+        }
 
 
-    document
-        .getElementById(
-            "preview"
-        )
-        .style.display =
-            "block";
+        imagen.src =
+            url;
+
+    }
+
+
+    if (modoActual === "file") {
+
+        if (!archivoSeleccionado) {
+
+            alert(
+                "Selecciona una imagen."
+            );
+
+            return;
+
+        }
+
+
+        imagen.src =
+            URL.createObjectURL(
+                archivoSeleccionado
+            );
+
+    }
+
+
+    preview.style.display =
+        "block";
 
 }
 
 
 /* =========================
-   ACTUALIZAR ICONO
+   CONVERTIR ARCHIVO A BASE64
+========================= */
+
+function archivoABase64(
+    archivo
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                () => {
+
+                    const resultado =
+                        String(
+                            reader.result
+                        );
+
+
+                    const base64 =
+                        resultado.split(
+                            ","
+                        )[1];
+
+
+                    resolve(
+                        base64
+                    );
+
+                };
+
+
+            reader.onerror =
+                reject;
+
+
+            reader.readAsDataURL(
+                archivo
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   ACTUALIZAR
 ========================= */
 
 async function actualizarIcono() {
@@ -914,29 +1323,17 @@ async function actualizarIcono() {
         .value;
 
 
-    const imagenUrl =
-        document
-        .getElementById(
-            "imagenUrl"
-        )
-        .value
-        .trim();
-
-
     const boton =
         document.getElementById(
             "updateButton"
         );
 
 
-    if (
-        !archivoIcono ||
-        !imagenUrl
-    ) {
+    if (!archivoIcono) {
 
-        mostrarError(
-            "status",
-            "Completa todos los campos."
+        mostrarEstado(
+            "error",
+            "Selecciona un canal."
         );
 
         return;
@@ -944,10 +1341,107 @@ async function actualizarIcono() {
     }
 
 
-    boton.disabled = true;
+    let imagenUrl =
+        "";
+
+    let archivoBase64 =
+        "";
+
+    let archivoNombre =
+        "";
+
+    let archivoTipo =
+        "";
+
+
+    if (modoActual === "url") {
+
+        imagenUrl =
+            document
+            .getElementById(
+                "imagenUrl"
+            )
+            .value
+            .trim();
+
+
+        if (!imagenUrl) {
+
+            mostrarEstado(
+                "error",
+                "Ingresa la URL de la imagen."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    if (modoActual === "file") {
+
+        if (!archivoSeleccionado) {
+
+            mostrarEstado(
+                "error",
+                "Selecciona una imagen desde tu dispositivo."
+            );
+
+            return;
+
+        }
+
+
+        /*
+        Límite recomendado.
+
+        Las imágenes grandes se deben
+        reducir antes de enviarlas.
+        */
+
+        if (
+            archivoSeleccionado.size >
+            5 * 1024 * 1024
+        ) {
+
+            mostrarEstado(
+                "error",
+                "La imagen es demasiado grande. Máximo 5 MB."
+            );
+
+            return;
+
+        }
+
+
+        archivoBase64 =
+            await archivoABase64(
+                archivoSeleccionado
+            );
+
+
+        archivoNombre =
+            archivoSeleccionado.name;
+
+
+        archivoTipo =
+            archivoSeleccionado.type;
+
+    }
+
+
+    boton.disabled =
+        true;
 
     boton.textContent =
         "Actualizando...";
+
+
+    mostrarEstado(
+        "success",
+        "Procesando actualización..."
+    );
 
 
     try {
@@ -956,11 +1450,18 @@ async function actualizarIcono() {
             await fetch(
                 API_URL,
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
-                            "application/json"
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${sessionToken}`
+
                     },
 
                     body:
@@ -969,27 +1470,23 @@ async function actualizarIcono() {
                             action:
                                 "actualizar",
 
-                            username:
-                                usuario,
-
-                            password:
-                                password,
-
-                            /*
-                            AQUÍ ENVIAMOS EL
-                            ARCHIVO REAL
-
-                            Ejemplo:
-                            001.webp
-                            */
-
                             canal:
                                 archivoIcono,
 
                             imagen_url:
-                                imagenUrl
+                                imagenUrl,
+
+                            archivo_base64:
+                                archivoBase64,
+
+                            archivo_nombre:
+                                archivoNombre,
+
+                            archivo_tipo:
+                                archivoTipo
 
                         })
+
                 }
             );
 
@@ -1000,6 +1497,15 @@ async function actualizarIcono() {
 
         if (!response.ok) {
 
+            if (
+                response.status === 401
+            ) {
+
+                cerrarSesion();
+
+            }
+
+
             throw new Error(
                 data.error ||
                 "Error al actualizar."
@@ -1008,35 +1514,53 @@ async function actualizarIcono() {
         }
 
 
-        const status =
-            document.getElementById(
-                "status"
-            );
-
-
-        status.className =
-            "status success";
-
-
-        status.textContent =
+        mostrarEstado(
+            "success",
             data.message ||
-            "✓ Actualización iniciada correctamente.";
+            "✓ Actualización iniciada correctamente."
+        );
+
+
+        document
+            .getElementById(
+                "imagenUrl"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "imagenFile"
+            )
+            .value =
+            "";
+
+
+        document
+            .getElementById(
+                "fileInfo"
+            )
+            .textContent =
+            "";
+
+
+        archivoSeleccionado =
+            null;
 
 
     } catch (error) {
 
-        console.error(error);
-
-        mostrarError(
-            "status",
-            error.message === "Failed to fetch"
-                ? "No se pudo conectar con el servidor."
-                : error.message
+        mostrarEstado(
+            "error",
+            error.message ||
+            "No se pudo actualizar."
         );
 
     } finally {
 
-        boton.disabled = false;
+        boton.disabled =
+            false;
 
         boton.textContent =
             "Actualizar icono";
@@ -1048,5 +1572,4 @@ async function actualizarIcono() {
 </script>
 
 </body>
-
 </html>
