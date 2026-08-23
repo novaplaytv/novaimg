@@ -1,0 +1,55 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>418 - Soy una tetera</title><link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/novasplash.webp"><style>:root{--red:#e50914;--bg:#080a10;--card:#11151f;--muted:#9aa3b2}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top,#1d2433 0,#080a10 55%);color:#fff;font-family:Arial;padding:24px}.card{width:min(680px,100%);background:#11151f;border:1px solid #293246;border-radius:24px;padding:44px;text-align:center}.logo{width:88px;height:88px;object-fit:contain;border-radius:20px}.code{font-size:clamp(80px,18vw,150px);font-weight:900;line-height:.9;color:var(--red)}h1{font-size:30px;margin:18px 0 10px}p{color:var(--muted);line-height:1.6}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:26px}.btn{padding:13px 18px;border-radius:12px;text-decoration:none;font-weight:800;background:var(--red);color:#fff}.alt{background:#202838}.path{margin-top:20px;padding:12px;border-radius:10px;background:#080b11;color:#b8c1d1;word-break:break-all;font:12px monospace}.kettle-img{width:170px;max-width:70vw;height:170px;object-fit:contain;margin:0 auto 8px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.35))}
+.card h1{letter-spacing:.3px}
+.card strong{color:#fff}
+</style>
+<style id="demo-popup-style">
+.demo-popup-permission{position:fixed;inset:0;z-index:20000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
+.demo-popup-box{width:min(480px,100%);background:#11151f;color:#fff;border:1px solid #30394c;border-radius:20px;padding:28px;text-align:center;font-family:Arial,Helvetica,sans-serif;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.demo-popup-box h2{margin:0 0 12px}.demo-popup-box p{color:#b8c1d1;line-height:1.55}.demo-popup-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.demo-popup-btn{border:0;border-radius:11px;padding:13px 18px;font-weight:800;cursor:pointer;background:#e50914;color:#fff}.demo-popup-btn.alt{background:#273044}
+</style>
+
+</head><body><main class="card"><img class="kettle-img" src="https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/tetera.webp" alt="Una tetera intentando procesar la solicitud"><div class="code">418</div><h1>SOY UNA TETERA. LITERALMENTE.</h1>
+<p>No puedo procesar esta solicitud porque no soy un servidor. Soy una tetera.</p>
+<p>Mi trabajo consiste en calentar agua, hacer ruido cuando hiervo y juzgar silenciosamente tus decisiones. Procesar HTTP no estaba en el manual.</p>
+<p><strong>Resultado técnico:</strong> solicitud rechazada por exceso de tetera.</p><div class="path" id="path"></div><div class="actions"><a class="btn" href="https://thedarksoldier996.github.io/">Ir al inicio</a><a class="btn alt" href="https://thedarksoldier996.github.io/novaimg/">NOVAIMG</a></div></main><script>document.getElementById('path').textContent=location.pathname;</script>
+<footer class="novaplay-footer">
+  <div>Desarrollado con ❤️ por ThedarkSoldier996</div>
+  <div>© 2026 M.S.G.T SOLUTIONS</div>
+</footer>
+<style>
+.novaplay-footer{
+  width:100%; text-align:center; padding:28px 16px 24px;
+  color:#aeb6c5; font-family:Arial,Helvetica,sans-serif;
+  font-size:13px; line-height:1.8; margin-top:40px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+</style>
+
+
+<script>
+function abrirDemoNovaPlay(){
+  const url='https://thedarksoldier996.github.io/DEMO-NOVAPLAY/';
+  const w=Math.min(1280,Math.max(800,Math.round(screen.availWidth*.9)));
+  const h=Math.min(820,Math.max(600,Math.round(screen.availHeight*.86)));
+  const left=Math.max(0,Math.round((screen.availWidth-w)/2));
+  const top=Math.max(0,Math.round((screen.availHeight-h)/2));
+  const win=window.open(url,'NOVAPLAY_DEMO','popup=yes,width='+w+',height='+h+',left='+left+',top='+top+',resizable=yes,scrollbars=yes');
+  if(win){win.focus();document.getElementById('demo-popup-permission')?.remove();}
+  else{document.getElementById('demo-popup-blocked').style.display='block';}
+}
+function pedirDemoPopup(){
+  const old=document.getElementById('demo-popup-permission'); if(old) old.remove();
+  document.body.insertAdjacentHTML('beforeend',
+    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acción se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
+  document.getElementById('demo-popup-open').addEventListener('click',abrirDemoNovaPlay);
+  document.getElementById('demo-popup-cancel').addEventListener('click',()=>document.getElementById('demo-popup-permission').remove());
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('a[href="https://thedarksoldier996.github.io/DEMO-NOVAPLAY/"]').forEach(a=>{
+    a.addEventListener('click',e=>{e.preventDefault();pedirDemoPopup();});
+  });
+});
+</script>
+
+</body></html>
