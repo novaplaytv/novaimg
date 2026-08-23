@@ -2,15 +2,16 @@ import os
 import json
 import html
 import urllib.request
+from urllib.parse import urlparse
 from datetime import datetime, timezone
 
 
 JSON_URL = os.environ.get("NOVAPLAY_JSON_URL")
 
+
 if not JSON_URL:
     raise SystemExit(
-        "ERROR: No existe la variable NOVAPLAY_JSON_URL. "
-        "Configúrala como GitHub Secret."
+        "ERROR: No existe la variable NOVAPLAY_JSON_URL."
     )
 
 
@@ -24,210 +25,289 @@ def descargar_json():
         }
     )
 
-    with urllib.request.urlopen(request, timeout=30) as response:
+    with urllib.request.urlopen(
+        request,
+        timeout=60
+    ) as response:
         return json.load(response)
 
 
-def obtener_lista_canales(data):
+def obtener_archivo_icono(icono):
     """
-    Intenta detectar automáticamente dónde está la lista de canales.
+    Convierte:
+    https://.../icons/006.webp
+    en:
+    006.webp
     """
 
-    if isinstance(data, list):
-        return data
+    if not icono:
+        return ""
 
-    if isinstance(data, dict):
+    icono = str(icono).strip()
 
-        posibles_claves = [
-            "canales",
-            "channels",
-            "data",
-            "items",
-            "lista"
-        ]
+    parsed = urlparse(icono)
 
-        for clave in posibles_claves:
-            if clave in data and isinstance(data[clave], list):
-                return data[clave]
+    if parsed.path:
+        return os.path.basename(parsed.path)
 
-    raise ValueError(
-        "No se pudo encontrar la lista de canales dentro del JSON."
+    return os.path.basename(
+        icono.split("?")[0]
     )
-
-
-def obtener_valor(item, claves, defecto=""):
-    for clave in claves:
-        if clave in item and item[clave] is not None:
-            return str(item[clave]).strip()
-
-    return defecto
 
 
 def procesar_canales(data):
 
-    lista = obtener_lista_canales(data)
     canales = []
 
-    for item in lista:
+    if not isinstance(data, list):
+        raise ValueError(
+            "La estructura principal del JSON debe ser una lista."
+        )
 
-        if not isinstance(item, dict):
+    print(
+        f"Categorías encontradas: {len(data)}"
+    )
+
+    for categoria in data:
+
+        if not isinstance(categoria, dict):
             continue
 
-        nombre = obtener_valor(
-            item,
-            [
-                "name",
-                "nombre",
-                "canal",
+        categoria_nombre = str(
+            categoria.get(
                 "title",
-                "titulo"
-            ]
-        )
+                "SIN CATEGORÍA"
+            )
+        ).strip()
 
-        url = obtener_valor(
-            item,
-            [
-                "url",
-                "link",
-                "stream",
-                "stream_url",
-                "video_url",
-                "src"
-            ]
-        )
+        items = categoria.get("items", [])
 
-        icono = obtener_valor(
-            item,
-            [
-                "icono",
-                "icon",
-                "image",
-                "imagen",
-                "logo"
-            ]
-        )
-
-        numero = obtener_valor(
-            item,
-            [
-                "id",
-                "canal_id",
-                "numero",
-                "channel",
-                "number"
-            ]
-        )
-
-        if not nombre:
-            nombre = f"Canal {numero}" if numero else "Sin nombre"
-
-        if not icono:
+        if not isinstance(items, list):
             continue
 
-        # Si el JSON contiene una URL completa, obtenemos solo el nombre del archivo.
-        icono = icono.split("?")[0]
-        icono = icono.rstrip("/")
-        icono = icono.split("/")[-1]
+        print(
+            f"Procesando categoría: "
+            f"{categoria_nombre} "
+            f"({len(items)} canales)"
+        )
 
-        canales.append({
-            "nombre": nombre,
-            "url": url,
-            "icono": icono,
-            "numero": numero
-        })
+        for item in items:
+
+            if not isinstance(item, dict):
+                continue
+
+            nombre = str(
+                item.get("name", "")
+            ).strip()
+
+            numero = str(
+                item.get("canal", "")
+            ).strip()
+
+            url = str(
+                item.get("url", "")
+            ).strip()
+
+            icono_url = str(
+                item.get("icono", "")
+            ).strip()
+
+            icono = obtener_archivo_icono(
+                icono_url
+            )
+
+            if not nombre:
+                nombre = (
+                    f"Canal {numero}"
+                    if numero
+                    else "Sin nombre"
+                )
+
+            if not icono:
+                print(
+                    f"⚠ Sin icono: {nombre}"
+                )
+                continue
+
+            canales.append({
+                "nombre": nombre,
+                "numero": numero,
+                "url": url,
+                "icono": icono,
+                "categoria": categoria_nombre
+            })
 
     return canales
 
 
-def generar_html(canales):
+def ordenar_canal(canal):
 
-    fecha = datetime.now(timezone.utc).strftime(
-        "%d/%m/%Y %H:%M UTC"
-    )
+    numero = canal.get("numero", "")
+
+    try:
+        return (
+            0,
+            int(numero)
+        )
+    except ValueError:
+        return (
+            1,
+            canal["nombre"].lower()
+        )
+
+
+def generar_tarjetas(canales):
 
     tarjetas = []
 
     for canal in canales:
 
-        nombre = html.escape(canal["nombre"])
-        icono = html.escape(canal["icono"])
-        numero = html.escape(canal["numero"])
-        url = html.escape(canal["url"])
+        nombre = html.escape(
+            canal["nombre"]
+        )
 
-        icono_path = f"icons/{icono}"
+        numero = html.escape(
+            canal["numero"]
+        )
 
-        numero_html = ""
+        categoria = html.escape(
+            canal["categoria"]
+        )
 
-        if numero:
-            numero_html = f"""
-                <span class="channel-number">
-                    #{numero}
-                </span>
-            """
+        icono = html.escape(
+            canal["icono"]
+        )
+
+        url = html.escape(
+            canal["url"],
+            quote=True
+        )
+
+        ruta_icono = f"icons/{icono}"
 
         if url:
+
             url_html = f"""
-                <div class="url-section">
-                    <div class="url-label">URL</div>
+                <div class="url-box">
+                    <span class="label">
+                        URL del canal
+                    </span>
 
-                    <a
-                        href="{url}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="channel-url"
-                    >
-                        {url}
-                    </a>
+                    <div class="url-row">
 
-                    <button
-                        class="copy-button"
-                        onclick="copiarURL(this)"
-                        data-url="{url}"
-                    >
-                        Copiar
-                    </button>
+                        <a
+                            href="{url}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="channel-url"
+                        >
+                            {url}
+                        </a>
+
+                        <button
+                            class="copy-button"
+                            data-url="{url}"
+                            onclick="copiarURL(this)"
+                        >
+                            Copiar
+                        </button>
+
+                    </div>
                 </div>
             """
+
         else:
+
             url_html = """
-                <div class="url-section">
-                    <div class="url-label">URL</div>
-                    <div class="no-url">
+                <div class="url-box">
+                    <span class="label">
+                        URL del canal
+                    </span>
+
+                    <span class="no-url">
                         Sin URL disponible
-                    </div>
+                    </span>
                 </div>
             """
 
         tarjeta = f"""
-        <article class="card">
-            <div class="card-header">
-                <div>
-                    <h2>{nombre}</h2>
-                    {numero_html}
-                </div>
-            </div>
+        <article
+            class="card"
+            data-search="
+                {nombre}
+                {numero}
+                {categoria}
+                {icono}
+                {url}
+            "
+        >
 
-            <div class="content">
+            <div class="card-top">
 
-                <div class="icon-preview">
-                    <img
-                        src="{icono_path}"
-                        alt="{nombre}"
-                        loading="lazy"
-                        onerror="this.parentElement.classList.add('image-error')"
-                    >
-                </div>
+                <div class="channel-info">
 
-                <div class="information">
-
-                    <div class="info-row">
-                        <span class="label">Archivo del icono</span>
-                        <code>{icono}</code>
+                    <div class="channel-number">
+                        CANAL {numero or "—"}
                     </div>
 
-                    <div class="info-row">
-                        <span class="label">Ruta</span>
-                        <code>{icono_path}</code>
+                    <h2>
+                        {nombre}
+                    </h2>
+
+                    <div class="category">
+                        {categoria}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="icon-container">
+
+                    <img
+                        src="{ruta_icono}"
+                        alt="{nombre}"
+                        loading="lazy"
+                        onerror="
+                            this.style.display='none';
+                            this.nextElementSibling.style.display='flex';
+                        "
+                    >
+
+                    <div
+                        class="missing-image"
+                    >
+                        Imagen no encontrada
+                    </div>
+
+                </div>
+
+                <div class="details">
+
+                    <div class="detail">
+
+                        <span class="label">
+                            Icono actual
+                        </span>
+
+                        <code>
+                            {icono}
+                        </code>
+
+                    </div>
+
+                    <div class="detail">
+
+                        <span class="label">
+                            Ruta en repositorio
+                        </span>
+
+                        <code>
+                            {ruta_icono}
+                        </code>
+
                     </div>
 
                     {url_html}
@@ -235,15 +315,30 @@ def generar_html(canales):
                 </div>
 
             </div>
+
         </article>
         """
 
         tarjetas.append(tarjeta)
 
-    tarjetas_html = "\n".join(tarjetas)
+    return "\n".join(tarjetas)
+
+
+def generar_html(canales):
+
+    fecha = datetime.now(
+        timezone.utc
+    ).strftime(
+        "%d/%m/%Y %H:%M UTC"
+    )
+
+    tarjetas = generar_tarjetas(
+        canales
+    )
 
     return f"""<!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
@@ -253,18 +348,11 @@ def generar_html(canales):
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>NovaImg - Catálogo de Iconos</title>
+<title>
+    NovaImg - Catálogo de Iconos
+</title>
 
 <style>
-
-:root {{
-    --bg: #f5f5f7;
-    --card: #ffffff;
-    --text: #1d1d1f;
-    --muted: #6e6e73;
-    --border: #d2d2d7;
-    --accent: #0066cc;
-}}
 
 * {{
     box-sizing: border-box;
@@ -276,18 +364,17 @@ body {{
         Arial,
         Helvetica,
         sans-serif;
-
-    background: var(--bg);
-    color: var(--text);
+    background: #f3f4f6;
+    color: #111827;
 }}
 
 header {{
-    padding: 40px 20px 30px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
+    background: #111827;
+    color: white;
+    padding: 32px 20px;
 }}
 
-.header-container {{
+.header-content {{
     max-width: 1400px;
     margin: auto;
 }}
@@ -298,256 +385,218 @@ h1 {{
 }}
 
 .subtitle {{
-    margin-top: 10px;
-    color: var(--muted);
+    margin-top: 8px;
+    color: #d1d5db;
 }}
 
 .stats {{
-    margin-top: 20px;
+    margin-top: 14px;
     font-size: 14px;
-    color: var(--muted);
+    color: #9ca3af;
 }}
 
 .controls {{
     max-width: 1400px;
-    margin: 25px auto;
-    padding: 0 20px;
+    margin: auto;
+    padding: 24px 20px;
 }}
 
-.search {{
+#search {{
     width: 100%;
     padding: 15px 18px;
-
-    border: 1px solid var(--border);
+    border: 1px solid #d1d5db;
     border-radius: 10px;
-
     font-size: 16px;
+}}
+
+#search:focus {{
+    outline: 2px solid #2563eb;
+    border-color: transparent;
 }}
 
 .container {{
     max-width: 1400px;
-
     margin: auto;
-
-    padding:
-        0
-        20px
-        50px;
+    padding: 0 20px 50px;
 }}
 
 .grid {{
     display: grid;
-
     grid-template-columns:
         repeat(
             auto-fill,
-            minmax(380px, 1fr)
+            minmax(420px, 1fr)
         );
-
     gap: 20px;
 }}
 
 .card {{
-    background: var(--card);
-
-    border:
-        1px
-        solid
-        var(--border);
-
+    background: white;
+    border: 1px solid #e5e7eb;
     border-radius: 14px;
-
     overflow: hidden;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-}}
-
-.card:hover {{
-    transform: translateY(-3px);
-
     box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.08);
+        0 2px 8px
+        rgba(0,0,0,.04);
 }}
 
-.card-header {{
+.card.hidden {{
+    display: none;
+}}
+
+.card-top {{
     padding: 18px 20px;
-
     border-bottom:
-        1px
-        solid
-        var(--border);
-}}
-
-.card-header h2 {{
-    margin: 0;
-
-    font-size: 20px;
+        1px solid #e5e7eb;
 }}
 
 .channel-number {{
-    display: inline-block;
-
-    margin-top: 8px;
-
-    color: var(--muted);
-
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #6b7280;
 }}
 
-.content {{
+.card h2 {{
+    margin: 6px 0;
+    font-size: 22px;
+}}
+
+.category {{
+    display: inline-block;
+    padding: 4px 9px;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}}
+
+.card-body {{
     display: flex;
-
     gap: 20px;
-
     padding: 20px;
 }}
 
-.icon-preview {{
-    width: 130px;
-    height: 130px;
-
+.icon-container {{
+    width: 150px;
+    height: 150px;
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    background:
-        repeating-conic-gradient(
-            #eee 0% 25%,
-            #fff 0% 50%
-        )
-        50% / 20px 20px;
-
-    border:
-        1px
-        solid
-        var(--border);
-
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
+
+    background:
+        linear-gradient(
+            45deg,
+            #f9fafb 25%,
+            transparent 25%
+        ),
+        linear-gradient(
+            -45deg,
+            #f9fafb 25%,
+            transparent 25%
+        );
 
     overflow: hidden;
 }}
 
-.icon-preview img {{
+.icon-container img {{
     max-width: 100%;
     max-height: 100%;
-
     object-fit: contain;
 }}
 
-.image-error::after {{
-    content: "Imagen no encontrada";
-
-    color: #b00020;
-
+.missing-image {{
+    display: none;
+    padding: 15px;
     text-align: center;
-
-    padding: 10px;
-
+    color: #dc2626;
     font-size: 13px;
 }}
 
-.information {{
+.details {{
     flex: 1;
-
     min-width: 0;
 }}
 
-.info-row {{
-    margin-bottom: 14px;
+.detail,
+.url-box {{
+    margin-bottom: 16px;
 }}
 
-.label,
-.url-label {{
+.label {{
     display: block;
-
-    margin-bottom: 5px;
-
-    font-size: 12px;
-
+    margin-bottom: 6px;
+    font-size: 11px;
     font-weight: bold;
-
-    color: var(--muted);
-
     text-transform: uppercase;
+    color: #6b7280;
 }}
 
 code {{
     display: inline-block;
-
-    padding: 6px 8px;
-
-    background: #f1f1f3;
-
+    max-width: 100%;
+    padding: 7px 9px;
+    background: #f3f4f6;
     border-radius: 6px;
-
-    font-size: 13px;
-
+    font-size: 12px;
     word-break: break-all;
 }}
 
+.url-row {{
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}}
+
 .channel-url {{
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: var(--accent);
-
-    font-size: 13px;
-
+    flex: 1;
+    color: #2563eb;
+    font-size: 12px;
     word-break: break-all;
 }}
 
 .copy-button {{
-    padding:
-        7px
-        12px;
-
-    border: 1px solid var(--border);
-
+    border: 1px solid #d1d5db;
     background: white;
-
-    border-radius: 6px;
-
+    border-radius: 7px;
+    padding: 7px 10px;
     cursor: pointer;
 }}
 
 .copy-button:hover {{
-    background: #f5f5f7;
+    background: #f3f4f6;
 }}
 
 .no-url {{
-    color: var(--muted);
-
+    color: #9ca3af;
     font-size: 13px;
-}}
-
-.hidden {{
-    display: none;
 }}
 
 footer {{
-    text-align: center;
-
     padding: 25px;
-
-    color: var(--muted);
-
-    font-size: 13px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 12px;
 }}
 
-@media (max-width: 600px) {{
+@media (
+    max-width: 600px
+) {{
 
-    .content {{
+    .grid {{
+        grid-template-columns: 1fr;
+    }}
+
+    .card-body {{
         flex-direction: column;
     }}
 
-    .icon-preview {{
+    .icon-container {{
         width: 100%;
         height: 180px;
     }}
@@ -562,9 +611,11 @@ footer {{
 
 <header>
 
-    <div class="header-container">
+    <div class="header-content">
 
-        <h1>📺 NovaImg</h1>
+        <h1>
+            📺 NovaImg
+        </h1>
 
         <div class="subtitle">
             Catálogo automático de canales e iconos
@@ -578,61 +629,67 @@ footer {{
 
 </header>
 
-<div class="controls">
+<section class="controls">
 
     <input
-        type="search"
         id="search"
-        class="search"
-        placeholder="Buscar canal, icono o URL..."
+        type="search"
+        placeholder="
+            Buscar por canal, nombre,
+            categoría, icono o URL...
+        "
     >
 
-</div>
+</section>
 
 <main class="container">
 
-    <div class="grid" id="channels">
+    <div class="grid">
 
-        {tarjetas_html}
+        {tarjetas}
 
     </div>
 
 </main>
 
 <footer>
-    Última actualización automática: {fecha}
+
+    Última actualización automática:
+    {fecha}
+
 </footer>
 
 <script>
 
-const search = document.getElementById("search");
+const search =
+    document.getElementById("search");
 
-search.addEventListener("input", function() {{
+search.addEventListener(
+    "input",
+    function() {{
 
-    const value =
-        this.value
-            .toLowerCase()
-            .trim();
+        const query =
+            this.value
+                .toLowerCase()
+                .trim();
 
-    const cards =
-        document.querySelectorAll(".card");
+        document
+            .querySelectorAll(".card")
+            .forEach(card => {{
 
-    cards.forEach(card => {{
+                const text =
+                    card.dataset.search
+                        .toLowerCase();
 
-        const text =
-            card.innerText.toLowerCase();
+                card.classList.toggle(
+                    "hidden",
+                    !text.includes(query)
+                );
 
-        const visible =
-            text.includes(value);
+            }});
 
-        card.classList.toggle(
-            "hidden",
-            !visible
-        );
-
-    }});
-
-}});
+    }}
+);
 
 
 function copiarURL(button) {{
@@ -655,6 +712,10 @@ function copiarURL(button) {{
                     original;
             }}, 1500);
 
+        }})
+        .catch(() => {{
+            button.textContent =
+                "Error";
         }});
 
 }}
@@ -662,6 +723,7 @@ function copiarURL(button) {{
 </script>
 
 </body>
+
 </html>
 """
 
@@ -670,7 +732,14 @@ def main():
 
     data = descargar_json()
 
-    canales = procesar_canales(data)
+    canales = procesar_canales(
+        data
+    )
+
+    print(
+        f"Total de canales encontrados: "
+        f"{len(canales)}"
+    )
 
     if not canales:
         raise SystemExit(
@@ -678,11 +747,12 @@ def main():
         )
 
     canales.sort(
-        key=lambda x:
-        x["nombre"].lower()
+        key=ordenar_canal
     )
 
-    contenido = generar_html(canales)
+    contenido = generar_html(
+        canales
+    )
 
     with open(
         "index.html",
@@ -690,11 +760,12 @@ def main():
         encoding="utf-8"
     ) as archivo:
 
-        archivo.write(contenido)
+        archivo.write(
+            contenido
+        )
 
     print(
-        f"Catálogo generado correctamente: "
-        f"{len(canales)} canales"
+        "index.html generado correctamente."
     )
 
 
