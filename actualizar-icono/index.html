@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Actualizar Icono - NovaImg</title>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Panel NovaImg</title>
 
 <style>
 
@@ -14,7 +19,7 @@
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, sans-serif;
     background: #f3f4f6;
     color: #111827;
 }
@@ -22,43 +27,39 @@ body {
 header {
     background: #111827;
     color: white;
-    padding: 30px 20px;
+    padding: 30px;
 }
 
-.header-content,
 .container {
-    max-width: 800px;
+    max-width: 850px;
     margin: auto;
-}
-
-h1 {
-    margin: 0;
-}
-
-.subtitle {
-    margin-top: 8px;
-    color: #d1d5db;
-}
-
-.container {
-    padding: 30px 20px;
+    padding: 25px;
 }
 
 .card {
     background: white;
-    border-radius: 14px;
     padding: 25px;
-    box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,.08);
+}
+
+.login {
+    max-width: 450px;
+    margin: 40px auto;
+}
+
+.panel {
+    display: none;
 }
 
 .field {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 input,
@@ -67,45 +68,15 @@ select {
     padding: 13px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
-    font-size: 15px;
-}
-
-input:focus,
-select:focus {
-    outline: 2px solid #2563eb;
-    border-color: transparent;
-}
-
-.info {
-    margin-top: 15px;
-    padding: 15px;
-    background: #f9fafb;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-}
-
-.preview {
-    display: none;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.preview img {
-    max-width: 250px;
-    max-height: 250px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 10px;
 }
 
 button {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     border: none;
-    border-radius: 9px;
+    border-radius: 8px;
     background: #2563eb;
     color: white;
-    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     margin-top: 10px;
@@ -115,96 +86,126 @@ button:hover {
     background: #1d4ed8;
 }
 
-button:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-}
-
 .status {
     display: none;
     margin-top: 20px;
-    padding: 15px;
+    padding: 14px;
     border-radius: 8px;
 }
 
-.status.success {
-    display: block;
+.success {
     background: #dcfce7;
     color: #166534;
+    display: block;
 }
 
-.status.error {
-    display: block;
+.error {
     background: #fee2e2;
     color: #991b1b;
+    display: block;
 }
 
-.warning {
-    margin-bottom: 20px;
-    padding: 14px;
-    background: #fef3c7;
-    border-radius: 8px;
-    color: #92400e;
-    font-size: 13px;
+.preview {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
 }
 
-.back {
-    display: inline-block;
-    margin-top: 15px;
-    color: #2563eb;
-    text-decoration: none;
+.preview img {
+    max-width: 250px;
+    max-height: 250px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
 
-<div class="header-content">
+<div class="container">
 
-<h1>Actualizar icono</h1>
+<h1>NovaImg</h1>
 
-<div class="subtitle">
-Selecciona un canal y reemplaza automáticamente su icono WebP
-</div>
+<p>
+Panel de actualización de iconos
+</p>
 
 </div>
 
 </header>
 
-<main class="container">
 
-<div class="card">
+<!-- LOGIN -->
 
-<div class="warning">
+<div
+    class="container"
+    id="loginContainer"
+>
 
-El token se utiliza únicamente para ejecutar GitHub Actions.
-No se guarda en el navegador.
+<div class="card login">
 
-</div>
+<h2>Iniciar sesión</h2>
 
 <div class="field">
 
-<label for="token">
-GitHub Personal Access Token
-</label>
+<label>Usuario</label>
 
 <input
-type="password"
-id="token"
-placeholder="github_pat_..."
-autocomplete="off"
+    id="username"
+    type="text"
+    autocomplete="username"
 >
 
 </div>
 
+
 <div class="field">
 
-<label for="canal">
-Canal
-</label>
+<label>Contraseña</label>
+
+<input
+    id="password"
+    type="password"
+    autocomplete="current-password"
+>
+
+</div>
+
+
+<button onclick="iniciarSesion()">
+
+Ingresar
+
+</button>
+
+
+<div
+    id="loginStatus"
+    class="status"
+></div>
+
+</div>
+
+</div>
+
+
+<!-- PANEL -->
+
+<div
+    class="container panel"
+    id="panel"
+>
+
+<div class="card">
+
+<h2>Actualizar icono</h2>
+
+
+<div class="field">
+
+<label>Canal</label>
 
 <select id="canal">
 
@@ -216,492 +217,458 @@ Cargando canales...
 
 </div>
 
-<div
-class="info"
-id="canalInfo"
->
-
-Selecciona un canal.
-
-</div>
-
-<br>
 
 <div class="field">
 
-<label for="imagenUrl">
-URL de la nueva imagen
-</label>
+<label>URL de la nueva imagen</label>
 
 <input
-type="url"
-id="imagenUrl"
-placeholder="https://ejemplo.com/imagen.png"
+    id="imagenUrl"
+    type="url"
+    placeholder="https://ejemplo.com/logo.png"
 >
 
 </div>
 
-<button
-type="button"
-id="previewButton"
->
 
-Ver imagen
+<button onclick="verImagen()">
+
+Vista previa
 
 </button>
 
+
 <div
-class="preview"
-id="preview"
+    id="preview"
+    class="preview"
 >
 
-<p>
-<strong>
-Vista previa
-</strong>
-</p>
-
-<img
-id="previewImage"
-alt="Vista previa de nueva imagen"
->
+<img id="previewImage">
 
 </div>
 
-<button
-type="button"
-id="actualizarButton"
->
+
+<button onclick="actualizarIcono()">
 
 Actualizar icono
 
 </button>
 
+
 <div
-class="status"
-id="status"
+    id="status"
+    class="status"
 ></div>
 
-<a
-href="../"
-class="back"
->
-
-← Volver al catálogo
-
-</a>
 
 </div>
 
-</main>
+</div>
+
 
 <script>
 
-const OWNER = "ThedarkSoldier996";
+/*
+CAMBIA ESTA URL
 
-const REPO = "novaimg";
+Por la URL de tu Supabase Edge Function
+*/
 
-let canales = [];
+const API_URL =
+    "https://TU-PROYECTO.supabase.co/functions/v1/actualizar-icono";
 
 
-async function cargarCanales() {
+let usuario = "";
+let password = "";
 
-    const select =
-        document.getElementById("canal");
+
+/*
+LOGIN
+*/
+
+async function iniciarSesion() {
+
+    usuario =
+        document
+        .getElementById("username")
+        .value
+        .trim();
+
+
+    password =
+        document
+        .getElementById("password")
+        .value
+        .trim();
+
+
+    const status =
+        document.getElementById(
+            "loginStatus"
+        );
+
+
+    if (
+        !usuario ||
+        !password
+    ) {
+
+        status.className =
+            "status error";
+
+        status.textContent =
+            "Completa usuario y contraseña.";
+
+        return;
+
+    }
+
 
     try {
 
-        /*
-        Estamos dentro de:
-
-        actualizar-icono/index.html
-
-        Por eso subimos un nivel:
-
-        ../index.html
-        */
-
         const response =
-            await fetch("../index.html");
+            await fetch(
+                API_URL,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "login",
+
+                            username:
+                                usuario,
+
+                            password:
+                                password
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
 
         if (!response.ok) {
 
             throw new Error(
-                "No se pudo cargar el catálogo principal."
+                data.error ||
+                "Acceso denegado"
             );
 
         }
 
-        const texto =
-            await response.text();
 
-        const parser =
-            new DOMParser();
-
-        const documentHTML =
-            parser.parseFromString(
-                texto,
-                "text/html"
-            );
-
-        const tarjetas =
-            documentHTML.querySelectorAll(
-                ".card"
-            );
-
-        tarjetas.forEach(tarjeta => {
-
-            const nombre =
-                tarjeta.querySelector("h2")
-                ?.textContent
-                ?.trim();
-
-            const numeroTexto =
-                tarjeta.querySelector(
-                    ".channel-number"
-                )
-                ?.textContent
-                ?.trim();
-
-            if (!nombre) {
-                return;
-            }
-
-            let numero = "";
-
-            if (numeroTexto) {
-
-                numero =
-                    numeroTexto
-                    .replace("CANAL", "")
-                    .trim();
-
-            }
-
-            canales.push({
-
-                nombre: nombre,
-
-                numero: numero
-
-            });
-
-        });
+        document
+            .getElementById(
+                "loginContainer"
+            )
+            .style.display =
+                "none";
 
 
-        canales.sort(
-            (a, b) =>
-                a.nombre.localeCompare(
-                    b.nombre
-                )
-        );
+        document
+            .getElementById(
+                "panel"
+            )
+            .style.display =
+                "block";
 
 
-        select.innerHTML =
-            '<option value="">Selecciona un canal</option>';
-
-
-        canales.forEach(canal => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value =
-                canal.numero;
-
-            option.textContent =
-                canal.numero
-                    ? `${canal.nombre} (${canal.numero})`
-                    : canal.nombre;
-
-            option.dataset.nombre =
-                canal.nombre;
-
-            select.appendChild(
-                option
-            );
-
-        });
+        cargarCanales();
 
 
     } catch (error) {
 
-        console.error(error);
+        status.className =
+            "status error";
 
-        select.innerHTML =
-            '<option value="">Error cargando canales</option>';
+        status.textContent =
+            error.message;
 
     }
 
 }
 
 
-document
-    .getElementById("canal")
-    .addEventListener(
-        "change",
-        function() {
+/*
+CARGAR CANALES DESDE EL CATÁLOGO
+*/
 
-            const selected =
-                this.options[
-                    this.selectedIndex
-                ];
+async function cargarCanales() {
 
-            const nombre =
-                selected.dataset.nombre;
-
-            const numero =
-                selected.value;
-
-            const info =
-                document.getElementById(
-                    "canalInfo"
-                );
-
-            if (!numero) {
-
-                info.textContent =
-                    "Selecciona un canal.";
-
-                return;
-
-            }
+    const select =
+        document.getElementById(
+            "canal"
+        );
 
 
-            info.innerHTML = `
-                <strong>
-                    Canal seleccionado
-                </strong>
+    try {
 
-                ${nombre}<br>
-
-                Número: ${numero}<br><br>
-
-                GitHub Actions buscará automáticamente
-                el icono actual de este canal y reemplazará
-                su archivo WEBP dentro de <code>icons/</code>.
-            `;
-
-        }
-    );
+        const response =
+            await fetch(
+                "../index.html"
+            );
 
 
-document
-    .getElementById("previewButton")
-    .addEventListener(
-        "click",
-        function() {
+        const texto =
+            await response.text();
 
-            const url =
-                document
-                    .getElementById(
-                        "imagenUrl"
+
+        const parser =
+            new DOMParser();
+
+
+        const documento =
+            parser.parseFromString(
+                texto,
+                "text/html"
+            );
+
+
+        const tarjetas =
+            documento.querySelectorAll(
+                ".card"
+            );
+
+
+        select.innerHTML =
+            '<option value="">Selecciona un canal</option>';
+
+
+        tarjetas.forEach(
+            tarjeta => {
+
+                const nombre =
+                    tarjeta
+                    .querySelector("h2")
+                    ?.textContent
+                    ?.trim();
+
+
+                const numero =
+                    tarjeta
+                    .querySelector(
+                        ".channel-number"
                     )
-                    .value
-                    .trim();
-
-            if (!url) {
-
-                alert(
-                    "Ingresa una URL de imagen."
-                );
-
-                return;
-
-            }
-
-
-            const image =
-                document.getElementById(
-                    "previewImage"
-                );
-
-            image.src = url;
-
-
-            document
-                .getElementById(
-                    "preview"
-                )
-                .style.display = "block";
-
-        }
-    );
-
-
-document
-    .getElementById("actualizarButton")
-    .addEventListener(
-        "click",
-        async function() {
-
-            const token =
-                document
-                    .getElementById(
-                        "token"
-                    )
-                    .value
-                    .trim();
-
-
-            const canal =
-                document
-                    .getElementById(
-                        "canal"
-                    )
-                    .value
-                    .trim();
-
-
-            const imagenUrl =
-                document
-                    .getElementById(
-                        "imagenUrl"
-                    )
-                    .value
-                    .trim();
-
-
-            const status =
-                document.getElementById(
-                    "status"
-                );
-
-
-            if (
-                !token ||
-                !canal ||
-                !imagenUrl
-            ) {
-
-                status.className =
-                    "status error";
-
-                status.textContent =
-                    "Completa todos los campos.";
-
-                return;
-
-            }
-
-
-            const button =
-                document.getElementById(
-                    "actualizarButton"
-                );
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "Enviando solicitud...";
-
-
-            status.className =
-                "status";
-
-
-            try {
-
-                const response =
-                    await fetch(
-
-                        `https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/actualizar-icono.yml/dispatches`,
-
-                        {
-
-                            method: "POST",
-
-                            headers: {
-
-                                "Accept":
-                                    "application/vnd.github+json",
-
-                                "Authorization":
-                                    `Bearer ${token}`,
-
-                                "X-GitHub-Api-Version":
-                                    "2022-11-28",
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify({
-
-                                    ref: "main",
-
-                                    inputs: {
-
-                                        canal: canal,
-
-                                        imagen_url:
-                                            imagenUrl
-
-                                    }
-
-                                })
-
-                        }
-
-                    );
+                    ?.textContent
+                    ?.replace("CANAL", "")
+                    ?.trim();
 
 
                 if (
-                    response.status === 204
+                    nombre &&
+                    numero
                 ) {
 
-                    status.className =
-                        "status success";
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
 
-                    status.innerHTML = `
-                        ✓ Solicitud enviada correctamente.<br><br>
 
-                        El workflow descargará la imagen,
-                        la convertirá a WebP y reemplazará
-                        el icono del canal seleccionado.
-                    `;
+                    option.value =
+                        numero;
 
-                } else {
 
-                    const error =
-                        await response.text();
+                    option.textContent =
+                        `${nombre} (${numero})`;
 
-                    throw new Error(
-                        error
+
+                    select.appendChild(
+                        option
                     );
 
                 }
 
-
-            } catch (error) {
-
-                console.error(error);
-
-                status.className =
-                    "status error";
-
-                status.textContent =
-                    "Error al ejecutar el workflow. "
-                    + "Verifica el token y sus permisos.";
-
             }
+        );
 
 
-            button.disabled = false;
+    } catch (error) {
 
-            button.textContent =
-                "Actualizar icono";
+        select.innerHTML =
+            '<option>Error cargando canales</option>';
+
+    }
+
+}
+
+
+/*
+VISTA PREVIA
+*/
+
+function verImagen() {
+
+    const url =
+        document
+        .getElementById(
+            "imagenUrl"
+        )
+        .value
+        .trim();
+
+
+    if (!url) {
+
+        alert(
+            "Ingresa una URL."
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "previewImage"
+        )
+        .src =
+            url;
+
+
+    document
+        .getElementById(
+            "preview"
+        )
+        .style.display =
+            "block";
+
+}
+
+
+/*
+ACTUALIZAR ICONO
+*/
+
+async function actualizarIcono() {
+
+    const canal =
+        document
+        .getElementById(
+            "canal"
+        )
+        .value;
+
+
+    const imagenUrl =
+        document
+        .getElementById(
+            "imagenUrl"
+        )
+        .value
+        .trim();
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    if (
+        !canal ||
+        !imagenUrl
+    ) {
+
+        status.className =
+            "status error";
+
+        status.textContent =
+            "Completa todos los campos.";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "actualizar",
+
+                            username:
+                                usuario,
+
+                            password:
+                                password,
+
+                            canal:
+                                canal,
+
+                            imagen_url:
+                                imagenUrl
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Error"
+            );
 
         }
-    );
 
 
-cargarCanales();
+        status.className =
+            "status success";
+
+        status.textContent =
+            "✓ Actualización iniciada correctamente.";
+
+
+    } catch (error) {
+
+        status.className =
+            "status error";
+
+        status.textContent =
+            error.message;
+
+    }
+
+}
 
 </script>
 
