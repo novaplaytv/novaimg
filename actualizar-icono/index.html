@@ -12,8 +12,6 @@
 
 <title>PANEL NOVAIMG</title>
 
-<!-- FAVICON -->
-
 <link
     rel="icon"
     type="image/webp"
@@ -21,10 +19,6 @@
 >
 
 <style>
-
-/* =========================
-   CONFIGURACIÓN GENERAL
-========================= */
 
 * {
     box-sizing: border-box;
@@ -40,59 +34,67 @@ body {
     width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
-
-    font-family:
-        Arial,
-        sans-serif;
-
+    font-family: Arial, sans-serif;
     background: #f3f4f6;
     color: #111827;
-
     display: flex;
     flex-direction: column;
 }
 
+.back-button {
+    position: fixed;
+    top: clamp(10px, 2vw, 20px);
+    right: clamp(10px, 2vw, 25px);
+    z-index: 9999;
+    width: auto;
+    min-height: auto;
+    margin: 0;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    background: white;
+    color: #111827;
+    border-radius: 10px;
+    font-size: clamp(12px, 2vw, 15px);
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,.18);
+    transition: transform .2s ease, background .2s ease;
+}
 
-/* =========================
-   HEADER
-========================= */
+.back-button:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+}
+
+.back-button:active {
+    transform: scale(.97);
+}
 
 header {
+    width: 100%;
     background: #111827;
     color: white;
-
-    padding:
-        clamp(15px, 3vw, 30px)
-        clamp(15px, 5vw, 40px);
-
-    width: 100%;
+    padding: clamp(15px, 3vw, 30px) clamp(15px, 5vw, 40px);
 }
 
 .header-container {
     width: 100%;
     max-width: 1100px;
-
     margin: auto;
-
-    display: flex;
-    align-items: center;
 }
 
 .header-title {
     display: flex;
     align-items: center;
-
     gap: clamp(10px, 2vw, 16px);
-
     min-width: 0;
 }
 
 .header-icon {
     width: clamp(40px, 7vw, 60px);
     height: clamp(40px, 7vw, 60px);
-
     object-fit: contain;
-
     flex-shrink: 0;
 }
 
@@ -102,51 +104,24 @@ header {
 
 .header-title h1 {
     margin: 0;
-
-    font-size:
-        clamp(24px, 5vw, 36px);
-
+    font-size: clamp(24px, 5vw, 36px);
     line-height: 1.1;
-
-    overflow-wrap: anywhere;
 }
 
 .header-title p {
-    margin:
-        clamp(3px, 1vw, 6px)
-        0
-        0;
-
-    font-size:
-        clamp(13px, 2.5vw, 16px);
-
+    margin: 6px 0 0;
+    font-size: clamp(13px, 2.5vw, 16px);
     opacity: .85;
-
-    overflow-wrap: anywhere;
 }
-
-
-/* =========================
-   ÁREA PRINCIPAL
-========================= */
 
 main {
     flex: 1;
-
     width: 100%;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding:
-        clamp(15px, 3vw, 35px);
+    padding: clamp(15px, 3vw, 35px);
 }
-
-
-/* =========================
-   CONTENEDORES
-========================= */
 
 .container {
     width: 100%;
@@ -160,145 +135,69 @@ main {
 
 .card {
     width: 100%;
-
     background: white;
-
-    padding:
-        clamp(18px, 4vw, 30px);
-
-    border-radius:
-        clamp(10px, 2vw, 16px);
-
-    box-shadow:
-        0 5px 25px rgba(0,0,0,.08);
-
+    padding: clamp(18px, 4vw, 30px);
+    border-radius: clamp(10px, 2vw, 16px);
+    box-shadow: 0 5px 25px rgba(0,0,0,.08);
     overflow: hidden;
 }
-
-
-/* =========================
-   PANEL
-========================= */
 
 .panel {
     display: none;
 }
 
-
-/* =========================
-   TÍTULOS
-========================= */
-
 h2 {
-    margin:
-        0
-        0
-        clamp(20px, 4vw, 30px);
-
-    font-size:
-        clamp(20px, 4vw, 28px);
-
-    overflow-wrap: anywhere;
+    margin: 0 0 clamp(20px, 4vw, 30px);
+    font-size: clamp(20px, 4vw, 28px);
 }
-
-
-/* =========================
-   FORMULARIO
-========================= */
 
 .field {
     width: 100%;
-
-    margin-bottom:
-        clamp(14px, 2vw, 20px);
+    margin-bottom: clamp(14px, 2vw, 20px);
 }
 
 label {
     display: block;
-
     font-weight: bold;
-
-    margin-bottom:
-        clamp(6px, 1vw, 9px);
-
-    font-size:
-        clamp(14px, 2vw, 16px);
+    margin-bottom: 8px;
+    font-size: clamp(14px, 2vw, 16px);
 }
 
 input,
 select {
     width: 100%;
     max-width: 100%;
-
-    padding:
-        clamp(11px, 2vw, 14px);
-
-    font-size:
-        clamp(14px, 2vw, 16px);
-
-    border:
-        1px solid #d1d5db;
-
-    border-radius:
-        8px;
-
+    padding: clamp(11px, 2vw, 14px);
+    font-size: clamp(14px, 2vw, 16px);
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
     background: white;
-
     color: #111827;
 }
 
 input:focus,
 select:focus {
     outline: none;
-
     border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(37,99,235,.15);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
 }
-
-
-/* =========================
-   BOTONES
-========================= */
 
 button {
     width: 100%;
-
     min-height: 48px;
-
-    padding:
-        clamp(12px, 2vw, 15px);
-
+    padding: clamp(12px, 2vw, 15px);
     border: none;
-
     border-radius: 8px;
-
     background: #2563eb;
-
     color: white;
-
-    font-size:
-        clamp(14px, 2vw, 16px);
-
+    font-size: clamp(14px, 2vw, 16px);
     font-weight: bold;
-
     cursor: pointer;
-
     margin-top: 10px;
-
-    transition:
-        background .2s ease,
-        transform .1s ease;
 }
 
 button:hover {
     background: #1d4ed8;
-}
-
-button:active {
-    transform: scale(.98);
 }
 
 button:disabled {
@@ -306,87 +205,44 @@ button:disabled {
     cursor: not-allowed;
 }
 
-
-/* =========================
-   MENSAJES
-========================= */
-
 .status {
     display: none;
-
     width: 100%;
-
-    margin-top:
-        clamp(15px, 3vw, 22px);
-
-    padding:
-        clamp(12px, 2vw, 16px);
-
+    margin-top: clamp(15px, 3vw, 22px);
+    padding: clamp(12px, 2vw, 16px);
     border-radius: 8px;
-
-    font-size:
-        clamp(13px, 2vw, 15px);
-
     overflow-wrap: anywhere;
 }
 
 .success {
     display: block;
-
     background: #dcfce7;
-
     color: #166534;
 }
 
 .error {
     display: block;
-
     background: #fee2e2;
-
     color: #991b1b;
 }
 
-
-/* =========================
-   VISTA PREVIA
-========================= */
-
 .preview {
     display: none;
-
     width: 100%;
-
     text-align: center;
-
-    margin-top:
-        clamp(15px, 3vw, 25px);
-
-    margin-bottom:
-        clamp(5px, 2vw, 15px);
+    margin-top: 20px;
 }
 
 .preview img {
     display: block;
-
     width: auto;
     height: auto;
-
     max-width: 100%;
-
-    max-height:
-        min(40dvh, 350px);
-
+    max-height: min(40dvh, 350px);
     margin: auto;
-
     object-fit: contain;
-
     border-radius: 8px;
 }
-
-
-/* =========================
-   TABLETS Y CELULARES
-========================= */
 
 @media (max-width: 600px) {
 
@@ -394,65 +250,17 @@ button:disabled {
         align-items: flex-start;
     }
 
-    .header-container {
-        justify-content: flex-start;
-    }
-
-    .card {
-        border-radius: 12px;
+    .back-button {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 
 }
-
-
-/* =========================
-   PANTALLAS MUY PEQUEÑAS
-========================= */
-
-@media (max-width: 360px) {
-
-    header {
-        padding: 12px;
-    }
-
-    main {
-        padding: 10px;
-    }
-
-    .card {
-        padding: 15px;
-    }
-
-    .header-title {
-        gap: 8px;
-    }
-
-}
-
-
-/* =========================
-   PANTALLAS ALTAS
-========================= */
-
-@media (min-height: 800px) {
-
-    main {
-        align-items: center;
-    }
-
-}
-
-
-/* =========================
-   PANTALLAS BAJAS
-========================= */
 
 @media (max-height: 600px) {
 
     main {
         align-items: flex-start;
-        padding-top: 15px;
-        padding-bottom: 15px;
     }
 
     .preview img {
@@ -467,10 +275,12 @@ button:disabled {
 
 <body>
 
-
-<!-- =========================
-     HEADER
-========================= -->
+<a
+    href="https://thedarksoldier996.github.io/novaimg"
+    class="back-button"
+>
+    ← Volver
+</a>
 
 <header>
 
@@ -488,9 +298,7 @@ button:disabled {
 
 <h1>NOVAIMG</h1>
 
-<p>
-Panel de actualización de Iconos
-</p>
+<p>Panel de actualización de Iconos</p>
 
 </div>
 
@@ -499,11 +307,6 @@ Panel de actualización de Iconos
 </div>
 
 </header>
-
-
-<!-- =========================
-     CONTENIDO PRINCIPAL
-========================= -->
 
 <main>
 
@@ -519,7 +322,6 @@ Panel de actualización de Iconos
 
 <h2>Iniciar sesión</h2>
 
-
 <div class="field">
 
 <label>Usuario</label>
@@ -531,7 +333,6 @@ Panel de actualización de Iconos
 >
 
 </div>
-
 
 <div class="field">
 
@@ -545,16 +346,13 @@ Panel de actualización de Iconos
 
 </div>
 
-
 <button
+    id="loginButton"
     type="button"
     onclick="iniciarSesion()"
 >
-
-Ingresar
-
+    Ingresar
 </button>
-
 
 <div
     id="loginStatus"
@@ -577,7 +375,6 @@ Ingresar
 
 <h2>Actualizar icono</h2>
 
-
 <div class="field">
 
 <label>Canal</label>
@@ -592,7 +389,6 @@ Cargando canales...
 
 </div>
 
-
 <div class="field">
 
 <label>URL de la nueva imagen</label>
@@ -605,16 +401,12 @@ Cargando canales...
 
 </div>
 
-
 <button
     type="button"
     onclick="verImagen()"
 >
-
-Vista previa
-
+    Vista previa
 </button>
-
 
 <div
     id="preview"
@@ -628,16 +420,13 @@ Vista previa
 
 </div>
 
-
 <button
+    id="updateButton"
     type="button"
     onclick="actualizarIcono()"
 >
-
-Actualizar icono
-
+    Actualizar icono
 </button>
-
 
 <div
     id="status"
@@ -647,7 +436,6 @@ Actualizar icono
 </div>
 
 </div>
-
 
 </main>
 
@@ -660,6 +448,29 @@ const API_URL =
 
 let usuario = "";
 let password = "";
+
+
+/* =========================
+   UTILIDAD
+========================= */
+
+function mostrarError(
+    elemento,
+    mensaje
+) {
+
+    const status =
+        document.getElementById(
+            elemento
+        );
+
+    status.className =
+        "status error";
+
+    status.textContent =
+        mensaje;
+
+}
 
 
 /* =========================
@@ -682,21 +493,34 @@ async function iniciarSesion() {
         .trim();
 
 
+    const boton =
+        document.getElementById(
+            "loginButton"
+        );
+
+
     const status =
-        document.getElementById("loginStatus");
+        document.getElementById(
+            "loginStatus"
+        );
 
 
     if (!usuario || !password) {
 
-        status.className =
-            "status error";
-
-        status.textContent =
-            "Completa usuario y contraseña.";
+        mostrarError(
+            "loginStatus",
+            "Completa usuario y contraseña."
+        );
 
         return;
 
     }
+
+
+    boton.disabled = true;
+
+    boton.textContent =
+        "Verificando...";
 
 
     try {
@@ -737,13 +561,17 @@ async function iniciarSesion() {
 
 
         document
-            .getElementById("loginContainer")
+            .getElementById(
+                "loginContainer"
+            )
             .style.display =
                 "none";
 
 
         document
-            .getElementById("panel")
+            .getElementById(
+                "panel"
+            )
             .style.display =
                 "block";
 
@@ -753,11 +581,34 @@ async function iniciarSesion() {
 
     } catch (error) {
 
-        status.className =
-            "status error";
+        console.error(error);
 
-        status.textContent =
-            error.message;
+
+        if (
+            error.message ===
+            "Failed to fetch"
+        ) {
+
+            mostrarError(
+                "loginStatus",
+                "No se pudo conectar con el servidor. Verifica que la Edge Function esté activa."
+            );
+
+        } else {
+
+            mostrarError(
+                "loginStatus",
+                error.message
+            );
+
+        }
+
+    } finally {
+
+        boton.disabled = false;
+
+        boton.textContent =
+            "Ingresar";
 
     }
 
@@ -771,13 +622,24 @@ async function iniciarSesion() {
 async function cargarCanales() {
 
     const select =
-        document.getElementById("canal");
+        document.getElementById(
+            "canal"
+        );
 
 
     try {
 
         const response =
-            await fetch("../index.html");
+            await fetch(
+                "../index.html"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error();
+
+        }
 
 
         const texto =
@@ -817,16 +679,23 @@ async function cargarCanales() {
 
                 const numero =
                     tarjeta
-                    .querySelector(".channel-number")
+                    .querySelector(
+                        ".channel-number"
+                    )
                     ?.textContent
-                    ?.replace("CANAL", "")
+                    ?.replace(
+                        "CANAL",
+                        ""
+                    )
                     ?.trim();
 
 
                 if (nombre && numero) {
 
                     const option =
-                        document.createElement("option");
+                        document.createElement(
+                            "option"
+                        );
 
 
                     option.value =
@@ -837,7 +706,9 @@ async function cargarCanales() {
                         `${nombre} (${numero})`;
 
 
-                    select.appendChild(option);
+                    select.appendChild(
+                        option
+                    );
 
                 }
 
@@ -845,12 +716,22 @@ async function cargarCanales() {
         );
 
 
+        if (
+            select.options.length <= 1
+        ) {
+
+            select.innerHTML =
+                '<option value="">No se encontraron canales</option>';
+
+        }
+
+
     } catch (error) {
 
         console.error(error);
 
         select.innerHTML =
-            '<option>Error cargando canales</option>';
+            '<option value="">Error cargando canales</option>';
 
     }
 
@@ -865,32 +746,36 @@ function verImagen() {
 
     const url =
         document
-        .getElementById("imagenUrl")
+        .getElementById(
+            "imagenUrl"
+        )
         .value
         .trim();
 
 
     if (!url) {
 
-        alert("Ingresa una URL.");
+        alert(
+            "Ingresa una URL."
+        );
 
         return;
 
     }
 
 
-    const imagen =
-        document.getElementById(
+    document
+        .getElementById(
             "previewImage"
-        );
-
-
-    imagen.src =
-        url;
+        )
+        .src =
+            url;
 
 
     document
-        .getElementById("preview")
+        .getElementById(
+            "preview"
+        )
         .style.display =
             "block";
 
@@ -898,39 +783,50 @@ function verImagen() {
 
 
 /* =========================
-   ACTUALIZAR ICONO
+   ACTUALIZAR
 ========================= */
 
 async function actualizarIcono() {
 
     const canal =
         document
-        .getElementById("canal")
+        .getElementById(
+            "canal"
+        )
         .value;
 
 
     const imagenUrl =
         document
-        .getElementById("imagenUrl")
+        .getElementById(
+            "imagenUrl"
+        )
         .value
         .trim();
 
 
-    const status =
-        document.getElementById("status");
+    const boton =
+        document.getElementById(
+            "updateButton"
+        );
 
 
     if (!canal || !imagenUrl) {
 
-        status.className =
-            "status error";
-
-        status.textContent =
-            "Completa todos los campos.";
+        mostrarError(
+            "status",
+            "Completa todos los campos."
+        );
 
         return;
 
     }
+
+
+    boton.disabled = true;
+
+    boton.textContent =
+        "Actualizando...";
 
 
     try {
@@ -966,14 +862,21 @@ async function actualizarIcono() {
 
             throw new Error(
                 data.error ||
-                "Error"
+                "Error al actualizar"
             );
 
         }
 
 
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
         status.className =
             "status success";
+
 
         status.textContent =
             "✓ Actualización iniciada correctamente.";
@@ -981,11 +884,23 @@ async function actualizarIcono() {
 
     } catch (error) {
 
-        status.className =
-            "status error";
+        console.error(error);
 
-        status.textContent =
-            error.message;
+
+        mostrarError(
+            "status",
+            error.message ===
+            "Failed to fetch"
+                ? "No se pudo conectar con el servidor."
+                : error.message
+        );
+
+    } finally {
+
+        boton.disabled = false;
+
+        boton.textContent =
+            "Actualizar icono";
 
     }
 
@@ -994,4 +909,5 @@ async function actualizarIcono() {
 </script>
 
 </body>
+
 </html>
