@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -343,7 +343,7 @@ button:disabled {
 
 <h1>NOVAIMG</h1>
 
-<p>Panel de actualizaciÃ³n de iconos</p>
+<p>Panel de actualización de iconos</p>
 
 </div>
 
@@ -368,7 +368,7 @@ button:disabled {
 
 <div class="card">
 
-<h2>Iniciar sesiÃ³n</h2>
+<h2>Iniciar sesión</h2>
 
 
 <div class="field">
@@ -389,7 +389,7 @@ Usuario
 <div class="field">
 
 <label for="password">
-ContraseÃ±a
+Contraseña
 </label>
 
 <input
@@ -442,7 +442,7 @@ ContraseÃ±a
     type="button"
     onclick="cerrarSesion()"
 >
-    Cerrar sesiÃ³n
+    Cerrar sesión
 </button>
 
 </div>
@@ -517,7 +517,7 @@ O subir imagen desde el dispositivo
 >
 
 <div class="upload-info">
-MÃ¡ximo permitido: 25 MB
+Máximo permitido: 25 MB
 </div>
 
 <div
@@ -576,7 +576,7 @@ MÃ¡ximo permitido: 25 MB
 
 
 /* =====================================================
-   CONFIGURACIÃ“N
+   CONFIGURACIÓN
 ===================================================== */
 
 const API_URL =
@@ -592,7 +592,7 @@ const MAX_FILE_SIZE =
 
 
 /* =====================================================
-   SESIÃ“N
+   SESIÓN
 ===================================================== */
 
 let sessionToken =
@@ -654,7 +654,7 @@ function obtenerMensajeError(
 
 
     /*
-    Mostrar exactamente quÃ© Secret falta.
+    Mostrar exactamente qué Secret falta.
     */
 
     if (
@@ -694,7 +694,7 @@ function obtenerMensajeError(
 
 
 /* =====================================================
-   PETICIÃ“N JSON
+   PETICIÓN JSON
 ===================================================== */
 
 async function fetchJSON(
@@ -743,7 +743,7 @@ async function fetchJSON(
 
         data = {
             error:
-                "El servidor devolviÃ³ una respuesta invÃ¡lida."
+                "El servidor devolvió una respuesta inválida."
         };
 
     }
@@ -758,7 +758,7 @@ async function fetchJSON(
 
 
 /* =====================================================
-   RESTAURAR SESIÃ“N
+   RESTAURAR SESIÓN
 ===================================================== */
 
 async function restaurarSesion() {
@@ -868,7 +868,7 @@ async function iniciarSesion() {
         mostrarEstado(
             "loginStatus",
             "error",
-            "Completa usuario y contraseÃ±a."
+            "Completa usuario y contraseña."
         );
 
         return;
@@ -919,7 +919,7 @@ async function iniciarSesion() {
         ) {
 
             throw new Error(
-                "El servidor no devolviÃ³ un token de sesiÃ³n."
+                "El servidor no devolvió un token de sesión."
             );
 
         }
@@ -930,7 +930,7 @@ async function iniciarSesion() {
 
 
         /*
-        Guardar sesiÃ³n.
+        Guardar sesión.
         */
 
         localStorage.setItem(
@@ -940,7 +940,7 @@ async function iniciarSesion() {
 
 
         /*
-        Limpiar contraseÃ±a del navegador.
+        Limpiar contraseña del navegador.
         */
 
         document
@@ -1002,7 +1002,7 @@ async function iniciarSesion() {
 
 
 /* =====================================================
-   CERRAR SESIÃ“N
+   CERRAR SESIÓN
 ===================================================== */
 
 function cerrarSesion() {
@@ -1087,7 +1087,7 @@ async function cargarCanales() {
         ) {
 
             throw new Error(
-                "No se pudo cargar el catÃ¡logo."
+                "No se pudo cargar el catálogo."
             );
 
         }
@@ -1251,7 +1251,7 @@ async function cargarCanales() {
         mostrarEstado(
             "status",
             "error",
-            "No se pudo leer el catÃ¡logo de canales."
+            "No se pudo leer el catálogo de canales."
         );
 
     }
@@ -1406,7 +1406,7 @@ function seleccionarArchivo() {
         mostrarEstado(
             "status",
             "error",
-            "La imagen supera el lÃ­mite mÃ¡ximo de 25 MB."
+            "La imagen supera el límite máximo de 25 MB."
         );
 
         return;
@@ -1415,7 +1415,7 @@ function seleccionarArchivo() {
 
 
     nombre.textContent =
-        `${archivo.name} â€” ${(archivo.size / 1024 / 1024).toFixed(2)} MB`;
+        `${archivo.name} — ${(archivo.size / 1024 / 1024).toFixed(2)} MB`;
 
 
     nombre.style.display =
@@ -1457,7 +1457,7 @@ function verImagenArchivo() {
         mostrarEstado(
             "status",
             "error",
-            "La imagen supera el lÃ­mite mÃ¡ximo de 25 MB."
+            "La imagen supera el límite máximo de 25 MB."
         );
 
         return;
@@ -1590,7 +1590,7 @@ async function actualizarIcono() {
         mostrarEstado(
             "status",
             "error",
-            "La imagen supera el lÃ­mite mÃ¡ximo de 25 MB."
+            "La imagen supera el límite máximo de 25 MB."
         );
 
         return;
@@ -1723,7 +1723,7 @@ async function actualizarIcono() {
 
             data = {
                 error:
-                    "El servidor devolviÃ³ una respuesta invÃ¡lida."
+                    "El servidor devolvió una respuesta inválida."
             };
 
         }
@@ -1761,7 +1761,7 @@ async function actualizarIcono() {
             "status",
             "success",
             data.message ||
-            "ActualizaciÃ³n iniciada correctamente."
+            "Actualización iniciada correctamente."
         );
 
 
@@ -1862,8 +1862,8 @@ restaurarSesion();
 
 
 <footer class="novaplay-footer">
-  <div>Â© 2026 NOVAPLAY TV</div>
-  <div>Â© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS</div>
+  <div>© 2026 NOVAPLAY TV</div>
+  <div>© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS</div>
 </footer>
 <style>
 .novaplay-footer{
@@ -1889,7 +1889,7 @@ function abrirDemoNovaPlay(){
 function pedirDemoPopup(){
   const old=document.getElementById('demo-popup-permission'); if(old) old.remove();
   document.body.insertAdjacentHTML('beforeend',
-    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acciÃ³n se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueÃ³ la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
+    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acción se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
   document.getElementById('demo-popup-open').addEventListener('click',abrirDemoNovaPlay);
   document.getElementById('demo-popup-cancel').addEventListener('click',()=>document.getElementById('demo-popup-permission').remove());
 }
