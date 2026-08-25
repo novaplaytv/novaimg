@@ -1,4 +1,4 @@
-name: Actualizar catálogo de iconos
+﻿name: Actualizar catálogo de iconos
 
 on:
   push:

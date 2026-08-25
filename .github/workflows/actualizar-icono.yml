@@ -1,4 +1,4 @@
-name: Actualizar Icono
+﻿name: Actualizar Icono
 
 on:
   workflow_dispatch:
