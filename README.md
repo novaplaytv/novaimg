@@ -1,4 +1,4 @@
-# NovaImg - Repositorio de Recursos Gráficos para NovaPlay
+﻿# NovaImg - Repositorio de Recursos Gráficos para NovaPlay
 
 Este repositorio centraliza y aloja todos los activos visuales, logotipos y recursos gráficos utilizados por el ecosistema **NovaPlay**.
 
@@ -33,6 +33,6 @@ Todos los recursos se sirven a través de la infraestructura de GitHub Raw, lo q
 
 Este repositorio es para uso técnico exclusivo de la aplicación NovaPlay. Todos los logotipos y marcas comerciales aquí alojados son propiedad de sus respectivos dueños legales y se utilizan únicamente con fines descriptivos e identificativos.
 
-Desarrollado con ❤️ por ThedarkSoldier996
+© 2026 NOVAPLAY TV
 
-© 2010 -� 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS. 
+© 2010 -� 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS. 
