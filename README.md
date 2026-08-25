@@ -19,7 +19,7 @@ Activos utilizados en diferentes secciones de la app:
 
 Todos los recursos se sirven a través de la infraestructura de GitHub Raw, lo que permite a la aplicación NovaPlay cargar las imágenes de forma dinámica mediante URLs directas:
 
-`https://raw.githubusercontent.com/ThedarkSoldier996/novaimg/main/[ruta_de_la_imagen]`
+`https://raw.githubusercontent.com/novaplaytv/novaimg/main/[ruta_de_la_imagen]`
 
 ## 🛠️ Guía para Colaboradores
 
