@@ -35,4 +35,4 @@ Este repositorio es para uso técnico exclusivo de la aplicación NovaPlay. Todo
 
 © 2026 NOVAPLAY TV
 
-© 2010 -� 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS. 
+© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS. 
