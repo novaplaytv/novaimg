@@ -35,4 +35,4 @@ Este repositorio es para uso técnico exclusivo de la aplicación NovaPlay. Todo
 
 Desarrollado con ❤️ por ThedarkSoldier996
 
-© 2010 - 2026 M.S.G.T SOLUTIONS. 
+© 2010 -� 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS. 
