@@ -406,36 +406,56 @@ def generar_html(canales):
 
 <title>NovaImg - Catálogo de Iconos</title>
 
+<link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
 <style>
 
 :root {{
-    --background: #f3f4f6;
-    --card: #ffffff;
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --accent: #2563eb;
+    --primary: #e50914;
+    --primary-hover: #b91c1c;
+    --bg: #080a10;
+    --card-bg: #11151f;
+    --input-bg: #1a1f2e;
+    --text: #ffffff;
+    --text-muted: #9aa3b2;
+    --border: #293246;
+    --accent: #e50914;
+    --nav-height: 70px;
 }}
 
 * {{
     box-sizing: border-box;
+    outline: none;
 }}
 
 body {{
     margin: 0;
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background: var(--background);
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
     color: var(--text);
+    -webkit-font-smoothing: antialiased;
 }}
 
+/* Navegación Premium - Estandarizada */
+.nova-nav {{ position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }}
+.nav-inner {{ max-width: 1400px; margin: auto; height: 70px; padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }}
+.nav-brand {{ display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }}
+.nav-brand img {{ width: 36px; height: 32px; border-radius: 8px; }}
+.nav-links {{ display: flex; gap: 15px; align-items: center; }}
+.nav-links a {{ color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }}
+.nav-links a:hover {{ color: #fff; background: rgba(255,255,255,0.05); }}
+.nav-links a.active {{ color: #e50914; }}
+.btn-login-nav, .btn-logout {{ background: #e50914; color: #fff !important; font-weight: 800 !important; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3); border: none; cursor: pointer; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 14px; transition: 0.2s; display: none; }}
+.btn-login-nav:hover, .btn-logout:hover {{ transform: scale(1.05); background: #b91c1c; }}
+
 header {{
-    background: #111827;
+    background: linear-gradient(to bottom, #11151f, var(--bg));
     color: white;
-    padding: 35px 20px;
+    padding: 120px 20px 40px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
 }}
 
 .header-content {{
@@ -443,41 +463,57 @@ header {{
     margin: auto;
 }}
 
+header img {{
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+}}
+
 h1 {{
     margin: 0;
-    font-size: 32px;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1px;
 }}
 
 .subtitle {{
     margin-top: 8px;
-    color: #d1d5db;
+    color: var(--text-muted);
+    font-size: 18px;
 }}
 
 .stats {{
     margin-top: 15px;
     font-size: 14px;
-    color: #9ca3af;
+    color: var(--primary);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }}
 
 .controls {{
     max-width: 1400px;
     margin: auto;
-    padding: 25px 20px;
+    padding: 30px 20px;
 }}
 
 #search {{
     width: 100%;
-    padding: 16px 18px;
-
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-
+    padding: 18px 25px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    color: #fff;
     font-size: 16px;
+    transition: 0.3s;
 }}
 
 #search:focus {{
-    outline: 2px solid var(--accent);
-    border-color: transparent;
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.2);
 }}
 
 .container {{
@@ -488,43 +524,22 @@ h1 {{
 
 .grid {{
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(420px, 1fr)
-        );
-
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 25px;
 }}
 
 .card {{
-    background: var(--card);
-
-    border:
-        1px
-        solid
-        var(--border);
-
-    border-radius: 14px;
-
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
     overflow: hidden;
-
-    box-shadow:
-        0 2px 8px
-        rgba(0, 0, 0, 0.04);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: 0.3s;
 }}
 
 .card:hover {{
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }}
 
 .card.hidden {{
@@ -532,90 +547,68 @@ h1 {{
 }}
 
 .card-header {{
-    padding: 18px 20px;
-
-    border-bottom:
-        1px
-        solid
-        var(--border);
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }}
 
 .channel-number {{
     font-size: 11px;
-    font-weight: bold;
-    color: var(--muted);
-    letter-spacing: 0.5px;
+    font-weight: 900;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }}
 
 .card h2 {{
-    margin: 6px 0 10px;
-    font-size: 22px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
 }}
 
 .category {{
     display: inline-block;
-
-    padding: 5px 10px;
-
-    background: #eef2ff;
-    color: #3730a3;
-
+    padding: 5px 12px;
+    background: rgba(229, 9, 20, 0.1);
+    color: var(--primary);
     border-radius: 20px;
-
     font-size: 11px;
-    font-weight: bold;
+    font-weight: 800;
 }}
 
 .card-content {{
     display: flex;
     gap: 20px;
     padding: 20px;
+    align-items: center;
 }}
 
 .icon-preview {{
-    width: 150px;
-    height: 150px;
-
-    flex-shrink: 0;
-
+    width: 120px;
+    height: 120px;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border:
-        1px
-        solid
-        var(--border);
-
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    background:
-        repeating-conic-gradient(
-            #f1f1f1 0% 25%,
-            white 0% 50%
-        )
-        50% / 24px 24px;
+    padding: 10px;
+    flex-shrink: 0;
 }}
 
 .icon-preview img {{
     max-width: 100%;
     max-height: 100%;
-
     object-fit: contain;
 }}
 
 .missing-image {{
     display: none;
-
-    padding: 15px;
-
-    color: #dc2626;
-
-    text-align: center;
-
-    font-size: 13px;
+    color: var(--error);
+    font-size: 12px;
+    font-weight: 700;
 }}
 
 .details {{
@@ -624,102 +617,74 @@ h1 {{
 }}
 
 .detail {{
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }}
 
 .label {{
     display: block;
-
-    margin-bottom: 6px;
-
-    font-size: 11px;
-    font-weight: bold;
-
-    color: var(--muted);
-
+    margin-bottom: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
     text-transform: uppercase;
 }}
 
 code {{
-    display: inline-block;
-
-    max-width: 100%;
-
-    padding: 7px 9px;
-
-    background: #f3f4f6;
-
-    border-radius: 6px;
-
-    font-size: 12px;
-
+    display: block;
+    background: #080a10;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    color: #eee;
+    border: 1px solid var(--border);
     word-break: break-all;
 }}
 
 .url-row {{
     display: flex;
-    gap: 10px;
-    align-items: flex-start;
+    gap: 8px;
+    margin-top: 5px;
 }}
 
 .icon-url {{
     flex: 1;
-
-    color: var(--accent);
-
-    font-size: 12px;
-
-    word-break: break-all;
+    color: var(--primary);
+    font-size: 11px;
+    text-decoration: none;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }}
 
 .copy-button {{
-    flex-shrink: 0;
-
-    padding: 7px 11px;
-
-    border:
-        1px
-        solid
-        #d1d5db;
-
-    background: white;
-
-    border-radius: 7px;
-
+    background: #2d3548;
+    color: #fff;
+    border: 0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
     cursor: pointer;
-
-    font-size: 12px;
 }}
 
 .copy-button:hover {{
-    background: #f3f4f6;
+    background: #3d465c;
 }}
 
 footer {{
-    padding: 30px;
-
+    padding: 50px 20px;
     text-align: center;
-
-    color: var(--muted);
-
-    font-size: 12px;
+    color: #444;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
 }}
 
-@media (max-width: 650px) {{
-
-    .grid {{
-        grid-template-columns: 1fr;
-    }}
-
-    .card-content {{
-        flex-direction: column;
-    }}
-
-    .icon-preview {{
-        width: 100%;
-        height: 200px;
-    }}
-
+@media (max-width: 768px) {{
+    .grid {{ grid-template-columns: 1fr; }}
+    .card-content {{ flex-direction: column; text-align: center; }}
+    .nav-inner {{ padding: 0 15px; }}
+    .nav-links {{ display: none; }}
 }}
 
 </style>
@@ -728,10 +693,27 @@ footer {{
 
 <body>
 
+<nav class="nova-nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="https://novaplaytv.github.io/">
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
+            NOVAPLAY
+        </a>
+        <div class="nav-links">
+            <a href="https://novaplaytv.github.io/">INICIO</a>
+            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
+            <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
+            <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
+            <a href="#" class="btn-login-nav" id="navLogin">INGRESAR</a>
+            <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
+        </div>
+    </div>
+</nav>
+
 <header>
 
     <div class="header-content">
-
+        <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay">
         <h1>📺 NovaImg</h1>
 
         <div class="subtitle">
@@ -767,10 +749,8 @@ footer {{
 </main>
 
 <footer>
-
-    Última actualización automática:
-    {fecha}
-
+    <p>© 2026 NOVAPLAY TV - Sistema de Gestión de Activos</p>
+    <p>Última actualización automática: {fecha}</p>
 </footer>
 
 <script>
@@ -841,6 +821,20 @@ function copiarURL(button) {{
 
         }});
 
+}}
+
+// Session Visibility
+if (localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token")) {{
+    document.getElementById("navLogin").style.display = 'none';
+    document.getElementById("navLogout").style.display = 'block';
+}} else {{
+    document.getElementById("navLogin").style.display = 'block';
+    document.getElementById("navLogout").style.display = 'none';
+}}
+function cerrarSesion() {{
+    localStorage.removeItem("novaimg_session_token");
+    localStorage.removeItem("novaplay_session_token");
+    location.reload();
 }}
 
 </script>

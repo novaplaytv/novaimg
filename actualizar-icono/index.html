@@ -24,22 +24,34 @@
         * { box-sizing: border-box; outline: none; }
         html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
-        /* Navegación Compacta */
-        .nova-nav { position: sticky; top: 0; z-index: 9999; background: rgba(8,10,16,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-        .nav-inner { max-width: 1300px; margin: auto; height: var(--nav-height); padding: 0 15px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-brand { display: flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-weight: 800; font-size: 16px; letter-spacing: -0.5px; }
-        .nav-brand img { width: 28px; height: 28px; border-radius: 6px; }
-
-        .nav-links { display: flex; gap: 5px; align-items: center; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: 0.2s; }
+        /* Navegación Premium - Estandarizada */
+        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .nav-inner { max-width: 1400px; margin: auto; height: 70px; padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
+        .nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }
         .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
-        .nav-links a.active { color: #fff; background: var(--primary); }
+        .nav-links a.active { color: #e50914; }
 
-        .btn-logout { background: var(--error); color: #fff; border: 0; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; display: none; margin-left: 10px; }
-        .btn-login-nav { color: #fff; text-decoration: none; font-weight: 700; font-size: 13px; margin-left: 10px; border: 1px solid var(--primary); padding: 6px 12px; border-radius: 8px; }
+        .btn-login-nav, .btn-logout {
+            background: #e50914;
+            color: #fff !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            display: none;
+            transition: 0.2s;
+        }
+        .btn-login-nav:hover, .btn-logout:hover { transform: scale(1.05); background: #b91c1c; }
 
         /* Header Compacto */
-        header { padding: 25px 15px; background: linear-gradient(to bottom, #11151f, var(--bg)); border-bottom: 1px solid var(--border); }
+        header { padding: 120px 15px 40px; background: linear-gradient(to bottom, #11151f, var(--bg)); border-bottom: 1px solid var(--border); }
         .header-container { max-width: 1200px; margin: auto; display: flex; justify-content: center; align-items: center; }
         .header-info { display: flex; align-items: center; gap: 12px; }
         .header-info img { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 0 15px rgba(229,9,20,0.2); }
@@ -102,14 +114,15 @@
 <nav class="nova-nav">
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
-            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay">
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
             NOVAPLAY
         </a>
         <div class="nav-links">
             <a href="https://novaplaytv.github.io/">INICIO</a>
-            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">DEMO</a>
-            <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales" style="display:none;">CANALES</a>
-            <a href="#" class="btn-login-nav" id="navLogin">INGRESAR</a>
+            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
+            <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos" class="active">ICONOS</a>
+            <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
+            <a href="#" class="btn-login-nav" id="navLogin" onclick="location.reload()">INGRESAR</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
     </div>
@@ -258,7 +271,11 @@
         } else { mostrarEstado("loginStatus", "error", "Acceso denegado."); btn.disabled = false; btn.textContent = "ENTRAR AL PANEL"; }
     }
 
-    function cerrarSesion() { localStorage.removeItem("novaimg_session_token"); location.reload(); }
+    function cerrarSesion() {
+        localStorage.removeItem("novaimg_session_token");
+        localStorage.removeItem("novaplay_session_token");
+        location.reload();
+    }
 
     async function cargarCanales() {
         const grid = document.getElementById("channelGrid");
