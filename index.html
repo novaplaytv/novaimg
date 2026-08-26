@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaImg - Catálogo de Iconos</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e50914">
 <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -69,15 +71,30 @@ header {
     border: 1px solid rgba(229, 9, 20, 0.2);
 }
 .controls {
-    max-width: 1400px; margin: auto; padding: 40px 20px;
+    max-width: 1400px; margin: auto; padding: 40px 20px 10px;
     position: sticky; top: 70px; z-index: 100; background: var(--bg);
 }
 #search {
     width: 100%; padding: 20px 30px; background: var(--input-bg);
     border: 1px solid var(--border); border-radius: 20px; color: #fff;
-    font-size: 16px; transition: 0.3s;
+    font-size: 16px; transition: 0.3s; margin-bottom: 20px;
 }
 #search:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.1); }
+
+.category-filters {
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px;
+    scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
+}
+.category-filters::-webkit-scrollbar { height: 4px; }
+.category-filters::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+.filter-btn {
+    background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border);
+    padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: 0.3s; white-space: nowrap;
+}
+.filter-btn:hover { background: var(--border); color: #fff; }
+.filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
 .container { max-width: 1400px; margin: auto; padding: 0 20px 80px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
 .card {
@@ -201,6 +218,40 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 </header>
 <section class="controls">
     <input id="search" type="search" placeholder="Buscar canal, categoría o nombre de archivo...">
+    <section class="category-filters">
+        <button class="filter-btn active" data-category="Todas">Todas</button>
+<button class="filter-btn" data-category="ARGENTINA">ARGENTINA</button>
+<button class="filter-btn" data-category="BRASIL">BRASIL</button>
+<button class="filter-btn" data-category="DEPORTES">DEPORTES</button>
+<button class="filter-btn" data-category="ENTRETENIMIENTO">ENTRETENIMIENTO</button>
+<button class="filter-btn" data-category="EVENTOS">EVENTOS</button>
+<button class="filter-btn" data-category="MEXICO">MEXICO</button>
+<button class="filter-btn" data-category="NIÑOS">NIÑOS</button>
+<button class="filter-btn" data-category="NOTICIAS INTERNACIONALES">NOTICIAS INTERNACIONALES</button>
+<button class="filter-btn" data-category="NOVAX">NOVAX</button>
+<button class="filter-btn" data-category="PARAGUAY">PARAGUAY</button>
+<button class="filter-btn" data-category="PLUTO TV -  ZONA PARANORMAL">PLUTO TV -  ZONA PARANORMAL</button>
+<button class="filter-btn" data-category="PLUTO TV - ANIME &amp; GAMMING">PLUTO TV - ANIME &amp; GAMMING</button>
+<button class="filter-btn" data-category="PLUTO TV - COMEDIA">PLUTO TV - COMEDIA</button>
+<button class="filter-btn" data-category="PLUTO TV - COMPETENCIAS">PLUTO TV - COMPETENCIAS</button>
+<button class="filter-btn" data-category="PLUTO TV - CURIOSIDAD">PLUTO TV - CURIOSIDAD</button>
+<button class="filter-btn" data-category="PLUTO TV - ENTRETENIMIENTO">PLUTO TV - ENTRETENIMIENTO</button>
+<button class="filter-btn" data-category="PLUTO TV - ESTILO DE VIDA">PLUTO TV - ESTILO DE VIDA</button>
+<button class="filter-btn" data-category="PLUTO TV - NIÑOS Y ADOLECENTES">PLUTO TV - NIÑOS Y ADOLECENTES</button>
+<button class="filter-btn" data-category="PLUTO TV - NOVELAS">PLUTO TV - NOVELAS</button>
+<button class="filter-btn" data-category="PLUTO TV - PELICULAS">PLUTO TV - PELICULAS</button>
+<button class="filter-btn" data-category="PLUTO TV - REALITY">PLUTO TV - REALITY</button>
+<button class="filter-btn" data-category="PLUTO TV - RETRO">PLUTO TV - RETRO</button>
+<button class="filter-btn" data-category="PLUTO TV - SERIES">PLUTO TV - SERIES</button>
+<button class="filter-btn" data-category="PLUTO TV DEPORTES">PLUTO TV DEPORTES</button>
+<button class="filter-btn" data-category="PLUTO TV INVESTIGACIÓN">PLUTO TV INVESTIGACIÓN</button>
+<button class="filter-btn" data-category="PLUTO TV MÚSICA">PLUTO TV MÚSICA</button>
+<button class="filter-btn" data-category="PLUTO TV NOTICIAS">PLUTO TV NOTICIAS</button>
+<button class="filter-btn" data-category="RELIGIOSO">RELIGIOSO</button>
+<button class="filter-btn" data-category="SECCIÓN TEST - PARA PROBAR CANALES">SECCIÓN TEST - PARA PROBAR CANALES</button>
+<button class="filter-btn" data-category="URUGUAY Y CHILE">URUGUAY Y CHILE</button>
+<button class="filter-btn" data-category="VARIADOS - INTERNACIONALES">VARIADOS - INTERNACIONALES</button>
+    </section>
 </section>
 <main class="container">
     <div class="grid" id="mainGrid">
@@ -16412,19 +16463,39 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 </main>
 <footer>
     <p>© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
-    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 26/08/2026 10:51 UTC</p>
+    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 26/08/2026 13:19 UTC</p>
 </footer>
 
 <div id="toast-container"></div>
 
 <script>
-const search = document.getElementById("search");
-search.addEventListener("input", function() {
-    const query = this.value.toLowerCase().trim();
+const searchInput = document.getElementById("search");
+const filterBtns = document.querySelectorAll(".filter-btn");
+let activeCategory = "Todas";
+
+function filterCards() {
+    const query = searchInput.value.toLowerCase().trim();
     const cards = document.querySelectorAll(".card");
+
     cards.forEach(card => {
         const searchable = card.dataset.search.toLowerCase();
-        card.classList.toggle("hidden", !searchable.includes(query));
+        const category = card.querySelector(".category").textContent;
+
+        const matchesSearch = searchable.includes(query);
+        const matchesCategory = activeCategory === "Todas" || category === activeCategory;
+
+        card.classList.toggle("hidden", !(matchesSearch && matchesCategory));
+    });
+}
+
+searchInput.addEventListener("input", filterCards);
+
+filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeCategory = btn.dataset.category;
+        filterCards();
     });
 });
 
@@ -16467,6 +16538,16 @@ function cerrarSesion() {
     localStorage.removeItem("novaplay_session_token");
     location.reload();
 }
+
+// PWA Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('SW Registered', reg))
+            .catch(err => console.log('SW registration failed', err));
+    });
+}
+
 document.addEventListener('DOMContentLoaded', checkAuth);
 </script>
 </body>
