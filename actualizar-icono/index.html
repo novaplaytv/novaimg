@@ -321,7 +321,9 @@ button:disabled {
 
 
 <body>
-<nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://novaplaytv.github.io/"><img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://novaplaytv.github.io/" class="">INICIO</a><a href="https://novaplaytv.github.io/novaimg/" class="active">NOVAIMG</a><a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://novaplaytv.github.io/panel-canales/" class=" panel-link">PANEL CANALES</a><a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" class="panel-link">PANEL IMÁGENES</a></div></nav>
+<nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://novaplaytv.github.io/"><img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://novaplaytv.github.io/" class="">INICIO</a><a href="https://novaplaytv.github.io/novaimg/" class="active">NOVAIMG</a><a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://novaplaytv.github.io/panel-canales/" class=" panel-link">PANEL CANALES</a><a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" class="panel-link">PANEL IMÁGENES</a>
+<button id="navLogout" style="display:none; margin-left:auto; width:auto; min-height:36px; padding: 7px 11px; font-size: 12px; background: #dc2626;" onclick="cerrarSesion()">Cerrar sesión</button>
+</div></nav>
 
 
 
@@ -436,14 +438,6 @@ Contraseña
 <div class="panel-header">
 
 <h2>Actualizar icono</h2>
-
-<button
-    class="logout-button"
-    type="button"
-    onclick="cerrarSesion()"
->
-    Cerrar sesión
-</button>
 
 </div>
 
@@ -808,6 +802,8 @@ async function restaurarSesion() {
             .style.display =
             "block";
 
+        document.getElementById("navLogout").style.display = "block";
+
 
         await cargarCanales();
 
@@ -966,6 +962,8 @@ async function iniciarSesion() {
             .style.display =
             "block";
 
+        document.getElementById("navLogout").style.display = "block";
+
 
         await cargarCanales();
 
@@ -1029,6 +1027,8 @@ function cerrarSesion() {
         )
         .style.display =
         "block";
+
+    document.getElementById("navLogout").style.display = "none";
 
 
     document
