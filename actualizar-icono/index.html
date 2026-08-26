@@ -206,7 +206,7 @@
 
 <script>
     const API_URL = "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
-    const CATALOGO_URL = "../index.html";
+    const CATALOGO_URL = "/novaimg/index.html";
     const MAX_FILE_SIZE = 25 * 1024 * 1024;
     let sessionToken = localStorage.getItem("novaimg_session_token") || "";
     let canalSeleccionado = "";
@@ -275,7 +275,7 @@
                 const src = card.querySelector("img")?.getAttribute("src");
                 const match = src?.match(/(?:icons\/)([^/?#]+\.webp)/i);
                 if (name && num && match) {
-                    listaCanales.push({ name, num, file: match[1], icon: src });
+                    listaCanales.push({ name, num, file: match[1], icon: "/novaimg/icons/" + match[1] });
                 }
             });
             renderGrid(listaCanales);
@@ -304,7 +304,7 @@
     function seleccionarCanal(canal) {
         canalSeleccionado = canal.file;
         document.querySelectorAll(".channel-card").forEach(el => el.classList.remove("selected"));
-        renderGrid(listaCanales); // Re-render to show selection
+        renderGrid(listaCanales);
         document.getElementById("currentIcon").src = canal.icon;
         document.getElementById("previewArea").style.display = "flex";
     }
