@@ -118,17 +118,8 @@ code {
 footer { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); background: #06080d; }
 footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 .footer-brand { font-weight: 900; color: #fff; margin-bottom: 20px; display: block; font-size: 18px; }
-@media (max-width: 900px) {
-    .nav-links { display: none; }
-}
-@media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-    .card-content { flex-direction: column; text-align: center; }
-    .icon-preview { width: 140px; height: 140px; margin: 0 auto; }
-    .url-row { flex-direction: column; align-items: stretch; }
-    .subtitle { font-size: 24px; }
-}
-/* NovaToast Styles */
+
+/* NovaToast System */
 #toast-container {
     position: fixed;
     bottom: 30px;
@@ -139,39 +130,47 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
     gap: 12px;
 }
 .nova-toast {
-    min-width: 280px;
-    padding: 16px 24px;
-    background: rgba(17, 21, 31, 0.8);
+    background: rgba(26, 31, 46, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 18px;
     color: #fff;
+    padding: 16px 24px;
+    border-radius: 16px;
     font-size: 14px;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 15px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    cursor: pointer;
+    gap: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 280px;
 }
 .nova-toast.success { border-left: 4px solid #10b981; }
 .nova-toast.error { border-left: 4px solid #ef4444; }
-.nova-toast.info { border-left: 4px solid #3b82f6; }
 .nova-toast i { font-size: 18px; }
 .nova-toast.success i { color: #10b981; }
 .nova-toast.error i { color: #ef4444; }
-.nova-toast.info i { color: #3b82f6; }
 @keyframes toastSlideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from { transform: translateX(100%) scale(0.9); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
 }
-.nova-toast.fade-out {
-    animation: toastFadeOut 0.4s ease forwards;
+.toast-fade-out {
+    animation: toastFadeOut 0.4s forwards;
 }
 @keyframes toastFadeOut {
     to { transform: translateX(20px); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .card-content { flex-direction: column; text-align: center; }
+    .icon-preview { width: 140px; height: 140px; margin: 0 auto; }
+    .url-row { flex-direction: column; align-items: stretch; }
+    .subtitle { font-size: 24px; }
 }
 </style>
 </head>
@@ -16452,12 +16451,14 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         </div>
 </main>
-<div id="toast-container"></div>
 <footer>
     <span class="footer-brand">NOVAPLAY TV</span>
     <p>© 2026 M.S.G.T SOLUTIONS - Todos los derechos reservados.</p>
-    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 26/08/2026 09:32 UTC</p>
+    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 26/08/2026 09:45 UTC</p>
 </footer>
+
+<div id="toast-container"></div>
+
 <script>
 const search = document.getElementById("search");
 search.addEventListener("input", function() {
@@ -16468,31 +16469,36 @@ search.addEventListener("input", function() {
         card.classList.toggle("hidden", !searchable.includes(query));
     });
 });
+
 function novaToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
     toast.className = `nova-toast ${type}`;
-    const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
-    toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span>`;
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+    toast.innerHTML = `
+        <i class="fas ${icon}"></i>
+        <span>${message}</span>
+    `;
+
     container.appendChild(toast);
-    const removeToast = () => {
-        toast.classList.add('fade-out');
+
+    setTimeout(() => {
+        toast.classList.add('toast-fade-out');
         setTimeout(() => toast.remove(), 400);
-    };
-    toast.onclick = removeToast;
-    setTimeout(removeToast, 4000);
+    }, 3000);
 }
+
 function copiarURL(button) {
     const url = button.dataset.url;
     navigator.clipboard.writeText(url).then(() => {
-        novaToast('URL copiada al portapapeles', 'success');
+        novaToast("URL copiada al portapapeles", "success");
         const originalText = button.innerHTML;
         button.innerHTML = '<i class="fas fa-check"></i> Copiado';
         setTimeout(() => { button.innerHTML = originalText; }, 2000);
-    }).catch(() => {
-        novaToast('Error al copiar la URL', 'error');
     });
 }
+
 function checkAuth() {
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
     document.getElementById("navLogin").style.display = token ? 'none' : 'block';
