@@ -42,11 +42,6 @@
         header h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
         header p { margin: 8px 0 0; color: var(--text-muted); font-size: 16px; }
 
-        /* Acceso Rápido */
-        .quick-access { max-width: 800px; margin: 20px auto; padding: 0 20px; display: none; justify-content: center; }
-        .btn-gallery { background: #fff; color: #000; text-decoration: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(255,255,255,0.1); transition: 0.3s; }
-        .btn-gallery:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,255,255,0.15); }
-
         /* Main */
         main { max-width: 1200px; margin: auto; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
         .card { width: 100%; max-width: 550px; background: var(--card-bg); border: 1px solid var(--border); padding: 32px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
@@ -95,7 +90,6 @@
         <div class="nav-links">
             <a href="https://novaplaytv.github.io/">INICIO</a>
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">DEMO</a>
-            <a href="https://novaplaytv.github.io/novaimg/" id="navNovaImg" style="display:none;">GALERÍA</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales" style="display:none;">CANALES</a>
             <a href="#" class="btn-login-nav" id="navLogin">INICIAR SESIÓN</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
@@ -110,12 +104,6 @@
         <p>Gestión profesional de recursos visuales</p>
     </div>
 </header>
-
-<div class="quick-access" id="quickAccess">
-    <a href="https://novaplaytv.github.io/novaimg/" class="btn-gallery">
-        <span>🖼️</span> VER GALERÍA DE ICONOS
-    </a>
-</div>
 
 <main>
     <!-- LOGIN -->
@@ -135,7 +123,12 @@
 
     <!-- PANEL DE GESTIÓN -->
     <div class="card" id="panel" style="display:none;">
-        <h2 style="margin-top:0;">Actualizar Icono de Canal</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
+            <h2 style="margin:0;">Actualizar Icono</h2>
+            <a href="https://novaplaytv.github.io/novaimg/" class="btn-secondary" style="width:auto; margin:0; padding: 10px 15px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                <span>🖼️</span> GALERÍA
+            </a>
+        </div>
 
         <div class="field">
             <label>1. Selecciona el Canal</label>
@@ -224,10 +217,8 @@
     function UI_MostrarPanel() {
         document.getElementById("loginContainer").style.display = "none";
         document.getElementById("panel").style.display = "block";
-        document.getElementById("quickAccess").style.display = "flex";
         document.getElementById("navLogout").style.display = "block";
         document.getElementById("navLogin").style.display = "none";
-        document.getElementById("navNovaImg").style.display = "inline-block";
         document.getElementById("navPanelCanales").style.display = "inline-block";
     }
 
