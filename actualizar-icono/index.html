@@ -47,34 +47,53 @@
         .header-text p { margin: 2px 0 0; color: var(--text-muted); font-size: 14px; }
 
         /* Main Content */
-        main { max-width: 1200px; margin: auto; padding: 40px 15px; display: flex; flex-direction: column; align-items: center; }
-        .card { width: 100%; max-width: 550px; background: var(--card-bg); border: 1px solid var(--border); padding: 35px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        main { max-width: 1200px; margin: auto; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; }
+        .card { width: 100%; max-width: 700px; background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+
+        /* Buscador y Grid de Canales */
+        .search-box { margin-bottom: 20px; position: relative; }
+        .search-box input { width: 100%; padding-left: 45px; background: var(--input-bg); }
+        .search-box::before { content: "🔍"; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+
+        .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; max-height: 300px; overflow-y: auto; padding: 10px; background: #080a10; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .channel-card { background: var(--card-bg); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; position: relative; }
+        .channel-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .channel-card.selected { border-color: var(--primary); background: rgba(229,9,20,0.1); box-shadow: 0 0 15px rgba(229,9,20,0.3); }
+        .channel-card img { width: 40px; height: 40px; object-fit: contain; margin-bottom: 8px; border-radius: 6px; background: #000; }
+        .channel-card span { display: block; font-size: 10px; font-weight: 700; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .channel-card .num { position: absolute; top: 5px; right: 5px; font-size: 8px; color: var(--text-muted); }
+
+        /* Dropzone area */
+        .dropzone { border: 2px dashed var(--border); border-radius: 20px; padding: 30px; text-align: center; background: var(--input-bg); transition: 0.3s; cursor: pointer; margin-bottom: 20px; }
+        .dropzone:hover, .dropzone.active { border-color: var(--primary); background: #1e2536; }
+        .dropzone p { margin: 10px 0 0; color: var(--text-muted); font-size: 14px; }
+        .dropzone b { color: #fff; }
 
         .field { margin-bottom: 24px; }
-        label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-muted); font-size: 13px; text-transform: uppercase; }
+        label { display: block; margin-bottom: 10px; font-weight: 700; color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
         input, select { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: #fff; padding: 14px 18px; border-radius: 12px; font-size: 16px; transition: 0.2s; }
-        input:focus { border-color: var(--primary); background: #1e2536; }
 
-        .btn-primary { width: 100%; background: var(--primary); color: #fff; border: 0; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
-        .btn-primary:disabled { background: #2d3548; cursor: not-allowed; transform: none; }
+        .btn-primary { width: 100%; background: var(--primary); color: #fff; border: 0; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(229,9,20,0.3); }
+        .btn-primary:disabled { background: #2d3548; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn-secondary { width: 100%; background: #2d3548; color: #fff; border: 0; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-        .btn-secondary:hover { background: #3d465c; }
+        /* Preview area */
+        .comparison { display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 20px; padding: 20px; background: #080a10; border-radius: 20px; border: 1px solid var(--border); }
+        .comp-box { text-align: center; flex: 1; }
+        .comp-box span { font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 10px; font-weight: 800; }
+        .comp-box img { width: 80px; height: 80px; object-fit: contain; border-radius: 12px; background: #111; border: 1px solid var(--border); }
+        .comp-arrow { font-size: 24px; color: var(--primary); }
 
-        /* Preview Area */
-        .preview-area { margin-top: 25px; padding: 20px; background: var(--input-bg); border-radius: 16px; border: 2px dashed var(--border); display: none; text-align: center; }
-        .preview-area img { max-width: 100%; max-height: 250px; border-radius: 12px; object-fit: contain; }
+        .status { margin-top: 20px; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 700; display: none; text-align: center; }
+        .status.success { display: block; background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid #10b981; }
+        .status.error { display: block; background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid #ef4444; }
 
-        /* Status */
-        .status { margin-top: 20px; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; text-align: center; }
-        .status.success { display: block; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
-        .status.error { display: block; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
-
-        footer { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); }
+        footer { padding: 40px 20px; text-align: center; color: #444; font-size: 12px; }
 
         @media (max-width: 600px) {
             .nav-inner { flex-direction: column; height: auto; padding: 10px; gap: 10px; }
+            .comparison { flex-direction: column; }
+            .comp-arrow { transform: rotate(90deg); }
         }
     </style>
 </head>
@@ -111,7 +130,7 @@
 <main>
     <!-- LOGIN -->
     <div class="card" id="loginContainer">
-        <h2 style="margin-top:0; text-align:center;">Acceso Administrador</h2>
+        <h2 style="margin-top:0; text-align:center;">Acceso Restringido</h2>
         <div class="field">
             <label>Usuario</label>
             <input id="username" type="text" placeholder="Usuario" autocomplete="username">
@@ -125,48 +144,58 @@
     </div>
 
     <!-- PANEL DE GESTIÓN -->
-    <div class="card" id="panel" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
-            <h2 style="margin:0;">Actualizar Icono</h2>
-            <a href="https://novaplaytv.github.io/novaimg/" class="btn-secondary" style="width:auto; margin:0; padding: 10px 15px; font-weight:800; display:flex; align-items:center; gap:8px;">
-                <span>🖼️</span> GALERÍA
-            </a>
+    <div id="panel" style="display:none; width:100%; max-width:700px;">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
+                <h2 style="margin:0;">1. Selecciona Canal</h2>
+                <a href="https://novaplaytv.github.io/novaimg/" class="btn-primary" style="width:auto; margin:0; padding: 8px 15px; font-size:12px; background:#fff; color:#000;">
+                    🖼️ VER GALERÍA
+                </a>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="channelSearch" placeholder="Buscar canal por nombre o número..." oninput="filtrarCanales()">
+            </div>
+
+            <div class="channel-grid" id="channelGrid">
+                <!-- Se carga dinámicamente -->
+            </div>
+
+            <div class="divider" style="margin: 30px 0;"></div>
+            <h2>2. Nueva Imagen</h2>
+
+            <div class="dropzone" id="dropzone" onclick="document.getElementById('imagenArchivo').click()">
+                <span style="font-size:30px;">📁</span>
+                <p>Haz clic para <b>subir un archivo</b> o arrástralo aquí</p>
+                <span style="font-size:11px; opacity:0.5;">PNG, JPG o WEBP (Máx 25MB)</span>
+                <input type="file" id="imagenArchivo" accept="image/*" style="display:none;" onchange="seleccionarArchivo()">
+            </div>
+
+            <div id="fileName" style="text-align:center; font-size:13px; font-weight:800; color:var(--success); margin-bottom:15px; display:none;"></div>
+
+            <div class="field">
+                <label>O ingresar URL externa</label>
+                <input id="imagenUrl" type="url" placeholder="https://..." oninput="verImagenUrl()">
+            </div>
+
+            <div class="comparison" id="previewArea" style="display:none;">
+                <div class="comp-box">
+                    <span>ACTUAL</span>
+                    <img id="currentIcon" src="" alt="Actual">
+                </div>
+                <div class="comp-arrow">➜</div>
+                <div class="comp-box">
+                    <span>NUEVO</span>
+                    <img id="newIcon" src="" alt="Nuevo">
+                </div>
+            </div>
+
+            <button class="btn-primary" id="updateButton" onclick="actualizarIcono()" style="margin-top:30px; font-size:16px;">
+                🚀 ACTUALIZAR ICONO AHORA
+            </button>
+
+            <div id="status" class="status"></div>
         </div>
-
-        <div class="field">
-            <label>1. Selecciona el Canal</label>
-            <select id="canal">
-                <option value="">Cargando canales...</option>
-            </select>
-        </div>
-
-        <div style="margin: 30px 0; height: 1px; background: var(--border); position: relative;">
-            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); padding: 0 15px; color: var(--text-muted); font-size: 11px; font-weight: 800;">OPCIONES DE ORIGEN</span>
-        </div>
-
-        <div class="field">
-            <label>Opción A: URL Externa</label>
-            <input id="imagenUrl" type="url" placeholder="https://..." oninput="limpiarArchivo()">
-            <button class="btn-secondary" onclick="verImagenUrl()">PREVISUALIZAR URL</button>
-        </div>
-
-        <div class="field">
-            <label>Opción B: Subir Archivo</label>
-            <input id="imagenArchivo" type="file" accept="image/*" onchange="seleccionarArchivo()">
-            <div id="fileName" style="font-size:12px; margin-top:8px; color:var(--primary); font-weight:700; display:none;"></div>
-            <button class="btn-secondary" onclick="verImagenArchivo()">PREVISUALIZAR ARCHIVO</button>
-        </div>
-
-        <div class="preview-area" id="preview">
-            <label>VISTA PREVIA</label>
-            <img id="previewImage" src="" alt="Preview">
-        </div>
-
-        <button class="btn-primary" id="updateButton" onclick="actualizarIcono()" style="margin-top:30px; background:#fff; color:#000;">
-            🚀 APLICAR CAMBIO AHORA
-        </button>
-
-        <div id="status" class="status"></div>
     </div>
 </main>
 
@@ -180,6 +209,8 @@
     const CATALOGO_URL = "../index.html";
     const MAX_FILE_SIZE = 25 * 1024 * 1024;
     let sessionToken = localStorage.getItem("novaimg_session_token") || "";
+    let canalSeleccionado = "";
+    let listaCanales = [];
 
     function mostrarEstado(id, tipo, mensaje) {
         const el = document.getElementById(id);
@@ -188,21 +219,14 @@
         el.style.display = "block";
     }
 
-    function ocultarEstado(id) {
-        const el = document.getElementById(id);
-        el.style.display = "none";
-    }
-
     async function fetchJSON(body, usarSesion = false) {
         const headers = { "Content-Type": "application/json" };
         if (usarSesion && sessionToken) headers.Authorization = "Bearer " + sessionToken;
         try {
             const response = await fetch(API_URL, { method: "POST", headers, body: JSON.stringify(body) });
-            const data = await response.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
+            const data = await response.json().catch(() => ({ error: "Respuesta inválida." }));
             return { response, data };
-        } catch (e) {
-            return { response: { ok: false }, data: { error: "Error de conexión." } };
-        }
+        } catch (e) { return { response: { ok: false }, data: { error: "Error de red." } }; }
     }
 
     async function restaurarSesion() {
@@ -224,106 +248,110 @@
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value.trim();
         const btn = document.getElementById("loginButton");
-        ocultarEstado("loginStatus");
-        if (!username || !password) { mostrarEstado("loginStatus", "error", "Ingresa tus credenciales."); return; }
-        btn.disabled = true; btn.textContent = "AUTENTICANDO...";
+        if (!username || !password) return;
+        btn.disabled = true; btn.textContent = "VERIFICANDO...";
         const { response, data } = await fetchJSON({ action: "login", username, password });
         if (response.ok && data.token) {
             sessionToken = data.token;
             localStorage.setItem("novaimg_session_token", sessionToken);
             UI_MostrarPanel(); await cargarCanales();
-        } else { mostrarEstado("loginStatus", "error", data.error || "Acceso denegado."); }
-        btn.disabled = false; btn.textContent = "ENTRAR AL PANEL";
+        } else { mostrarEstado("loginStatus", "error", "Acceso denegado."); btn.disabled = false; btn.textContent = "ENTRAR AL PANEL"; }
     }
 
-    function cerrarSesion() {
-        localStorage.removeItem("novaimg_session_token");
-        location.reload();
-    }
+    function cerrarSesion() { localStorage.removeItem("novaimg_session_token"); location.reload(); }
 
     async function cargarCanales() {
-        const select = document.getElementById("canal");
-        select.innerHTML = '<option value="">Cargando canales...</option>';
+        const grid = document.getElementById("channelGrid");
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px;">Cargando catálogo...</div>';
         try {
             const r = await fetch(CATALOGO_URL, { cache: "no-store" });
             const html = await r.text();
             const doc = new DOMParser().parseFromString(html, "text/html");
             const cards = doc.querySelectorAll(".card");
-            select.innerHTML = '<option value="">Selecciona un canal</option>';
-            let count = 0;
+            listaCanales = [];
             cards.forEach(card => {
                 const name = card.querySelector("h2")?.textContent?.trim();
                 const num = card.querySelector(".channel-number")?.textContent?.replace(/CANAL/gi, "").trim();
                 const src = card.querySelector("img")?.getAttribute("src");
                 const match = src?.match(/(?:icons\/)([^/?#]+\.webp)/i);
                 if (name && num && match) {
-                    const opt = document.createElement("option");
-                    opt.value = match[1];
-                    opt.textContent = `${name} (Canal ${num})`;
-                    select.appendChild(opt);
-                    count++;
+                    listaCanales.push({ name, num, file: match[1], icon: src });
                 }
             });
-            if (count === 0) select.innerHTML = '<option value="">No hay canales con iconos.</option>';
-        } catch (e) { mostrarEstado("status", "error", "Error al leer el catálogo."); }
+            renderGrid(listaCanales);
+        } catch (e) { grid.innerHTML = "Error al cargar canales."; }
     }
 
-    function limpiarArchivo() { document.getElementById("imagenArchivo").value = ""; document.getElementById("fileName").style.display = "none"; }
+    function renderGrid(canales) {
+        const grid = document.getElementById("channelGrid");
+        grid.innerHTML = "";
+        canales.forEach(c => {
+            const div = document.createElement("div");
+            div.className = "channel-card";
+            if (canalSeleccionado === c.file) div.classList.add("selected");
+            div.innerHTML = `<span class="num">${c.num}</span><img src="${c.icon}"><span>${c.name}</span>`;
+            div.onclick = () => seleccionarCanal(c);
+            grid.appendChild(div);
+        });
+    }
+
+    function filtrarCanales() {
+        const query = document.getElementById("channelSearch").value.toLowerCase();
+        const filtrados = listaCanales.filter(c => c.name.toLowerCase().includes(query) || c.num.includes(query));
+        renderGrid(filtrados);
+    }
+
+    function seleccionarCanal(canal) {
+        canalSeleccionado = canal.file;
+        document.querySelectorAll(".channel-card").forEach(el => el.classList.remove("selected"));
+        renderGrid(listaCanales); // Re-render to show selection
+        document.getElementById("currentIcon").src = canal.icon;
+        document.getElementById("previewArea").style.display = "flex";
+    }
 
     function seleccionarArchivo() {
-        const input = document.getElementById("imagenArchivo");
-        const file = input.files?.[0];
+        const file = document.getElementById("imagenArchivo").files[0];
+        if (!file) return;
         document.getElementById("imagenUrl").value = "";
-        if (!file) { document.getElementById("fileName").style.display = "none"; return; }
-        if (file.size > MAX_FILE_SIZE) { input.value = ""; mostrarEstado("status", "error", "Supera 25 MB."); return; }
         const nameEl = document.getElementById("fileName");
-        nameEl.textContent = `📄 ${file.name}`;
+        nameEl.textContent = `✅ ARCHIVO: ${file.name}`;
         nameEl.style.display = "block";
+        document.getElementById("newIcon").src = URL.createObjectURL(file);
     }
 
     function verImagenUrl() {
         const url = document.getElementById("imagenUrl").value.trim();
         if (!url) return;
-        const img = document.getElementById("previewImage");
-        img.onload = () => document.getElementById("preview").style.display = "block";
-        img.src = url;
-    }
-
-    function verImagenArchivo() {
-        const file = document.getElementById("imagenArchivo").files?.[0];
-        if (!file) return;
-        const img = document.getElementById("previewImage");
-        img.src = URL.createObjectURL(file);
-        document.getElementById("preview").style.display = "block";
+        document.getElementById("imagenArchivo").value = "";
+        document.getElementById("fileName").style.display = "none";
+        document.getElementById("newIcon").src = url;
     }
 
     async function actualizarIcono() {
-        const canal = document.getElementById("canal").value;
         const url = document.getElementById("imagenUrl").value.trim();
-        const file = document.getElementById("imagenArchivo").files?.[0];
+        const file = document.getElementById("imagenArchivo").files[0];
         const btn = document.getElementById("updateButton");
-        if (!canal) { mostrarEstado("status", "error", "Selecciona canal."); return; }
-        btn.disabled = true; btn.textContent = "⚡ PROCESANDO...";
+        if (!canalSeleccionado) { alert("Selecciona un canal primero."); return; }
+        btn.disabled = true; btn.textContent = "⚡ SUBIENDO...";
         try {
             let res;
             if (file) {
                 const fd = new FormData();
                 fd.append("action", "actualizar");
-                fd.append("canal", canal);
+                fd.append("canal", canalSeleccionado);
                 fd.append("imagen", file);
                 res = await fetch(API_URL, { method: "POST", headers: { "Authorization": "Bearer " + sessionToken }, body: fd });
             } else {
                 res = await fetch(API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Authorization": "Bearer " + sessionToken },
-                    body: JSON.stringify({ action: "actualizar", canal, imagen_url: url })
+                    body: JSON.stringify({ action: "actualizar", canal: canalSeleccionado, imagen_url: url })
                 });
             }
-            const data = await res.json();
-            if (res.ok) mostrarEstado("status", "success", "¡Icono actualizado!");
-            else throw new Error(data.error || "Error.");
+            if (res.ok) { mostrarEstado("status", "success", "¡Icono actualizado correctamente!"); }
+            else { throw new Error("Fallo en la actualización."); }
         } catch (e) { mostrarEstado("status", "error", e.message); }
-        btn.disabled = false; btn.textContent = "🚀 APLICAR CAMBIO AHORA";
+        btn.disabled = false; btn.textContent = "🚀 ACTUALIZAR ICONO AHORA";
     }
 
     document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
