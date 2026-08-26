@@ -321,7 +321,7 @@ button:disabled {
 
 
 <body>
-<nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://novaplaytv.github.io/"><img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://novaplaytv.github.io/" class="">INICIO</a><a href="https://novaplaytv.github.io/novaimg/" class="active">NOVAIMG</a><a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://novaplaytv.github.io/panel-canales/" class=" panel-link">PANEL CANALES</a><a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" class="panel-link">PANEL IMAGENES</a></div></nav>
+<nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://novaplaytv.github.io/"><img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://novaplaytv.github.io/" class="">INICIO</a><a href="https://novaplaytv.github.io/novaimg/" class="active">NOVAIMG</a><a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://novaplaytv.github.io/panel-canales/" class=" panel-link">PANEL CANALES</a><a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" class="panel-link">PANEL IM√ÅGENES</a></div></nav>
 
 
 
@@ -343,7 +343,7 @@ button:disabled {
 
 <h1>NOVAIMG</h1>
 
-<p>Panel de actualizaciÛn de iconos</p>
+<p>Panel de actualizaci√≥n de iconos</p>
 
 </div>
 
@@ -368,7 +368,7 @@ button:disabled {
 
 <div class="card">
 
-<h2>Iniciar sesiÛn</h2>
+<h2>Iniciar sesi√≥n</h2>
 
 
 <div class="field">
@@ -389,7 +389,7 @@ Usuario
 <div class="field">
 
 <label for="password">
-ContraseÒa
+Contrase√±a
 </label>
 
 <input
@@ -442,7 +442,7 @@ ContraseÒa
     type="button"
     onclick="cerrarSesion()"
 >
-    Cerrar sesiÛn
+    Cerrar sesi√≥n
 </button>
 
 </div>
@@ -517,7 +517,7 @@ O subir imagen desde el dispositivo
 >
 
 <div class="upload-info">
-M·ximo permitido: 25 MB
+M√°ximo permitido: 25 MB
 </div>
 
 <div
@@ -576,7 +576,7 @@ M·ximo permitido: 25 MB
 
 
 /* =====================================================
-   CONFIGURACI”N
+   CONFIGURACI√ìN
 ===================================================== */
 
 const API_URL =
@@ -592,7 +592,7 @@ const MAX_FILE_SIZE =
 
 
 /* =====================================================
-   SESI”N
+   SESI√ìN
 ===================================================== */
 
 let sessionToken =
@@ -654,7 +654,7 @@ function obtenerMensajeError(
 
 
     /*
-    Mostrar exactamente quÈ Secret falta.
+    Mostrar exactamente qu√© Secret falta.
     */
 
     if (
@@ -694,7 +694,7 @@ function obtenerMensajeError(
 
 
 /* =====================================================
-   PETICI”N JSON
+   PETICI√ìN JSON
 ===================================================== */
 
 async function fetchJSON(
@@ -743,7 +743,7 @@ async function fetchJSON(
 
         data = {
             error:
-                "El servidor devolviÛ una respuesta inv·lida."
+                "El servidor devolvi√≥ una respuesta inv√°lida."
         };
 
     }
@@ -758,7 +758,7 @@ async function fetchJSON(
 
 
 /* =====================================================
-   RESTAURAR SESI”N
+   RESTAURAR SESI√ìN
 ===================================================== */
 
 async function restaurarSesion() {
@@ -868,7 +868,7 @@ async function iniciarSesion() {
         mostrarEstado(
             "loginStatus",
             "error",
-            "Completa usuario y contraseÒa."
+            "Completa usuario y contrase√±a."
         );
 
         return;
@@ -919,7 +919,7 @@ async function iniciarSesion() {
         ) {
 
             throw new Error(
-                "El servidor no devolviÛ un token de sesiÛn."
+                "El servidor no devolvi√≥ un token de sesi√≥n."
             );
 
         }
@@ -930,7 +930,7 @@ async function iniciarSesion() {
 
 
         /*
-        Guardar sesiÛn.
+        Guardar sesi√≥n.
         */
 
         localStorage.setItem(
@@ -940,7 +940,7 @@ async function iniciarSesion() {
 
 
         /*
-        Limpiar contraseÒa del navegador.
+        Limpiar contrase√±a del navegador.
         */
 
         document
@@ -1002,7 +1002,7 @@ async function iniciarSesion() {
 
 
 /* =====================================================
-   CERRAR SESI”N
+   CERRAR SESI√ìN
 ===================================================== */
 
 function cerrarSesion() {
@@ -1087,7 +1087,7 @@ async function cargarCanales() {
         ) {
 
             throw new Error(
-                "No se pudo cargar el cat·logo."
+                "No se pudo cargar el cat√°logo."
             );
 
         }
@@ -1251,7 +1251,7 @@ async function cargarCanales() {
         mostrarEstado(
             "status",
             "error",
-            "No se pudo leer el cat·logo de canales."
+            "No se pudo leer el cat√°logo de canales."
         );
 
     }
@@ -1406,7 +1406,7 @@ function seleccionarArchivo() {
         mostrarEstado(
             "status",
             "error",
-            "La imagen supera el lÌmite m·ximo de 25 MB."
+            "La imagen supera el l√≠mite m√°ximo de 25 MB."
         );
 
         return;
@@ -1415,7 +1415,7 @@ function seleccionarArchivo() {
 
 
     nombre.textContent =
-        `${archivo.name} ó ${(archivo.size / 1024 / 1024).toFixed(2)} MB`;
+        `${archivo.name} ¬∑ ${(archivo.size / 1024 / 1024).toFixed(2)} MB`;
 
 
     nombre.style.display =
@@ -1432,8 +1432,7 @@ function verImagenArchivo() {
         );
 
 
-    const archivo =
-        input.files?.[0];
+    const archivo = input.files?.[0];
 
 
     if (!archivo) {
@@ -1457,7 +1456,7 @@ function verImagenArchivo() {
         mostrarEstado(
             "status",
             "error",
-            "La imagen supera el lÌmite m·ximo de 25 MB."
+            "La imagen supera el l√≠mite m√°ximo de 25 MB."
         );
 
         return;
@@ -1590,7 +1589,7 @@ async function actualizarIcono() {
         mostrarEstado(
             "status",
             "error",
-            "La imagen supera el lÌmite m·ximo de 25 MB."
+            "La imagen supera el l√≠mite m√°ximo de 25 MB."
         );
 
         return;
@@ -1723,7 +1722,7 @@ async function actualizarIcono() {
 
             data = {
                 error:
-                    "El servidor devolviÛ una respuesta inv·lida."
+                    "El servidor devolvi√≥ una respuesta inv√°lida."
             };
 
         }
@@ -1761,7 +1760,7 @@ async function actualizarIcono() {
             "status",
             "success",
             data.message ||
-            "ActualizaciÛn iniciada correctamente."
+            "Actualizaci√≥n iniciada correctamente."
         );
 
 
@@ -1862,8 +1861,8 @@ restaurarSesion();
 
 
 <footer class="novaplay-footer">
-  <div>© 2026 NOVAPLAY TV</div>
-  <div>© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS</div>
+  <div>¬© 2026 NOVAPLAY TV</div>
+  <div>¬© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS</div>
 </footer>
 <style>
 .novaplay-footer{
@@ -1889,7 +1888,7 @@ function abrirDemoNovaPlay(){
 function pedirDemoPopup(){
   const old=document.getElementById('demo-popup-permission'); if(old) old.remove();
   document.body.insertAdjacentHTML('beforeend',
-    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acciÛn se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueÛ la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
+    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acci√≥n se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloque√≥ la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
   document.getElementById('demo-popup-open').addEventListener('click',abrirDemoNovaPlay);
   document.getElementById('demo-popup-cancel').addEventListener('click',()=>document.getElementById('demo-popup-permission').remove());
 }
