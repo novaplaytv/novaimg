@@ -26,28 +26,27 @@ body {
 }
 .nova-nav {
     position: fixed; top: 0; width: 100%; z-index: 10000;
-    background: rgba(8, 10, 16, 0.8); backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;
 }
 .nav-inner {
-    max-width: 1400px; margin: auto; height: 70px; padding: 0 20px;
+    max-width: 1400px; margin: auto; height: 70px; padding: 0 30px;
     display: flex; align-items: center; justify-content: space-between;
 }
 .nav-brand {
     display: flex; align-items: center; gap: 12px; text-decoration: none;
     color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px;
 }
-.nav-brand img { width: 36px; height: 36px; border-radius: 8px; }
-.nav-links { display: flex; gap: 5px; align-items: center; }
+.nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
+.nav-links { display: flex; gap: 15px; align-items: center; }
 .nav-links a {
-    color: #ccc; text-decoration: none; font-size: 13px; font-weight: 600;
-    transition: 0.2s; padding: 10px 15px; border-radius: 10px; letter-spacing: 0.5px;
+    color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600;
+    transition: 0.2s; padding: 10px 15px; border-radius: 10px;
 }
 .nav-links a:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-.nav-auth { display: flex; align-items: center; gap: 10px; }
 .btn-login-nav, .btn-logout {
     background: var(--primary); color: #fff !important; font-weight: 800 !important;
-    padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 13px;
+    padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 14px;
     transition: 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.2);
     display: none;
 }
@@ -57,12 +56,12 @@ body {
 }
 header {
     background: linear-gradient(to bottom, #11151f, var(--bg));
-    padding: 140px 20px 60px; text-align: center; border-bottom: 1px solid var(--border);
+    padding: 100px 20px 30px; text-align: center; border-bottom: 1px solid var(--border);
 }
 .header-content { max-width: 800px; margin: auto; }
-.header-logo { width: 80px; height: 80px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
-.subtitle { margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -1px; color: #fff; }
-.description { margin-top: 15px; color: var(--text-muted); font-size: 18px; }
+.header-logo { width: 50px; height: 50px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+.subtitle { margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px; color: #fff; }
+.description { margin-top: 12px; color: var(--text-muted); font-size: 15px; }
 .stats {
     display: inline-block; margin-top: 25px; padding: 8px 20px;
     background: rgba(229, 9, 20, 0.1); color: var(--primary); font-size: 13px;
@@ -117,7 +116,6 @@ code {
 }
 footer { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); background: #06080d; }
 footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
-.footer-brand { font-weight: 900; color: #fff; margin-bottom: 20px; display: block; font-size: 18px; }
 
 /* NovaToast System */
 #toast-container {
@@ -186,8 +184,6 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
             <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
-        </div>
-        <div class="nav-auth">
             <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
@@ -1207,18 +1203,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ROCK &amp; POP PY 30 PARAGUAY 029.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/029.webp">
+        <article class="card" data-search="ROCK &amp;amp; POP PY 30 PARAGUAY 029.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/029.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 30</div>
-                    <h2>ROCK &amp; POP PY</h2>
+                    <h2>ROCK &amp;amp; POP PY</h2>
                 </div>
                 <div class="category">PARAGUAY</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/029.webp" alt="ROCK &amp; POP PY" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/029.webp" alt="ROCK &amp;amp; POP PY" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -6165,18 +6161,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="A&amp;E 165 ENTRETENIMIENTO 167.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/167.webp">
+        <article class="card" data-search="A&amp;amp;E 165 ENTRETENIMIENTO 167.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/167.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 165</div>
-                    <h2>A&amp;E</h2>
+                    <h2>A&amp;amp;E</h2>
                 </div>
                 <div class="category">ENTRETENIMIENTO</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/167.webp" alt="A&amp;E" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/167.webp" alt="A&amp;amp;E" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -6609,18 +6605,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DISCOVERY H&amp;H 177 ENTRETENIMIENTO 179.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/179.webp">
+        <article class="card" data-search="DISCOVERY H&amp;amp;H 177 ENTRETENIMIENTO 179.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/179.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 177</div>
-                    <h2>DISCOVERY H&amp;H</h2>
+                    <h2>DISCOVERY H&amp;amp;H</h2>
                 </div>
                 <div class="category">ENTRETENIMIENTO</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/179.webp" alt="DISCOVERY H&amp;H" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/179.webp" alt="DISCOVERY H&amp;amp;H" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -14342,13 +14338,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV ANIME 386 PLUTO TV - ANIME &amp; GAMMING 388.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/388.webp">
+        <article class="card" data-search="PLUTO.TV ANIME 386 PLUTO TV - ANIME &amp;amp; GAMMING 388.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/388.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 386</div>
                     <h2>PLUTO.TV ANIME</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14379,13 +14375,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NARUTO 24/7 387 PLUTO TV - ANIME &amp; GAMMING 389.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/389.webp">
+        <article class="card" data-search="NARUTO 24/7 387 PLUTO TV - ANIME &amp;amp; GAMMING 389.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/389.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 387</div>
                     <h2>NARUTO 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14416,13 +14412,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NARUTO SHIPPUDEN 24/7 388 PLUTO TV - ANIME &amp; GAMMING 390.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/390.webp">
+        <article class="card" data-search="NARUTO SHIPPUDEN 24/7 388 PLUTO TV - ANIME &amp;amp; GAMMING 390.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/390.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 388</div>
                     <h2>NARUTO SHIPPUDEN 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14453,13 +14449,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BORUTO 24/7 389 PLUTO TV - ANIME &amp; GAMMING 391.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/391.webp">
+        <article class="card" data-search="BORUTO 24/7 389 PLUTO TV - ANIME &amp;amp; GAMMING 391.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/391.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 389</div>
                     <h2>BORUTO 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14490,13 +14486,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="POKEMON 24/7 390 PLUTO TV - ANIME &amp; GAMMING 392.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/392.webp">
+        <article class="card" data-search="POKEMON 24/7 390 PLUTO TV - ANIME &amp;amp; GAMMING 392.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/392.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 390</div>
                     <h2>POKEMON 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14527,13 +14523,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="HUNTER X HUNTER 24/7 391 PLUTO TV - ANIME &amp; GAMMING 393.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/393.webp">
+        <article class="card" data-search="HUNTER X HUNTER 24/7 391 PLUTO TV - ANIME &amp;amp; GAMMING 393.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/393.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 391</div>
                     <h2>HUNTER X HUNTER 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14564,13 +14560,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DEATH NOTE 24/7 392 PLUTO TV - ANIME &amp; GAMMING 394.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/394.webp">
+        <article class="card" data-search="DEATH NOTE 24/7 392 PLUTO TV - ANIME &amp;amp; GAMMING 394.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/394.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 392</div>
                     <h2>DEATH NOTE 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14601,13 +14597,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="JOJO´S 24/7 393 PLUTO TV - ANIME &amp; GAMMING 395.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/395.webp">
+        <article class="card" data-search="JOJO´S 24/7 393 PLUTO TV - ANIME &amp;amp; GAMMING 395.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/395.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 393</div>
                     <h2>JOJO´S 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14638,13 +14634,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="YU-GI-OH 24/7 394 PLUTO TV - ANIME &amp; GAMMING 396.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/396.webp">
+        <article class="card" data-search="YU-GI-OH 24/7 394 PLUTO TV - ANIME &amp;amp; GAMMING 396.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/396.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 394</div>
                     <h2>YU-GI-OH 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14675,13 +14671,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CAPITAN TSUBASA 24/7 395 PLUTO TV - ANIME &amp; GAMMING 397.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/397.webp">
+        <article class="card" data-search="CAPITAN TSUBASA 24/7 395 PLUTO TV - ANIME &amp;amp; GAMMING 397.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/397.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 395</div>
                     <h2>CAPITAN TSUBASA 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14712,13 +14708,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="INUYASHA 24/7 396 PLUTO TV - ANIME &amp; GAMMING 398.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/398.webp">
+        <article class="card" data-search="INUYASHA 24/7 396 PLUTO TV - ANIME &amp;amp; GAMMING 398.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/398.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 396</div>
                     <h2>INUYASHA 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14749,13 +14745,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ONE PIECE 24/7 397 PLUTO TV - ANIME &amp; GAMMING 399.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/399.webp">
+        <article class="card" data-search="ONE PIECE 24/7 397 PLUTO TV - ANIME &amp;amp; GAMMING 399.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/399.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 397</div>
                     <h2>ONE PIECE 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14786,13 +14782,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="TOKUSATO 24/7 398 PLUTO TV - ANIME &amp; GAMMING 400.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/400.webp">
+        <article class="card" data-search="TOKUSATO 24/7 398 PLUTO TV - ANIME &amp;amp; GAMMING 400.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/400.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 398</div>
                     <h2>TOKUSATO 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -14823,13 +14819,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV E-SPORTS 399 PLUTO TV - ANIME &amp; GAMMING 401.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/401.webp">
+        <article class="card" data-search="PLUTO.TV E-SPORTS 399 PLUTO TV - ANIME &amp;amp; GAMMING 401.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/401.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 399</div>
                     <h2>PLUTO.TV E-SPORTS</h2>
                 </div>
-                <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
+                <div class="category">PLUTO TV - ANIME &amp;amp; GAMMING</div>
             </div>
 
             <div class="card-content">
@@ -16452,9 +16448,8 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </div>
 </main>
 <footer>
-    <span class="footer-brand">NOVAPLAY TV</span>
-    <p>© 2026 M.S.G.T SOLUTIONS - Todos los derechos reservados.</p>
-    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 26/08/2026 09:45 UTC</p>
+    <p>© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
+    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 26/08/2026 10:38 UTC</p>
 </footer>
 
 <div id="toast-container"></div>

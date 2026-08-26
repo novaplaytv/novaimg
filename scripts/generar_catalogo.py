@@ -6,21 +6,11 @@ from urllib.parse import urlparse
 from datetime import datetime, timezone
 
 
-JSON_URL = os.environ.get("NOVAPLAY_JSON_URL")
-
-
-if not JSON_URL:
-    raise SystemExit(
-        "ERROR: No existe la variable NOVAPLAY_JSON_URL. "
-        "Configúrala como GitHub Secret."
-    )
-
-
-def descargar_json():
+def descargar_json(url):
     print("Descargando datos de NovaPlay...")
 
     request = urllib.request.Request(
-        JSON_URL,
+        url,
         headers={
             "User-Agent": "NovaImg-Catalog-Generator/1.0"
         }
@@ -327,28 +317,27 @@ body {{
 }}
 .nova-nav {{
     position: fixed; top: 0; width: 100%; z-index: 10000;
-    background: rgba(8, 10, 16, 0.8); backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;
 }}
 .nav-inner {{
-    max-width: 1400px; margin: auto; height: 70px; padding: 0 20px;
+    max-width: 1400px; margin: auto; height: 70px; padding: 0 30px;
     display: flex; align-items: center; justify-content: space-between;
 }}
 .nav-brand {{
     display: flex; align-items: center; gap: 12px; text-decoration: none;
     color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px;
 }}
-.nav-brand img {{ width: 36px; height: 36px; border-radius: 8px; }}
-.nav-links {{ display: flex; gap: 5px; align-items: center; }}
+.nav-brand img {{ width: 36px; height: 32px; border-radius: 8px; }}
+.nav-links {{ display: flex; gap: 15px; align-items: center; }}
 .nav-links a {{
-    color: #ccc; text-decoration: none; font-size: 13px; font-weight: 600;
-    transition: 0.2s; padding: 10px 15px; border-radius: 10px; letter-spacing: 0.5px;
+    color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600;
+    transition: 0.2s; padding: 10px 15px; border-radius: 10px;
 }}
 .nav-links a:hover {{ color: #fff; background: rgba(255, 255, 255, 0.05); }}
-.nav-auth {{ display: flex; align-items: center; gap: 10px; }}
 .btn-login-nav, .btn-logout {{
     background: var(--primary); color: #fff !important; font-weight: 800 !important;
-    padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 13px;
+    padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 14px;
     transition: 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.2);
     display: none;
 }}
@@ -358,12 +347,12 @@ body {{
 }}
 header {{
     background: linear-gradient(to bottom, #11151f, var(--bg));
-    padding: 140px 20px 60px; text-align: center; border-bottom: 1px solid var(--border);
+    padding: 100px 20px 30px; text-align: center; border-bottom: 1px solid var(--border);
 }}
 .header-content {{ max-width: 800px; margin: auto; }}
-.header-logo {{ width: 80px; height: 80px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }}
-.subtitle {{ margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -1px; color: #fff; }}
-.description {{ margin-top: 15px; color: var(--text-muted); font-size: 18px; }}
+.header-logo {{ width: 50px; height: 50px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }}
+.subtitle {{ margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -1px; color: #fff; }}
+.description {{ margin-top: 12px; color: var(--text-muted); font-size: 15px; }}
 .stats {{
     display: inline-block; margin-top: 25px; padding: 8px 20px;
     background: rgba(229, 9, 20, 0.1); color: var(--primary); font-size: 13px;
@@ -418,7 +407,6 @@ code {{
 }}
 footer {{ padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); background: #06080d; }}
 footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
-.footer-brand {{ font-weight: 900; color: #fff; margin-bottom: 20px; display: block; font-size: 18px; }}
 
 /* NovaToast System */
 #toast-container {{
@@ -487,8 +475,6 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
             <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
-        </div>
-        <div class="nav-auth">
             <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
@@ -511,8 +497,7 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
     <div class="grid" id="mainGrid">{tarjetas}</div>
 </main>
 <footer>
-    <span class="footer-brand">NOVAPLAY TV</span>
-    <p>© 2026 M.S.G.T SOLUTIONS - Todos los derechos reservados.</p>
+    <p>© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
     <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: {fecha}</p>
 </footer>
 
@@ -577,7 +562,13 @@ document.addEventListener('DOMContentLoaded', checkAuth);
 
 def main():
 
-    data = descargar_json()
+    JSON_URL = os.environ.get("NOVAPLAY_JSON_URL")
+
+    if not JSON_URL:
+        print("ERROR: No existe la variable NOVAPLAY_JSON_URL.")
+        return
+
+    data = descargar_json(JSON_URL)
 
     canales = procesar_canales(
         data
