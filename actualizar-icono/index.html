@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>PANEL NOVAIMG - Gestión de Iconos</title>
     <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #e50914;
-            --primary-dark: #b91c1c;
+            --primary-hover: #b91c1c;
             --bg: #080a10;
             --card-bg: #11151f;
             --input-bg: #1a1f2e;
@@ -18,64 +18,63 @@
             --border: #293246;
             --success: #10b981;
             --error: #ef4444;
+            --nav-height: 60px;
         }
 
         * { box-sizing: border-box; outline: none; }
-        html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+        html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
-        /* Navegación */
-        .nova-nav { position: sticky; top: 0; z-index: 9999; background: rgba(8,10,16,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-        .nav-inner { max-width: 1200px; margin: auto; height: 64px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 18px; }
-        .nav-brand img { width: 32px; height: 32px; border-radius: 8px; }
-        .nav-links { display: flex; gap: 8px; align-items: center; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: 0.2s; }
+        /* Navegación Compacta */
+        .nova-nav { position: sticky; top: 0; z-index: 9999; background: rgba(8,10,16,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 1300px; margin: auto; height: var(--nav-height); padding: 0 15px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-weight: 800; font-size: 16px; letter-spacing: -0.5px; }
+        .nav-brand img { width: 28px; height: 28px; border-radius: 6px; }
+
+        .nav-links { display: flex; gap: 5px; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: 0.2s; }
         .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
         .nav-links a.active { color: #fff; background: var(--primary); }
 
-        .btn-logout { background: var(--error); color: #fff; border: 0; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; display: none; }
-        .btn-login-nav { color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; }
+        .btn-logout { background: var(--error); color: #fff; border: 0; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; display: none; margin-left: 10px; }
+        .btn-login-nav { color: #fff; text-decoration: none; font-weight: 700; font-size: 13px; margin-left: 10px; border: 1px solid var(--primary); padding: 6px 12px; border-radius: 8px; }
 
-        /* Header */
-        header { padding: 40px 20px; background: linear-gradient(to bottom, #11151f, var(--bg)); border-bottom: 1px solid var(--border); text-align: center; }
-        .header-icon { width: 64px; height: 64px; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(229,9,20,0.3)); }
-        header h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
-        header p { margin: 8px 0 0; color: var(--text-muted); font-size: 16px; }
+        /* Header Compacto */
+        header { padding: 25px 15px; background: linear-gradient(to bottom, #11151f, var(--bg)); border-bottom: 1px solid var(--border); }
+        .header-container { max-width: 1200px; margin: auto; display: flex; justify-content: center; align-items: center; }
+        .header-info { display: flex; align-items: center; gap: 12px; }
+        .header-info img { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 0 15px rgba(229,9,20,0.2); }
+        .header-text h1 { margin: 0; font-size: 22px; font-weight: 800; }
+        .header-text p { margin: 2px 0 0; color: var(--text-muted); font-size: 14px; }
 
-        /* Main */
-        main { max-width: 1200px; margin: auto; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
-        .card { width: 100%; max-width: 550px; background: var(--card-bg); border: 1px solid var(--border); padding: 32px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        /* Main Content */
+        main { max-width: 1200px; margin: auto; padding: 40px 15px; display: flex; flex-direction: column; align-items: center; }
+        .card { width: 100%; max-width: 550px; background: var(--card-bg); border: 1px solid var(--border); padding: 35px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
 
         .field { margin-bottom: 24px; }
-        label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-muted); font-size: 13px; text-transform: uppercase; }
         input, select { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: #fff; padding: 14px 18px; border-radius: 12px; font-size: 16px; transition: 0.2s; }
         input:focus { border-color: var(--primary); background: #1e2536; }
 
         .btn-primary { width: 100%; background: var(--primary); color: #fff; border: 0; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
         .btn-primary:disabled { background: #2d3548; cursor: not-allowed; transform: none; }
 
         .btn-secondary { width: 100%; background: #2d3548; color: #fff; border: 0; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
         .btn-secondary:hover { background: #3d465c; }
 
-        /* Preview */
+        /* Preview Area */
         .preview-area { margin-top: 25px; padding: 20px; background: var(--input-bg); border-radius: 16px; border: 2px dashed var(--border); display: none; text-align: center; }
         .preview-area img { max-width: 100%; max-height: 250px; border-radius: 12px; object-fit: contain; }
 
         /* Status */
-        .status { margin-top: 20px; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; }
+        .status { margin-top: 20px; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; text-align: center; }
         .status.success { display: block; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
         .status.error { display: block; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
 
-        .upload-hint { font-size: 12px; color: var(--text-muted); margin-top: 8px; display: block; }
-        .file-selected-name { margin-top: 10px; color: var(--primary); font-weight: 700; font-size: 13px; display: none; }
-
-        footer { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 13px; border-top: 1px solid var(--border); }
+        footer { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); }
 
         @media (max-width: 600px) {
-            header h1 { font-size: 26px; }
-            .card { padding: 20px; }
-            .nav-inner { padding: 0 15px; }
+            .nav-inner { flex-direction: column; height: auto; padding: 10px; gap: 10px; }
         }
     </style>
 </head>
@@ -91,7 +90,7 @@
             <a href="https://novaplaytv.github.io/">INICIO</a>
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">DEMO</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales" style="display:none;">CANALES</a>
-            <a href="#" class="btn-login-nav" id="navLogin">INICIAR SESIÓN</a>
+            <a href="#" class="btn-login-nav" id="navLogin">INGRESAR</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
     </div>
@@ -99,25 +98,29 @@
 
 <header>
     <div class="header-container">
-        <img class="header-icon" src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
-        <h1>PANEL NOVAIMG</h1>
-        <p>Gestión profesional de recursos visuales</p>
+        <div class="header-info">
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
+            <div class="header-text">
+                <h1>Panel de Iconos</h1>
+                <p>Gestión profesional de recursos</p>
+            </div>
+        </div>
     </div>
 </header>
 
 <main>
     <!-- LOGIN -->
     <div class="card" id="loginContainer">
-        <h2 style="margin-top:0; text-align:center;">Acceso Restringido</h2>
+        <h2 style="margin-top:0; text-align:center;">Acceso Administrador</h2>
         <div class="field">
-            <label>Usuario Administrador</label>
-            <input id="username" type="text" placeholder="Ingresa tu usuario" autocomplete="username">
+            <label>Usuario</label>
+            <input id="username" type="text" placeholder="Usuario" autocomplete="username">
         </div>
         <div class="field">
             <label>Contraseña</label>
             <input id="password" type="password" placeholder="••••••••" autocomplete="current-password">
         </div>
-        <button class="btn-primary" id="loginButton" onclick="iniciarSesion()">INGRESAR AL PANEL</button>
+        <button class="btn-primary" id="loginButton" onclick="iniciarSesion()">ENTRAR AL PANEL</button>
         <div id="loginStatus" class="status"></div>
     </div>
 
@@ -133,26 +136,25 @@
         <div class="field">
             <label>1. Selecciona el Canal</label>
             <select id="canal">
-                <option value="">Cargando lista de canales...</option>
+                <option value="">Cargando canales...</option>
             </select>
         </div>
 
         <div style="margin: 30px 0; height: 1px; background: var(--border); position: relative;">
-            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); padding: 0 15px; color: var(--text-muted); font-size: 12px; font-weight: 800;">OPCIONES DE ORIGEN</span>
+            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); padding: 0 15px; color: var(--text-muted); font-size: 11px; font-weight: 800;">OPCIONES DE ORIGEN</span>
         </div>
 
         <div class="field">
-            <label>Opción A: Desde URL Externa</label>
-            <input id="imagenUrl" type="url" placeholder="https://ejemplo.com/logo.png" oninput="limpiarArchivo()">
-            <button class="btn-secondary" onclick="verImagenUrl()">VISTA PREVIA DE URL</button>
+            <label>Opción A: URL Externa</label>
+            <input id="imagenUrl" type="url" placeholder="https://..." oninput="limpiarArchivo()">
+            <button class="btn-secondary" onclick="verImagenUrl()">PREVISUALIZAR URL</button>
         </div>
 
         <div class="field">
-            <label>Opción B: Subir Archivo Local</label>
+            <label>Opción B: Subir Archivo</label>
             <input id="imagenArchivo" type="file" accept="image/*" onchange="seleccionarArchivo()">
-            <span class="upload-hint">Formatos: PNG, JPG, WEBP. Máximo: 25 MB</span>
-            <div id="fileName" class="file-selected-name"></div>
-            <button class="btn-secondary" onclick="verImagenArchivo()">VISTA PREVIA DE ARCHIVO</button>
+            <div id="fileName" style="font-size:12px; margin-top:8px; color:var(--primary); font-weight:700; display:none;"></div>
+            <button class="btn-secondary" onclick="verImagenArchivo()">PREVISUALIZAR ARCHIVO</button>
         </div>
 
         <div class="preview-area" id="preview">
@@ -160,8 +162,8 @@
             <img id="previewImage" src="" alt="Preview">
         </div>
 
-        <button class="btn-primary" id="updateButton" onclick="actualizarIcono()" style="margin-top:30px; background: #fff; color: #000;">
-            🚀 APLICAR CAMBIO DE ICONO
+        <button class="btn-primary" id="updateButton" onclick="actualizarIcono()" style="margin-top:30px; background:#fff; color:#000;">
+            🚀 APLICAR CAMBIO AHORA
         </button>
 
         <div id="status" class="status"></div>
@@ -199,19 +201,15 @@
             const data = await response.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
             return { response, data };
         } catch (e) {
-            return { response: { ok: false }, data: { error: "Error de conexión con el servidor." } };
+            return { response: { ok: false }, data: { error: "Error de conexión." } };
         }
     }
 
     async function restaurarSesion() {
         if (!sessionToken) return;
         const { response } = await fetchJSON({ action: "verificar_sesion" }, true);
-        if (response.ok) {
-            UI_MostrarPanel();
-            await cargarCanales();
-        } else {
-            cerrarSesion();
-        }
+        if (response.ok) { UI_MostrarPanel(); await cargarCanales(); }
+        else { cerrarSesion(); }
     }
 
     function UI_MostrarPanel() {
@@ -227,27 +225,19 @@
         const password = document.getElementById("password").value.trim();
         const btn = document.getElementById("loginButton");
         ocultarEstado("loginStatus");
-        if (!username || !password) {
-            mostrarEstado("loginStatus", "error", "Ingresa tus credenciales.");
-            return;
-        }
+        if (!username || !password) { mostrarEstado("loginStatus", "error", "Ingresa tus credenciales."); return; }
         btn.disabled = true; btn.textContent = "AUTENTICANDO...";
         const { response, data } = await fetchJSON({ action: "login", username, password });
         if (response.ok && data.token) {
             sessionToken = data.token;
             localStorage.setItem("novaimg_session_token", sessionToken);
-            document.getElementById("password").value = "";
-            UI_MostrarPanel();
-            await cargarCanales();
-        } else {
-            mostrarEstado("loginStatus", "error", data.error || "Acceso denegado.");
-        }
-        btn.disabled = false; btn.textContent = "INGRESAR AL PANEL";
+            UI_MostrarPanel(); await cargarCanales();
+        } else { mostrarEstado("loginStatus", "error", data.error || "Acceso denegado."); }
+        btn.disabled = false; btn.textContent = "ENTRAR AL PANEL";
     }
 
     function cerrarSesion() {
         localStorage.removeItem("novaimg_session_token");
-        sessionToken = "";
         location.reload();
     }
 
@@ -275,46 +265,33 @@
                 }
             });
             if (count === 0) select.innerHTML = '<option value="">No hay canales con iconos.</option>';
-        } catch (e) {
-            mostrarEstado("status", "error", "Error al leer el catálogo local.");
-        }
+        } catch (e) { mostrarEstado("status", "error", "Error al leer el catálogo."); }
     }
 
-    function limpiarArchivo() {
-        document.getElementById("imagenArchivo").value = "";
-        document.getElementById("fileName").style.display = "none";
-    }
+    function limpiarArchivo() { document.getElementById("imagenArchivo").value = ""; document.getElementById("fileName").style.display = "none"; }
 
     function seleccionarArchivo() {
         const input = document.getElementById("imagenArchivo");
         const file = input.files?.[0];
         document.getElementById("imagenUrl").value = "";
-        if (!file) {
-            document.getElementById("fileName").style.display = "none";
-            return;
-        }
-        if (file.size > MAX_FILE_SIZE) {
-            input.value = "";
-            mostrarEstado("status", "error", "El archivo supera los 25 MB.");
-            return;
-        }
+        if (!file) { document.getElementById("fileName").style.display = "none"; return; }
+        if (file.size > MAX_FILE_SIZE) { input.value = ""; mostrarEstado("status", "error", "Supera 25 MB."); return; }
         const nameEl = document.getElementById("fileName");
-        nameEl.textContent = `📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        nameEl.textContent = `📄 ${file.name}`;
         nameEl.style.display = "block";
     }
 
     function verImagenUrl() {
         const url = document.getElementById("imagenUrl").value.trim();
-        if (!url) { mostrarEstado("status", "error", "Escribe una URL."); return; }
+        if (!url) return;
         const img = document.getElementById("previewImage");
         img.onload = () => document.getElementById("preview").style.display = "block";
-        img.onerror = () => mostrarEstado("status", "error", "URL de imagen no válida.");
         img.src = url;
     }
 
     function verImagenArchivo() {
         const file = document.getElementById("imagenArchivo").files?.[0];
-        if (!file) { mostrarEstado("status", "error", "Sube una imagen."); return; }
+        if (!file) return;
         const img = document.getElementById("previewImage");
         img.src = URL.createObjectURL(file);
         document.getElementById("preview").style.display = "block";
@@ -325,10 +302,7 @@
         const url = document.getElementById("imagenUrl").value.trim();
         const file = document.getElementById("imagenArchivo").files?.[0];
         const btn = document.getElementById("updateButton");
-        ocultarEstado("status");
-        if (!canal) { mostrarEstado("status", "error", "Selecciona un canal."); return; }
-        if (!url && !file) { mostrarEstado("status", "error", "Elige una imagen."); return; }
-
+        if (!canal) { mostrarEstado("status", "error", "Selecciona canal."); return; }
         btn.disabled = true; btn.textContent = "⚡ PROCESANDO...";
         try {
             let res;
@@ -346,46 +320,14 @@
                 });
             }
             const data = await res.json();
-            if (res.ok) {
-                mostrarEstado("status", "success", data.message || "¡Icono actualizado!");
-                limpiarArchivo(); document.getElementById("imagenUrl").value = "";
-            } else {
-                if (res.status === 401) cerrarSesion();
-                throw new Error(data.error || "Error al actualizar.");
-            }
-        } catch (e) {
-            mostrarEstado("status", "error", e.message);
-        }
-        btn.disabled = false; btn.textContent = "🚀 APLICAR CAMBIO DE ICONO";
+            if (res.ok) mostrarEstado("status", "success", "¡Icono actualizado!");
+            else throw new Error(data.error || "Error.");
+        } catch (e) { mostrarEstado("status", "error", e.message); }
+        btn.disabled = false; btn.textContent = "🚀 APLICAR CAMBIO AHORA";
     }
 
     document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
     restaurarSesion();
-</script>
-
-<script>
-function abrirDemoNovaPlay(){
-  const url='https://novaplaytv.github.io/DEMO-NOVAPLAY/';
-  const w=Math.min(1280,Math.max(800,Math.round(screen.availWidth*.9)));
-  const h=Math.min(820,Math.max(600,Math.round(screen.availHeight*.86)));
-  const left=Math.max(0,Math.round((screen.availWidth-w)/2));
-  const top=Math.max(0,Math.round((screen.availHeight-h)/2));
-  const win=window.open(url,'NOVAPLAY_DEMO','popup=yes,width='+w+',height='+h+',left='+left+',top='+top+',resizable=yes,scrollbars=yes');
-  if(win){win.focus();document.getElementById('demo-popup-permission')?.remove();}
-  else{document.getElementById('demo-popup-blocked').style.display='block';}
-}
-function pedirDemoPopup(){
-  const old=document.getElementById('demo-popup-permission'); if(old) old.remove();
-  document.body.insertAdjacentHTML('beforeend',
-    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acción se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
-  document.getElementById('demo-popup-open').addEventListener('click',abrirDemoNovaPlay);
-  document.getElementById('demo-popup-cancel').addEventListener('click',()=>document.getElementById('demo-popup-permission').remove());
-}
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('a[href="https://novaplaytv.github.io/DEMO-NOVAPLAY/"]').forEach(a=>{
-    a.addEventListener('click',e=>{e.preventDefault();pedirDemoPopup();});
-  });
-});
 </script>
 </body>
 </html>
