@@ -52,15 +52,8 @@
         .btn-login-nav:hover, .btn-logout:hover { transform: scale(1.05); background: var(--primary-hover); }
         .btn-logout { background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
 
-        /* Header */
-        header { padding: calc(var(--nav-height) + 40px) 20px 40px; background: linear-gradient(to bottom, #11151f, var(--bg)); border-bottom: 1px solid var(--border); text-align: center; }
-        .header-info { display: inline-flex; align-items: center; gap: 15px; }
-        .header-info img { width: 50px; height: 50px; border-radius: 12px; box-shadow: 0 0 20px rgba(229,9,20,0.3); }
-        .header-text h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-        .header-text p { margin: 5px 0 0; color: var(--text-muted); font-size: 14px; font-weight: 500; }
-
         /* Main Content */
-        main { max-width: 900px; margin: auto; padding: 30px 20px; }
+        main { max-width: 900px; margin: auto; padding: calc(var(--nav-height) + 40px) 20px 40px; }
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 35px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); width: 100%; }
 
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -106,7 +99,9 @@
         .channel-card.selected { border-color: var(--primary); background: rgba(229,9,20,0.1); box-shadow: 0 0 15px rgba(229,9,20,0.2); }
         .channel-card img { width: 50px; height: 50px; object-fit: contain; border-radius: 10px; background: #000; padding: 3px; }
         .channel-card span { font-size: 12px; font-weight: 700; color: #fff; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .channel-card .num { position: absolute; top: 6px; right: 10px; font-size: 9px; color: var(--text-muted); font-weight: 700; }
+
+        /* Channel number removed as requested */
+        /* .channel-card .num { position: absolute; top: 6px; right: 10px; font-size: 9px; color: var(--text-muted); font-weight: 700; } */
 
         /* Dropzone */
         .dropzone { border: 2px dashed var(--border); border-radius: 24px; padding: 50px 20px; text-align: center; background: var(--input-bg); transition: 0.3s; cursor: pointer; margin-bottom: 25px; }
@@ -150,7 +145,7 @@
         .comp-box img { width: 110px; height: 110px; object-fit: contain; border-radius: 18px; background: #000; border: 1px solid var(--border); padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .comp-arrow { font-size: 28px; color: var(--primary); font-weight: bold; }
 
-        /* Auth Overlay (EXACT as requested) */
+        /* Auth Overlay */
         #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
         .auth-card { width: 400px; padding: 50px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); text-align: center; }
 
@@ -158,7 +153,7 @@
         .status.success { background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid var(--success); }
         .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
 
-        /* Toast Notification System (Glassmorphism Style) */
+        /* Toast Notification System */
         #toast-container {
             position: fixed;
             bottom: 20px;
@@ -245,9 +240,7 @@
             .nav-inner { padding: 0 20px; }
             .nav-links a:not(.active) { display: none; }
             .nav-brand span { display: none; }
-            header { padding: calc(var(--nav-height) + 30px) 15px 30px; }
-            .header-text h1 { font-size: 22px; }
-            main { padding: 15px; }
+            main { padding: calc(var(--nav-height) + 20px) 15px 30px; }
             .card { padding: 25px; border-radius: 22px; }
             .channel-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); padding: 10px; }
             .comparison { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
@@ -286,7 +279,7 @@
     </div>
 </nav>
 
-<!-- Auth View (EXACT as panel-canales) -->
+<!-- Auth View -->
 <div id="auth-view">
     <div class="auth-card">
         <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
@@ -304,24 +297,18 @@
 </div>
 
 <script>
-    // Immediate hide if session exists
     if (localStorage.getItem("novaplay_session_token")) {
         document.getElementById("auth-view").classList.add("hidden");
     }
 </script>
 
-<header>
-    <div class="header-info">
-        <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
-        <div class="header-text">
-            <h1>Panel de Gestión de Iconos</h1>
-            <p>Sube y actualiza los logos de los canales en tiempo real</p>
-        </div>
-    </div>
-</header>
-
 <main>
     <div class="card">
+        <div style="margin-bottom: 35px; border-bottom: 1px solid var(--border); padding-bottom: 25px; text-align: center;">
+            <h1 style="font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px;">Gestión de Iconos</h1>
+            <p style="color: var(--text-muted); font-size: 15px; font-weight: 500;">Sube y actualiza los logos de los canales en tiempo real</p>
+        </div>
+
         <div class="section-header">
             <h2>1. Selecciona el Canal</h2>
             <a href="https://novaplaytv.github.io/novaimg/" target="_blank" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none;">
@@ -330,7 +317,7 @@
         </div>
 
         <div class="search-box">
-            <input type="text" id="channelSearch" placeholder="Escribe el nombre o número del canal..." oninput="filtrarCanales()">
+            <input type="text" id="channelSearch" placeholder="Escribe el nombre del canal..." oninput="filtrarCanales()">
         </div>
 
         <div class="channel-grid" id="channelGrid">
@@ -417,7 +404,7 @@
         }, 5000);
     }
 
-    // --- Auth Logic (Consistent with panel-canales) ---
+    // --- Auth Logic ---
     function mostrarEstado(id, tipo, mensaje) {
         const el = document.getElementById(id);
         if (!el) return;
@@ -460,14 +447,18 @@
 
     function UI_MostrarPanel() {
         document.getElementById("auth-view").classList.add("hidden");
-        document.getElementById("navLogin").style.display = 'none';
-        document.getElementById("navLogout").style.display = 'block';
+        const navLogin = document.getElementById("navLogin");
+        const navLogout = document.getElementById("navLogout");
+        if(navLogin) navLogin.style.display = 'none';
+        if(navLogout) navLogout.style.display = 'block';
     }
 
     function UI_MostrarLogin() {
         document.getElementById("auth-view").classList.remove("hidden");
-        document.getElementById("navLogin").style.display = 'block';
-        document.getElementById("navLogout").style.display = 'none';
+        const navLogin = document.getElementById("navLogin");
+        const navLogout = document.getElementById("navLogout");
+        if(navLogin) navLogin.style.display = 'block';
+        if(navLogout) navLogout.style.display = 'none';
     }
 
     async function iniciarSesion() {
@@ -546,7 +537,6 @@
             if (canalSeleccionado === c.file) div.classList.add("selected");
 
             div.innerHTML = `
-                <span class="num">${c.num}</span>
                 <img src="${c.icon}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
                 <span>${c.name}</span>
             `;
@@ -559,7 +549,7 @@
         const query = document.getElementById("channelSearch").value.toLowerCase();
         const filtrados = listaCanales.filter(c =>
             c.name.toLowerCase().includes(query) ||
-            c.num.includes(query)
+            c.num.toLowerCase().includes(query)
         );
         renderGrid(filtrados);
     }
@@ -568,7 +558,6 @@
         canalSeleccionado = canal.file;
         document.querySelectorAll(".channel-card").forEach(el => el.classList.remove("selected"));
 
-        // Find visual card
         const cards = document.querySelectorAll(".channel-card");
         cards.forEach(card => {
             if(card.querySelector('span:last-child').textContent === canal.name) {
@@ -674,7 +663,6 @@
         }
     }
 
-    // Drag & Drop Handling
     const dropzone = document.getElementById('dropzone');
     dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('active'); });
     dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('active'); });
