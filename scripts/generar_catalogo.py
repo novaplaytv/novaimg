@@ -289,12 +289,21 @@ def generar_html(canales):
     fecha = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
     tarjetas = generar_tarjetas(canales)
 
+    # Extract unique categories
+    categorias = sorted(list(set(c['categoria'] for c in canales)))
+
+    filtro_botones = '<button class="filter-btn active" data-category="Todas">Todas</button>'
+    for cat in categorias:
+        filtro_botones += f'\n<button class="filter-btn" data-category="{html.escape(cat)}">{html.escape(cat)}</button>'
+
     return f"""<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaImg - Catálogo de Iconos</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e50914">
 <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -360,15 +369,30 @@ header {{
     border: 1px solid rgba(229, 9, 20, 0.2);
 }}
 .controls {{
-    max-width: 1400px; margin: auto; padding: 40px 20px;
+    max-width: 1400px; margin: auto; padding: 40px 20px 10px;
     position: sticky; top: 70px; z-index: 100; background: var(--bg);
 }}
 #search {{
     width: 100%; padding: 20px 30px; background: var(--input-bg);
     border: 1px solid var(--border); border-radius: 20px; color: #fff;
-    font-size: 16px; transition: 0.3s;
+    font-size: 16px; transition: 0.3s; margin-bottom: 20px;
 }}
 #search:focus {{ border-color: var(--primary); box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.1); }}
+
+.category-filters {{
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px;
+    scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
+}}
+.category-filters::-webkit-scrollbar {{ height: 4px; }}
+.category-filters::-webkit-scrollbar-thumb {{ background: var(--primary); border-radius: 10px; }}
+.filter-btn {{
+    background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border);
+    padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: 0.3s; white-space: nowrap;
+}}
+.filter-btn:hover {{ background: var(--border); color: #fff; }}
+.filter-btn.active {{ background: var(--primary); color: #fff; border-color: var(--primary); }}
+
 .container {{ max-width: 1400px; margin: auto; padding: 0 20px 80px; }}
 .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }}
 .card {{
@@ -492,6 +516,9 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 </header>
 <section class="controls">
     <input id="search" type="search" placeholder="Buscar canal, categoría o nombre de archivo...">
+    <section class="category-filters">
+        {filtro_botones}
+    </section>
 </section>
 <main class="container">
     <div class="grid" id="mainGrid">{tarjetas}</div>
@@ -504,13 +531,33 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 <div id="toast-container"></div>
 
 <script>
-const search = document.getElementById("search");
-search.addEventListener("input", function() {{
-    const query = this.value.toLowerCase().trim();
+const searchInput = document.getElementById("search");
+const filterBtns = document.querySelectorAll(".filter-btn");
+let activeCategory = "Todas";
+
+function filterCards() {{
+    const query = searchInput.value.toLowerCase().trim();
     const cards = document.querySelectorAll(".card");
+
     cards.forEach(card => {{
         const searchable = card.dataset.search.toLowerCase();
-        card.classList.toggle("hidden", !searchable.includes(query));
+        const category = card.querySelector(".category").textContent;
+
+        const matchesSearch = searchable.includes(query);
+        const matchesCategory = activeCategory === "Todas" || category === activeCategory;
+
+        card.classList.toggle("hidden", !(matchesSearch && matchesCategory));
+    }});
+}}
+
+searchInput.addEventListener("input", filterCards);
+
+filterBtns.forEach(btn => {{
+    btn.addEventListener("click", () => {{
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeCategory = btn.dataset.category;
+        filterCards();
     }});
 }});
 
@@ -553,6 +600,16 @@ function cerrarSesion() {{
     localStorage.removeItem("novaplay_session_token");
     location.reload();
 }}
+
+// PWA Registration
+if ('serviceWorker' in navigator) {{
+    window.addEventListener('load', () => {{
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('SW Registered', reg))
+            .catch(err => console.log('SW registration failed', err));
+    }});
+}}
+
 document.addEventListener('DOMContentLoaded', checkAuth);
 </script>
 </body>
