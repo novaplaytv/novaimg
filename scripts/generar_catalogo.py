@@ -139,15 +139,15 @@ def generar_tarjetas(canales):
 
                 <div class="details">
                     <div class="detail">
-                        <span class="label" data-i18n="file">Archivo</span>
+                        <span class="label">Archivo</span>
                         <code>{icono}</code>
                     </div>
                     <div class="detail">
-                        <span class="label" data-i18n="originUrl">URL Origen</span>
+                        <span class="label">URL Origen</span>
                         <div class="url-row">
                             <a href="{icono_url}" target="_blank" rel="noopener noreferrer" class="icon-url">{icono_url}</a>
                             <button class="copy-button" data-url="{icono_url}" onclick="copiarURL(this)" title="Copiar URL">
-                                <i class="fas fa-copy"></i> <span data-i18n="copy">Copiar</span>
+                                <i class="fas fa-copy"></i> <span>Copiar</span>
                             </button>
                         </div>
                     </div>
@@ -164,7 +164,7 @@ def generar_html(canales):
     tarjetas = generar_tarjetas(canales)
     categorias = sorted(list(set(c['categoria'] for c in canales)))
 
-    filtro_botones = '<button class="filter-btn active" data-category="Todas" data-i18n="all">Todas</button>'
+    filtro_botones = '<button class="filter-btn active" data-category="Todas">Todas</button>'
     for cat in categorias:
         filtro_botones += f'\n<button class="filter-btn" data-category="{html.escape(cat)}">{html.escape(cat)}</button>'
 
@@ -216,13 +216,6 @@ body {{
     transition: 0.2s; padding: 10px 15px; border-radius: 10px;
 }}
 .nav-links a:hover {{ color: #fff; background: rgba(255, 255, 255, 0.05); }}
-
-.lang-toggle {{
-    background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border);
-    padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700;
-    cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
-}}
-.lang-toggle:hover {{ background: rgba(255, 255, 255, 0.1); border-color: var(--primary); }}
 
 .btn-login-nav, .btn-logout {{
     background: var(--primary); color: #fff !important; font-weight: 800 !important;
@@ -358,7 +351,6 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
             <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
-            <button class="lang-toggle" onclick="toggleLanguage()" title="Cambiar Idioma">🌐 <span id="langLabel">EN</span></button>
             <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
@@ -367,10 +359,10 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 <header>
     <div class="header-content">
         <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
-        <h1 class="subtitle" data-i18n="title">Catálogo de Activos</h1>
-        <p class="description" data-i18n="subtitle">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
+        <h1 class="subtitle">Catálogo de Activos</h1>
+        <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
         <div class="stats">
-            <i class="fas fa-tv"></i> &nbsp; {len(canales)} <span data-i18n="indexed">canales indexados</span>
+            <i class="fas fa-tv"></i> &nbsp; {len(canales)} canales indexados
         </div>
     </div>
 </header>
@@ -391,54 +383,6 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 <div id="toast-container"></div>
 
 <script>
-const translations = {{
-    es: {{
-        title: "Catálogo de Activos",
-        subtitle: "Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.",
-        indexed: "canales indexados",
-        searchPlaceholder: "Buscar canal, categoría o nombre de archivo...",
-        all: "Todas",
-        file: "Archivo",
-        originUrl: "URL Origen",
-        copy: "Copiar",
-        copied: "Copiado",
-        urlCopied: "URL copiada al portapapeles"
-    }},
-    en: {{
-        title: "Asset Catalog",
-        subtitle: "Centralized management of channels, logos, and visual identities for the NovaPlay ecosystem.",
-        indexed: "indexed channels",
-        searchPlaceholder: "Search channel, category, or file name...",
-        all: "All",
-        file: "File",
-        originUrl: "Origin URL",
-        copy: "Copy",
-        copied: "Copied",
-        urlCopied: "URL copied to clipboard"
-    }}
-}};
-
-let currentLang = localStorage.getItem("novaimg_lang") || "es";
-
-function updateLanguage() {{
-    document.querySelectorAll("[data-i18n]").forEach(el => {{
-        const key = el.dataset.i18n;
-        if (translations[currentLang][key]) {{
-            el.textContent = translations[currentLang][key];
-        }}
-    }});
-
-    document.getElementById("search").placeholder = translations[currentLang].searchPlaceholder;
-    document.getElementById("langLabel").textContent = currentLang === "es" ? "EN" : "ES";
-    document.documentElement.lang = currentLang;
-}}
-
-function toggleLanguage() {{
-    currentLang = currentLang === "es" ? "en" : "es";
-    localStorage.setItem("novaimg_lang", currentLang);
-    updateLanguage();
-}}
-
 const searchInput = document.getElementById("search");
 const filterBtns = document.querySelectorAll(".filter-btn");
 let activeCategory = "Todas";
@@ -491,11 +435,11 @@ function novaToast(message, type = 'success') {{
 function copiarURL(button) {{
     const url = button.dataset.url;
     navigator.clipboard.writeText(url).then(() => {{
-        novaToast(translations[currentLang].urlCopied, "success");
-        const copyText = button.querySelector('[data-i18n="copy"]');
+        novaToast("URL copiada al portapapeles", "success");
+        const copyText = button.querySelector('span');
         if (copyText) {{
-            copyText.textContent = translations[currentLang].copied;
-            setTimeout(() => {{ copyText.textContent = translations[currentLang].copy; }}, 2000);
+            copyText.textContent = "Copiado";
+            setTimeout(() => {{ copyText.textContent = "Copiar"; }}, 2000);
         }}
     }});
 }}
@@ -524,7 +468,6 @@ if ('serviceWorker' in navigator) {{
 
 document.addEventListener('DOMContentLoaded', () => {{
     checkAuth();
-    updateLanguage();
 }});
 </script>
 </body>
