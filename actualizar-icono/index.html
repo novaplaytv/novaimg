@@ -322,6 +322,7 @@ button:disabled {
 
 <body>
 <nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://novaplaytv.github.io/"><img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://novaplaytv.github.io/" class="">INICIO</a><a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://novaplaytv.github.io/novaimg/" id="navNovaImg" style="display:none;">NOVAIMG</a><a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales" style="display:none;" class="panel-link">PANEL CANALES</a><a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelImg" style="display:none;" class="panel-link">PANEL IMÁGENES</a>
+<a href="#" id="navLogin" onclick="document.getElementById('username').focus(); return false;" style="margin-left: auto;">INICIAR SESIÓN</a>
 <button id="navLogout" style="display:none; margin-left:auto; width:auto; min-height:36px; padding: 7px 11px; font-size: 12px; background: #dc2626;" onclick="cerrarSesion()">Cerrar sesión</button>
 </div></nav>
 
@@ -803,6 +804,7 @@ async function restaurarSesion() {
             "block";
 
         document.getElementById("navLogout").style.display = "block";
+        document.getElementById("navLogin").style.display = "none";
         document.getElementById("navNovaImg").style.display = "inline-block";
         document.getElementById("navPanelCanales").style.display = "inline-block";
         document.getElementById("navPanelImg").style.display = "inline-block";
@@ -966,6 +968,7 @@ async function iniciarSesion() {
             "block";
 
         document.getElementById("navLogout").style.display = "block";
+        document.getElementById("navLogin").style.display = "none";
         document.getElementById("navNovaImg").style.display = "inline-block";
         document.getElementById("navPanelCanales").style.display = "inline-block";
         document.getElementById("navPanelImg").style.display = "inline-block";
@@ -1035,6 +1038,7 @@ function cerrarSesion() {
         "block";
 
     document.getElementById("navLogout").style.display = "none";
+    document.getElementById("navLogin").style.display = "inline-block";
     document.getElementById("navNovaImg").style.display = "none";
     document.getElementById("navPanelCanales").style.display = "none";
     document.getElementById("navPanelImg").style.display = "none";
