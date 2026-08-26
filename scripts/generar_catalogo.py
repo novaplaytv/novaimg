@@ -325,107 +325,115 @@ body {{
     margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text);
     -webkit-font-smoothing: antialiased; overflow-x: hidden;
 }}
+/* Barra de Navegación Estilo Premium */
 .nova-nav {{
     position: fixed; top: 0; width: 100%; z-index: 10000;
-    background: rgba(8, 10, 16, 0.8); backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;
+    background: rgba(8, 10, 16, 0.85); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); transition: 0.3s;
 }}
 .nav-inner {{
-    max-width: 1400px; margin: auto; height: 70px; padding: 0 20px;
+    max-width: 1400px; margin: auto; height: 70px; padding: 0 25px;
     display: flex; align-items: center; justify-content: space-between;
 }}
 .nav-brand {{
     display: flex; align-items: center; gap: 12px; text-decoration: none;
-    color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px;
+    color: #fff; font-weight: 900; font-size: 20px; letter-spacing: -1px;
 }}
-.nav-brand img {{ width: 36px; height: 36px; border-radius: 8px; }}
+.nav-brand img {{ width: 34px; height: 34px; border-radius: 8px; }}
 .nav-links {{ display: flex; gap: 5px; align-items: center; }}
 .nav-links a {{
-    color: #ccc; text-decoration: none; font-size: 13px; font-weight: 600;
-    transition: 0.2s; padding: 10px 15px; border-radius: 10px; letter-spacing: 0.5px;
+    color: #aaa; text-decoration: none; font-size: 12px; font-weight: 700;
+    transition: 0.2s; padding: 10px 18px; border-radius: 12px; letter-spacing: 0.5px;
 }}
-.nav-links a:hover {{ color: #fff; background: rgba(255, 255, 255, 0.05); }}
-.nav-auth {{ display: flex; align-items: center; gap: 10px; }}
+.nav-links a:hover {{ color: #fff; background: rgba(255, 255, 255, 0.08); }}
+.nav-auth {{ display: flex; align-items: center; gap: 12px; }}
 .btn-login-nav, .btn-logout {{
     background: var(--primary); color: #fff !important; font-weight: 800 !important;
-    padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 13px;
-    transition: 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.2);
-    display: none;
+    padding: 10px 22px; border-radius: 12px; text-decoration: none; font-size: 12px;
+    transition: 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.25);
+    display: none; text-transform: uppercase; letter-spacing: 0.5px;
 }}
 .btn-login-nav:hover, .btn-logout:hover {{
     transform: translateY(-2px); background: var(--primary-hover);
-    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.3);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.35);
 }}
+/* Header Optimizado */
 header {{
-    background: linear-gradient(to bottom, #11151f, var(--bg));
-    padding: 140px 20px 60px; text-align: center; border-bottom: 1px solid var(--border);
+    background: radial-gradient(circle at top, #1a1f2e 0%, var(--bg) 100%);
+    padding: 100px 20px 30px; text-align: center; border-bottom: 1px solid var(--border);
 }}
 .header-content {{ max-width: 800px; margin: auto; }}
-.header-logo {{ width: 80px; height: 80px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }}
-.subtitle {{ margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -1px; color: #fff; }}
-.description {{ margin-top: 15px; color: var(--text-muted); font-size: 18px; }}
+.header-logo {{ width: 70px; height: 70px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }}
+.subtitle {{ margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: #fff; }}
+.description {{ margin-top: 12px; color: var(--text-muted); font-size: 15px; line-height: 1.5; }}
 .stats {{
-    display: inline-block; margin-top: 25px; padding: 8px 20px;
-    background: rgba(229, 9, 20, 0.1); color: var(--primary); font-size: 13px;
+    display: inline-block; margin-top: 20px; padding: 6px 16px;
+    background: rgba(229, 9, 20, 0.1); color: var(--primary); font-size: 12px;
     font-weight: 800; text-transform: uppercase; border-radius: 30px;
     border: 1px solid rgba(229, 9, 20, 0.2);
 }}
+/* Controles y Grilla */
 .controls {{
-    max-width: 1400px; margin: auto; padding: 40px 20px;
+    max-width: 1400px; margin: auto; padding: 30px 20px;
     position: sticky; top: 70px; z-index: 100; background: var(--bg);
 }}
 #search {{
-    width: 100%; padding: 20px 30px; background: var(--input-bg);
-    border: 1px solid var(--border); border-radius: 20px; color: #fff;
-    font-size: 16px; transition: 0.3s;
+    width: 100%; padding: 18px 25px; background: var(--input-bg);
+    border: 1px solid var(--border); border-radius: 18px; color: #fff;
+    font-size: 15px; transition: 0.3s;
 }}
 #search:focus {{ border-color: var(--primary); box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.1); }}
 .container {{ max-width: 1400px; margin: auto; padding: 0 20px 80px; }}
-.grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }}
+.grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }}
 .card {{
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
     overflow: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }}
-.card:hover {{ transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }}
+.card:hover {{ transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }}
 .card.hidden {{ display: none; }}
-.card-header {{ padding: 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }}
-.channel-number {{ font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; }}
-.card h2 {{ margin: 0; font-size: 20px; font-weight: 800; }}
-.category {{ padding: 6px 14px; background: rgba(255, 255, 255, 0.05); color: #fff; border-radius: 12px; font-size: 10px; font-weight: 700; }}
-.card-content {{ display: flex; gap: 25px; padding: 25px; align-items: center; }}
+.card-header {{ padding: 20px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }}
+.channel-number {{ font-size: 9px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }}
+.card h2 {{ margin: 0; font-size: 18px; font-weight: 800; }}
+.category {{ padding: 5px 12px; background: rgba(255, 255, 255, 0.05); color: #fff; border-radius: 10px; font-size: 9px; font-weight: 700; }}
+.card-content {{ display: flex; gap: 20px; padding: 25px; align-items: center; }}
 .icon-preview {{
-    width: 110px; height: 110px; background: #000; border: 1px solid var(--border);
-    border-radius: 20px; display: flex; align-items: center; justify-content: center;
-    padding: 12px; flex-shrink: 0; transition: 0.3s;
+    width: 100px; height: 100px; background: #000; border: 1px solid var(--border);
+    border-radius: 18px; display: flex; align-items: center; justify-content: center;
+    padding: 10px; flex-shrink: 0; transition: 0.3s;
 }}
 .icon-preview img {{ max-width: 100%; max-height: 100%; object-fit: contain; }}
 .missing-image {{ display: none; color: var(--text-muted); font-size: 10px; font-weight: 700; text-align: center; }}
 .details {{ flex: 1; min-width: 0; }}
-.detail {{ margin-bottom: 15px; }}
-.label {{ display: block; margin-bottom: 6px; font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }}
+.detail {{ margin-bottom: 12px; }}
+.label {{ display: block; margin-bottom: 5px; font-size: 9px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }}
 code {{
-    display: block; background: rgba(0,0,0,0.3); padding: 10px 12px; border-radius: 10px;
-    font-size: 11px; color: #eee; border: 1px solid var(--border); word-break: break-all;
+    display: block; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px;
+    font-size: 10px; color: #eee; border: 1px solid var(--border); word-break: break-all;
 }}
 .url-row {{ display: flex; gap: 8px; align-items: center; }}
 .icon-url {{
-    flex: 1; color: var(--primary); font-size: 11px; text-decoration: none; font-weight: 600;
+    flex: 1; color: var(--primary); font-size: 10px; text-decoration: none; font-weight: 600;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }}
 .copy-button {{
     background: #293246; color: #fff; border: 0; padding: 8px 15px; border-radius: 10px;
-    font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    font-size: 9px; font-weight: 700; cursor: pointer; transition: 0.2s;
 }}
-footer {{ padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); background: #06080d; }}
-footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
-.footer-brand {{ font-weight: 900; color: #fff; margin-bottom: 20px; display: block; font-size: 18px; }}
-@media (max-width: 900px) {{ .nav-links {{ display: none; }} }}
+footer {{ padding: 60px 20px; text-align: center; border-top: 1px solid var(--border); background: #06080d; }}
+footer p {{ margin: 8px 0; font-size: 13px; color: var(--text-muted); }}
+.footer-brand {{ font-weight: 900; color: #fff; margin-bottom: 15px; display: block; font-size: 16px; }}
+/* Responsividad */
+@media (max-width: 900px) {{
+    .nav-links {{ display: none; }}
+    .nav-inner {{ justify-content: space-between; }}
+}}
 @media (max-width: 600px) {{
     .grid {{ grid-template-columns: 1fr; }}
     .card-content {{ flex-direction: column; text-align: center; }}
-    .icon-preview {{ width: 140px; height: 140px; margin: 0 auto; }}
+    .icon-preview {{ width: 120px; height: 120px; margin: 0 auto; }}
     .url-row {{ flex-direction: column; align-items: stretch; }}
-    .subtitle {{ font-size: 24px; }}
+    .subtitle {{ font-size: 22px; }}
+    .nav-inner {{ padding: 0 15px; }}
 }}
 </style>
 </head>
@@ -467,7 +475,7 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 <footer>
     <span class="footer-brand">NOVAPLAY TV</span>
     <p>© 2026 M.S.G.T SOLUTIONS - Todos los derechos reservados.</p>
-    <p style="font-size: 12px; opacity: 0.6;">Sincronización automática: {fecha}</p>
+    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: {fecha}</p>
 </footer>
 <script>
 const search = document.getElementById("search");
