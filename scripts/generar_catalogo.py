@@ -419,6 +419,50 @@ code {{
 footer {{ padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); background: #06080d; }}
 footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 .footer-brand {{ font-weight: 900; color: #fff; margin-bottom: 20px; display: block; font-size: 18px; }}
+
+/* NovaToast System */
+#toast-container {{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}}
+.nova-toast {{
+    background: rgba(26, 31, 46, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 280px;
+}}
+.nova-toast.success {{ border-left: 4px solid #10b981; }}
+.nova-toast.error {{ border-left: 4px solid #ef4444; }}
+.nova-toast i {{ font-size: 18px; }}
+.nova-toast.success i {{ color: #10b981; }}
+.nova-toast.error i {{ color: #ef4444; }}
+@keyframes toastSlideIn {{
+    from {{ transform: translateX(100%) scale(0.9); opacity: 0; }}
+    to {{ transform: translateX(0) scale(1); opacity: 1; }}
+}}
+.toast-fade-out {{
+    animation: toastFadeOut 0.4s forwards;
+}}
+@keyframes toastFadeOut {{
+    to {{ transform: translateX(20px); opacity: 0; }}
+}}
+
 @media (max-width: 900px) {{
     .nav-links {{ display: none; }}
 }}
@@ -471,6 +515,9 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
     <p>© 2026 M.S.G.T SOLUTIONS - Todos los derechos reservados.</p>
     <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: {fecha}</p>
 </footer>
+
+<div id="toast-container"></div>
+
 <script>
 const search = document.getElementById("search");
 search.addEventListener("input", function() {{
@@ -481,14 +528,36 @@ search.addEventListener("input", function() {{
         card.classList.toggle("hidden", !searchable.includes(query));
     }});
 }});
+
+function novaToast(message, type = 'success') {{
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `nova-toast ${{type}}`;
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+    toast.innerHTML = `
+        <i class="fas ${{icon}}"></i>
+        <span>${{message}}</span>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {{
+        toast.classList.add('toast-fade-out');
+        setTimeout(() => toast.remove(), 400);
+    }}, 3000);
+}}
+
 function copiarURL(button) {{
     const url = button.dataset.url;
     navigator.clipboard.writeText(url).then(() => {{
+        novaToast("URL copiada al portapapeles", "success");
         const originalText = button.innerHTML;
         button.innerHTML = '<i class="fas fa-check"></i> Copiado';
         setTimeout(() => {{ button.innerHTML = originalText; }}, 2000);
     }});
 }}
+
 function checkAuth() {{
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
     document.getElementById("navLogin").style.display = token ? 'none' : 'block';

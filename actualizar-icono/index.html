@@ -158,6 +158,84 @@
         .status.success { background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid var(--success); }
         .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
 
+        /* Toast Notification System (Glassmorphism Style) */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 30000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast-msg {
+            pointer-events: auto;
+            min-width: 300px;
+            max-width: 450px;
+            background: rgba(17, 21, 31, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: toast-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast-msg::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast-msg.success::before { background: var(--success); }
+        .toast-msg.error::before { background: var(--error); }
+        .toast-msg.info::before { background: var(--primary); }
+
+        .toast-content {
+            flex-grow: 1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toast-close:hover { color: #fff; }
+
+        @keyframes toast-in {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast-out {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
         .hidden { display: none !important; }
 
         footer { padding: 60px 20px; text-align: center; color: #444; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 40px; }
@@ -175,6 +253,17 @@
             .comparison { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
             .comp-arrow { transform: rotate(90deg); margin: 0 auto; }
             .auth-card { width: 90%; padding: 35px; border-radius: 28px; }
+
+            /* Mobile Toast */
+            #toast-container {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+            .toast-msg {
+                min-width: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -289,6 +378,8 @@
     <p>MSGT - TODOS LOS DERECHOS RESERVADOS</p>
 </footer>
 
+<div id="toast-container"></div>
+
 <script>
     const API_URL_AUTH = 'https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-canales';
     const API_URL_ICON = 'https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono';
@@ -297,6 +388,34 @@
     let sessionToken = localStorage.getItem("novaplay_session_token") || "";
     let canalSeleccionado = "";
     let listaCanales = [];
+
+    // --- NovaToast System ---
+    function novaToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast-msg ${type}`;
+
+        let icon = 'fa-check-circle';
+        if (type === 'error') icon = 'fa-exclamation-circle';
+        if (type === 'info') icon = 'fa-info-circle';
+
+        toast.innerHTML = `
+            <i class="fas ${icon}" style="color: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : 'var(--primary)'}"></i>
+            <div class="toast-content">${message}</div>
+            <button class="toast-close" onclick="this.parentElement.classList.add('toast-out'); setTimeout(() => this.parentElement.remove(), 300)">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.classList.add('toast-out');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 5000);
+    }
 
     // --- Auth Logic (Consistent with panel-canales) ---
     function mostrarEstado(id, tipo, mensaje) {
@@ -498,12 +617,12 @@
         const btn = document.getElementById("updateButton");
 
         if (!canalSeleccionado) {
-            alert("Selecciona un canal de la lista.");
+            novaToast("Selecciona un canal de la lista.", "error");
             return;
         }
 
         if (!file && !url) {
-            alert("Sube una imagen o ingresa una URL.");
+            novaToast("Sube una imagen o ingresa una URL.", "error");
             return;
         }
 
@@ -537,7 +656,7 @@
             const result = await res.json().catch(() => ({ error: "Error en el servidor." }));
 
             if (res.ok) {
-                mostrarEstado("status", "success", "¡Icono actualizado! Se reflejará en breve.");
+                novaToast("¡Icono actualizado! Se reflejará en breve.", "success");
                 document.getElementById("imagenArchivo").value = "";
                 document.getElementById("imagenUrl").value = "";
                 document.getElementById("fileName").style.display = "none";
@@ -548,7 +667,7 @@
                 throw new Error(result.error || "Fallo en la actualización.");
             }
         } catch (e) {
-            mostrarEstado("status", "error", e.message);
+            novaToast(e.message, "error");
         } finally {
             btn.disabled = false;
             btn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
