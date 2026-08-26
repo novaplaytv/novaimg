@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "icons/**"
-      - "actualizar-icono/**"
-      - "scripts/generar_catalogo.py"
-      - ".github/workflows/actualizar-catalogo.yml"
-
   workflow_dispatch:
 
 permissions:
