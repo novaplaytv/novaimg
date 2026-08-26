@@ -1,1891 +1,376 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PANEL NOVAIMG - Gestión de Iconos</title>
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e50914;
+            --primary-dark: #b91c1c;
+            --bg: #080a10;
+            --card-bg: #11151f;
+            --input-bg: #1a1f2e;
+            --text: #ffffff;
+            --text-muted: #9aa3b2;
+            --border: #293246;
+            --success: #10b981;
+            --error: #ef4444;
+        }
 
-<meta charset="UTF-8">
+        * { box-sizing: border-box; outline: none; }
+        html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
+        /* Navegación */
+        .nova-nav { position: sticky; top: 0; z-index: 9999; background: rgba(8,10,16,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 1200px; margin: auto; height: 64px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 18px; }
+        .nav-brand img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: 0.2s; }
+        .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-links a.active { color: #fff; background: var(--primary); }
 
-<title>PANEL NOVAIMG</title>
+        .btn-logout { background: var(--error); color: #fff; border: 0; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; display: none; }
+        .btn-login-nav { color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; }
 
-<link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
+        /* Header */
+        header { padding: 40px 20px; background: linear-gradient(to bottom, #11151f, var(--bg)); border-bottom: 1px solid var(--border); text-align: center; }
+        .header-icon { width: 64px; height: 64px; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(229,9,20,0.3)); }
+        header h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
+        header p { margin: 8px 0 0; color: var(--text-muted); font-size: 16px; }
 
-<style>
+        /* Acceso Rápido */
+        .quick-access { max-width: 800px; margin: 20px auto; padding: 0 20px; display: none; justify-content: center; }
+        .btn-gallery { background: #fff; color: #000; text-decoration: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(255,255,255,0.1); transition: 0.3s; }
+        .btn-gallery:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,255,255,0.15); }
 
-* {
-    box-sizing: border-box;
-}
+        /* Main */
+        main { max-width: 1200px; margin: auto; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+        .card { width: 100%; max-width: 550px; background: var(--card-bg); border: 1px solid var(--border); padding: 32px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
 
-html {
-    width: 100%;
-    min-height: 100%;
-}
+        .field { margin-bottom: 24px; }
+        label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: #fff; padding: 14px 18px; border-radius: 12px; font-size: 16px; transition: 0.2s; }
+        input:focus { border-color: var(--primary); background: #1e2536; }
 
-body {
-    margin: 0;
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-    font-family: Arial, sans-serif;
-    background: #f3f4f6;
-    color: #111827;
-    display: flex;
-    flex-direction: column;
-}
+        .btn-primary { width: 100%; background: var(--primary); color: #fff; border: 0; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-primary:disabled { background: #2d3548; cursor: not-allowed; transform: none; }
 
-.back-button {
-    position: fixed;
-    top: clamp(10px, 2vw, 20px);
-    right: clamp(10px, 2vw, 25px);
-    z-index: 9999;
-    width: auto;
-    min-height: auto;
-    margin: 0;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    background: white;
-    color: #111827;
-    border-radius: 10px;
-    font-size: clamp(12px, 2vw, 15px);
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,.18);
-}
+        .btn-secondary { width: 100%; background: #2d3548; color: #fff; border: 0; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-secondary:hover { background: #3d465c; }
 
-.back-button:hover {
-    background: #e5e7eb;
-}
+        /* Preview */
+        .preview-area { margin-top: 25px; padding: 20px; background: var(--input-bg); border-radius: 16px; border: 2px dashed var(--border); display: none; text-align: center; }
+        .preview-area img { max-width: 100%; max-height: 250px; border-radius: 12px; object-fit: contain; }
 
-header {
-    width: 100%;
-    background: #111827;
-    color: white;
-    padding: clamp(15px, 3vw, 30px) clamp(15px, 5vw, 40px);
-}
+        /* Status */
+        .status { margin-top: 20px; padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; }
+        .status.success { display: block; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+        .status.error { display: block; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
 
-.header-container {
-    width: 100%;
-    max-width: 1100px;
-    margin: auto;
-}
+        .upload-hint { font-size: 12px; color: var(--text-muted); margin-top: 8px; display: block; }
+        .file-selected-name { margin-top: 10px; color: var(--primary); font-weight: 700; font-size: 13px; display: none; }
 
-.header-title {
-    display: flex;
-    align-items: center;
-    gap: clamp(10px, 2vw, 16px);
-}
+        footer { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 13px; border-top: 1px solid var(--border); }
 
-.header-icon {
-    width: clamp(40px, 7vw, 60px);
-    height: clamp(40px, 7vw, 60px);
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
-.header-text {
-    min-width: 0;
-}
-
-.header-title h1 {
-    margin: 0;
-    font-size: clamp(24px, 5vw, 36px);
-    line-height: 1.1;
-}
-
-.header-title p {
-    margin: 6px 0 0;
-    font-size: clamp(13px, 2.5vw, 16px);
-    opacity: .85;
-}
-
-main {
-    flex: 1;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: clamp(15px, 3vw, 35px);
-}
-
-.container {
-    width: 100%;
-    max-width: 850px;
-}
-
-.login-container {
-    width: 100%;
-    max-width: 450px;
-}
-
-.card {
-    width: 100%;
-    background: white;
-    padding: clamp(18px, 4vw, 30px);
-    border-radius: clamp(10px, 2vw, 16px);
-    box-shadow: 0 5px 25px rgba(0,0,0,.08);
-}
-
-.panel {
-    display: none;
-}
-
-.panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.panel-header h2 {
-    margin: 0;
-}
-
-.logout-button {
-    width: auto;
-    min-height: 40px;
-    margin: 0;
-    padding: 10px 16px;
-    background: #dc2626;
-}
-
-.logout-button:hover {
-    background: #b91c1c;
-}
-
-h2 {
-    margin: 0 0 clamp(20px, 4vw, 30px);
-    font-size: clamp(20px, 4vw, 28px);
-}
-
-.field {
-    width: 100%;
-    margin-bottom: clamp(14px, 2vw, 20px);
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: clamp(14px, 2vw, 16px);
-}
-
-input,
-select {
-    width: 100%;
-    max-width: 100%;
-    padding: clamp(11px, 2vw, 14px);
-    font-size: clamp(14px, 2vw, 16px);
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    background: white;
-    color: #111827;
-}
-
-input:focus,
-select:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-}
-
-button {
-    width: 100%;
-    min-height: 48px;
-    padding: clamp(12px, 2vw, 15px);
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    font-size: clamp(14px, 2vw, 16px);
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: #1d4ed8;
-}
-
-button:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-}
-
-.status {
-    display: none;
-    width: 100%;
-    margin-top: clamp(15px, 3vw, 22px);
-    padding: clamp(12px, 2vw, 16px);
-    border-radius: 8px;
-    overflow-wrap: anywhere;
-}
-
-.success {
-    display: block;
-    background: #dcfce7;
-    color: #166534;
-}
-
-.error {
-    display: block;
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.preview {
-    display: none;
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.preview img {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: min(40dvh, 350px);
-    margin: auto;
-    object-fit: contain;
-    border-radius: 8px;
-}
-
-.divider {
-    border: 0;
-    border-top: 1px solid #e5e7eb;
-    margin: 25px 0;
-}
-
-.upload-info {
-    font-size: 13px;
-    color: #6b7280;
-    margin-top: 7px;
-}
-
-.file-name {
-    display: none;
-    margin-top: 8px;
-    font-size: 14px;
-    color: #2563eb;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-
-@media (max-width: 600px) {
-
-    main {
-        align-items: flex-start;
-    }
-
-    .back-button {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-
-    .panel-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .logout-button {
-        width: 100%;
-    }
-
-}
-
-</style>
-
-<style id="nova-global-nav-style">
-.nova-global-nav{position:sticky;top:0;z-index:9999;background:rgba(8,10,16,.96);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.12);font-family:Arial,Helvetica,sans-serif}
-.nova-global-nav-inner{max-width:1400px;margin:auto;min-height:56px;padding:8px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.nova-global-brand{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none;font-weight:800;margin-right:10px}.nova-global-brand img{width:32px;height:32px;border-radius:8px;object-fit:contain}
-.nova-global-nav a:not(.nova-global-brand){color:#d7dbe4;text-decoration:none;padding:9px 12px;border-radius:9px;font-size:14px;font-weight:700}
-.nova-global-nav a:not(.nova-global-brand):hover,.nova-global-nav a.active{background:#e50914;color:#fff}.nova-global-nav .panel-link{margin-left:0;background:#2563eb!important;color:#fff!important}
-@media(max-width:700px){.nova-global-nav-inner{justify-content:center}.nova-global-brand{width:100%;justify-content:center;margin-right:0}.nova-global-nav .panel-link{margin-left:0}}
-</style>
-
-<style id="demo-popup-style">
-.demo-popup-permission{position:fixed;inset:0;z-index:20000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
-.demo-popup-box{width:min(480px,100%);background:#11151f;color:#fff;border:1px solid #30394c;border-radius:20px;padding:28px;text-align:center;font-family:Arial,Helvetica,sans-serif;box-shadow:0 24px 80px rgba(0,0,0,.6)}
-.demo-popup-box h2{margin:0 0 12px}.demo-popup-box p{color:#b8c1d1;line-height:1.55}.demo-popup-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
-.demo-popup-btn{border:0;border-radius:11px;padding:13px 18px;font-weight:800;cursor:pointer;background:#e50914;color:#fff}.demo-popup-btn.alt{background:#273044}
-</style>
-
+        @media (max-width: 600px) {
+            header h1 { font-size: 26px; }
+            .card { padding: 20px; }
+            .nav-inner { padding: 0 15px; }
+        }
+    </style>
 </head>
-
-
 <body>
-<nav class="nova-global-nav"><div class="nova-global-nav-inner"><a class="nova-global-brand" href="https://novaplaytv.github.io/"><img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NOVAPLAY">NOVAPLAY</a><a href="https://novaplaytv.github.io/" class="">INICIO</a><a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/" class="">DEMO</a><a href="https://novaplaytv.github.io/novaimg/" id="navNovaImg" style="display:none;">NOVAIMG</a><a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales" style="display:none;" class="panel-link">PANEL CANALES</a><a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelImg" style="display:none;" class="panel-link">PANEL IMÁGENES</a>
-<a href="#" id="navLogin" onclick="document.getElementById('username').focus(); return false;" style="margin-left: auto;">INICIAR SESIÓN</a>
-<button id="navLogout" style="display:none; margin-left:auto; width:auto; min-height:36px; padding: 7px 11px; font-size: 12px; background: #dc2626;" onclick="cerrarSesion()">Cerrar sesión</button>
-</div></nav>
 
-
-
-
+<nav class="nova-nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="https://novaplaytv.github.io/">
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay">
+            NOVAPLAY
+        </a>
+        <div class="nav-links">
+            <a href="https://novaplaytv.github.io/">INICIO</a>
+            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">DEMO</a>
+            <a href="https://novaplaytv.github.io/novaimg/" id="navNovaImg" style="display:none;">GALERÍA</a>
+            <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales" style="display:none;">CANALES</a>
+            <a href="#" class="btn-login-nav" id="navLogin">INICIAR SESIÓN</a>
+            <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
+        </div>
+    </div>
+</nav>
 
 <header>
-
-<div class="header-container">
-
-<div class="header-title">
-
-<img
-    class="header-icon"
-    src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp"
-    alt="NOVAIMG"
->
-
-<div class="header-text">
-
-<h1>NOVAIMG</h1>
-
-<p>Panel de actualización de iconos</p>
-
-</div>
-
-</div>
-
-</div>
-
+    <div class="header-container">
+        <img class="header-icon" src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
+        <h1>PANEL NOVAIMG</h1>
+        <p>Gestión profesional de recursos visuales</p>
+    </div>
 </header>
 
+<div class="quick-access" id="quickAccess">
+    <a href="https://novaplaytv.github.io/novaimg/" class="btn-gallery">
+        <span>🖼️</span> VER GALERÍA DE ICONOS
+    </a>
+</div>
 
 <main>
-
-
-<!-- =========================
-     LOGIN
-========================= -->
-
-<div
-    class="login-container"
-    id="loginContainer"
->
-
-<div class="card">
-
-<h2>Iniciar sesión</h2>
-
-
-<div class="field">
-
-<label for="username">
-Usuario
-</label>
-
-<input
-    id="username"
-    type="text"
-    autocomplete="username"
->
-
-</div>
-
-
-<div class="field">
-
-<label for="password">
-Contraseña
-</label>
-
-<input
-    id="password"
-    type="password"
-    autocomplete="current-password"
->
-
-</div>
-
-
-<button
-    id="loginButton"
-    type="button"
-    onclick="iniciarSesion()"
->
-    Ingresar
-</button>
-
-
-<div
-    id="loginStatus"
-    class="status"
-></div>
-
-</div>
-
-</div>
-
-
-
-<!-- =========================
-     PANEL
-========================= -->
-
-<div
-    class="container panel"
-    id="panel"
->
-
-<div class="card">
-
-
-<div class="panel-header">
-
-<h2>Actualizar icono</h2>
-
-</div>
-
-
-<div class="field">
-
-<label for="canal">
-Canal
-</label>
-
-<select id="canal">
-
-<option value="">
-Cargando canales...
-</option>
-
-</select>
-
-</div>
-
-
-<hr class="divider">
-
-
-<!-- =========================
-     URL
-========================= -->
-
-<div class="field">
-
-<label for="imagenUrl">
-URL de la nueva imagen
-</label>
-
-<input
-    id="imagenUrl"
-    type="url"
-    placeholder="https://ejemplo.com/logo.png"
-    oninput="limpiarArchivo()"
->
-
-</div>
-
-
-<button
-    type="button"
-    onclick="verImagenUrl()"
->
-    Vista previa de URL
-</button>
-
-
-<hr class="divider">
-
-
-<!-- =========================
-     ARCHIVO LOCAL
-========================= -->
-
-<div class="field">
-
-<label for="imagenArchivo">
-O subir imagen desde el dispositivo
-</label>
-
-<input
-    id="imagenArchivo"
-    type="file"
-    accept="image/*"
-    onchange="seleccionarArchivo()"
->
-
-<div class="upload-info">
-Máximo permitido: 25 MB
-</div>
-
-<div
-    id="fileName"
-    class="file-name"
-></div>
-
-</div>
-
-
-<button
-    type="button"
-    onclick="verImagenArchivo()"
->
-    Vista previa del archivo
-</button>
-
-
-<div
-    id="preview"
-    class="preview"
->
-
-<img
-    id="previewImage"
-    alt="Vista previa"
->
-
-</div>
-
-
-<button
-    id="updateButton"
-    type="button"
-    onclick="actualizarIcono()"
->
-    Actualizar icono
-</button>
-
-
-<div
-    id="status"
-    class="status"
-></div>
-
-
-</div>
-
-</div>
-
-
+    <!-- LOGIN -->
+    <div class="card" id="loginContainer">
+        <h2 style="margin-top:0; text-align:center;">Acceso Restringido</h2>
+        <div class="field">
+            <label>Usuario Administrador</label>
+            <input id="username" type="text" placeholder="Ingresa tu usuario" autocomplete="username">
+        </div>
+        <div class="field">
+            <label>Contraseña</label>
+            <input id="password" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button class="btn-primary" id="loginButton" onclick="iniciarSesion()">INGRESAR AL PANEL</button>
+        <div id="loginStatus" class="status"></div>
+    </div>
+
+    <!-- PANEL DE GESTIÓN -->
+    <div class="card" id="panel" style="display:none;">
+        <h2 style="margin-top:0;">Actualizar Icono de Canal</h2>
+
+        <div class="field">
+            <label>1. Selecciona el Canal</label>
+            <select id="canal">
+                <option value="">Cargando lista de canales...</option>
+            </select>
+        </div>
+
+        <div style="margin: 30px 0; height: 1px; background: var(--border); position: relative;">
+            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); padding: 0 15px; color: var(--text-muted); font-size: 12px; font-weight: 800;">OPCIONES DE ORIGEN</span>
+        </div>
+
+        <div class="field">
+            <label>Opción A: Desde URL Externa</label>
+            <input id="imagenUrl" type="url" placeholder="https://ejemplo.com/logo.png" oninput="limpiarArchivo()">
+            <button class="btn-secondary" onclick="verImagenUrl()">VISTA PREVIA DE URL</button>
+        </div>
+
+        <div class="field">
+            <label>Opción B: Subir Archivo Local</label>
+            <input id="imagenArchivo" type="file" accept="image/*" onchange="seleccionarArchivo()">
+            <span class="upload-hint">Formatos: PNG, JPG, WEBP. Máximo: 25 MB</span>
+            <div id="fileName" class="file-selected-name"></div>
+            <button class="btn-secondary" onclick="verImagenArchivo()">VISTA PREVIA DE ARCHIVO</button>
+        </div>
+
+        <div class="preview-area" id="preview">
+            <label>VISTA PREVIA</label>
+            <img id="previewImage" src="" alt="Preview">
+        </div>
+
+        <button class="btn-primary" id="updateButton" onclick="actualizarIcono()" style="margin-top:30px; background: #fff; color: #000;">
+            🚀 APLICAR CAMBIO DE ICONO
+        </button>
+
+        <div id="status" class="status"></div>
+    </div>
 </main>
 
+<footer>
+    <p>© 2026 NOVAPLAY TV - Sistema de Gestión de Activos</p>
+    <p>© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS</p>
+</footer>
 
 <script>
+    const API_URL = "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
+    const CATALOGO_URL = "../index.html";
+    const MAX_FILE_SIZE = 25 * 1024 * 1024;
+    let sessionToken = localStorage.getItem("novaimg_session_token") || "";
 
-
-/* =====================================================
-   CONFIGURACIÓN
-===================================================== */
-
-const API_URL =
-    "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono";
-
-
-const CATALOGO_URL =
-    "../index.html";
-
-
-const MAX_FILE_SIZE =
-    25 * 1024 * 1024;
-
-
-/* =====================================================
-   SESIÓN
-===================================================== */
-
-let sessionToken =
-    localStorage.getItem(
-        "novaimg_session_token"
-    ) || "";
-
-
-/* =====================================================
-   UTILIDAD
-===================================================== */
-
-function mostrarEstado(
-    elemento,
-    tipo,
-    mensaje
-) {
-
-    const status =
-        document.getElementById(
-            elemento
-        );
-
-    status.className =
-        "status " + tipo;
-
-    status.textContent =
-        mensaje;
-
-}
-
-
-function ocultarEstado(
-    elemento
-) {
-
-    const status =
-        document.getElementById(
-            elemento
-        );
-
-    status.className =
-        "status";
-
-    status.textContent =
-        "";
-
-}
-
-
-function obtenerMensajeError(
-    data,
-    fallback
-) {
-
-    let mensaje =
-        data?.error ||
-        fallback;
-
-
-    /*
-    Mostrar exactamente qué Secret falta.
-    */
-
-    if (
-        data?.configuracion
-    ) {
-
-        const faltantes =
-            Object.entries(
-                data.configuracion
-            )
-            .filter(
-                ([, valor]) =>
-                    valor === false
-            )
-            .map(
-                ([nombre]) =>
-                    nombre
-            );
-
-
-        if (
-            faltantes.length > 0
-        ) {
-
-            mensaje +=
-                " Falta configurar: " +
-                faltantes.join(", ");
-
-        }
-
+    function mostrarEstado(id, tipo, mensaje) {
+        const el = document.getElementById(id);
+        el.className = "status " + tipo;
+        el.textContent = mensaje;
+        el.style.display = "block";
     }
 
-
-    return mensaje;
-
-}
-
-
-/* =====================================================
-   PETICIÓN JSON
-===================================================== */
-
-async function fetchJSON(
-    body,
-    usarSesion = false
-) {
-
-    const headers = {
-        "Content-Type":
-            "application/json"
-    };
-
-
-    if (
-        usarSesion &&
-        sessionToken
-    ) {
-
-        headers.Authorization =
-            "Bearer " +
-            sessionToken;
-
+    function ocultarEstado(id) {
+        const el = document.getElementById(id);
+        el.style.display = "none";
     }
 
-
-    const response =
-        await fetch(
-            API_URL,
-            {
-                method: "POST",
-                headers,
-                body:
-                    JSON.stringify(body)
-            }
-        );
-
-
-    let data = {};
-
-    try {
-
-        data =
-            await response.json();
-
-    } catch {
-
-        data = {
-            error:
-                "El servidor devolvió una respuesta inválida."
-        };
-
-    }
-
-
-    return {
-        response,
-        data
-    };
-
-}
-
-
-/* =====================================================
-   RESTAURAR SESIÓN
-===================================================== */
-
-async function restaurarSesion() {
-
-    if (
-        !sessionToken
-    ) {
-        return;
-    }
-
-
-    try {
-
-        const {
-            response
-        } =
-            await fetchJSON(
-                {
-                    action:
-                        "verificar_sesion"
-                },
-                true
-            );
-
-
-        if (
-            !response.ok
-        ) {
-
-            throw new Error();
-
-        }
-
-
-        document
-            .getElementById(
-                "loginContainer"
-            )
-            .style.display =
-            "none";
-
-
-        document
-            .getElementById(
-                "panel"
-            )
-            .style.display =
-            "block";
-
-        document.getElementById("navLogout").style.display = "block";
-        document.getElementById("navLogin").style.display = "none";
-        document.getElementById("navNovaImg").style.display = "inline-block";
-        document.getElementById("navPanelCanales").style.display = "inline-block";
-        document.getElementById("navPanelImg").style.display = "inline-block";
-
-
-        await cargarCanales();
-
-
-    } catch {
-
-        localStorage.removeItem(
-            "novaimg_session_token"
-        );
-
-        sessionToken = "";
-
-    }
-
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function iniciarSesion() {
-
-    const username =
-        document
-        .getElementById(
-            "username"
-        )
-        .value
-        .trim();
-
-
-    const password =
-        document
-        .getElementById(
-            "password"
-        )
-        .value
-        .trim();
-
-
-    const boton =
-        document.getElementById(
-            "loginButton"
-        );
-
-
-    ocultarEstado(
-        "loginStatus"
-    );
-
-
-    if (
-        !username ||
-        !password
-    ) {
-
-        mostrarEstado(
-            "loginStatus",
-            "error",
-            "Completa usuario y contraseña."
-        );
-
-        return;
-
-    }
-
-
-    boton.disabled = true;
-
-    boton.textContent =
-        "Verificando...";
-
-
-    try {
-
-        const {
-            response,
-            data
-        } =
-            await fetchJSON(
-                {
-                    action:
-                        "login",
-
-                    username,
-
-                    password
-                }
-            );
-
-
-        if (
-            !response.ok
-        ) {
-
-            throw new Error(
-                obtenerMensajeError(
-                    data,
-                    "Acceso denegado."
-                )
-            );
-
-        }
-
-
-        if (
-            !data.token
-        ) {
-
-            throw new Error(
-                "El servidor no devolvió un token de sesión."
-            );
-
-        }
-
-
-        sessionToken =
-            data.token;
-
-
-        /*
-        Guardar sesión.
-        */
-
-        localStorage.setItem(
-            "novaimg_session_token",
-            sessionToken
-        );
-
-
-        /*
-        Limpiar contraseña del navegador.
-        */
-
-        document
-            .getElementById(
-                "password"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "loginContainer"
-            )
-            .style.display =
-            "none";
-
-
-        document
-            .getElementById(
-                "panel"
-            )
-            .style.display =
-            "block";
-
-        document.getElementById("navLogout").style.display = "block";
-        document.getElementById("navLogin").style.display = "none";
-        document.getElementById("navNovaImg").style.display = "inline-block";
-        document.getElementById("navPanelCanales").style.display = "inline-block";
-        document.getElementById("navPanelImg").style.display = "inline-block";
-
-
-        await cargarCanales();
-
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        mostrarEstado(
-            "loginStatus",
-            "error",
-
-            error.message ===
-            "Failed to fetch"
-
-                ? "No se pudo conectar con el servidor."
-
-                : error.message
-        );
-
-    } finally {
-
-        boton.disabled = false;
-
-        boton.textContent =
-            "Ingresar";
-
-    }
-
-}
-
-
-/* =====================================================
-   CERRAR SESIÓN
-===================================================== */
-
-function cerrarSesion() {
-
-    localStorage.removeItem(
-        "novaimg_session_token"
-    );
-
-
-    sessionToken = "";
-
-
-    document
-        .getElementById(
-            "panel"
-        )
-        .style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "loginContainer"
-        )
-        .style.display =
-        "block";
-
-    document.getElementById("navLogout").style.display = "none";
-    document.getElementById("navLogin").style.display = "inline-block";
-    document.getElementById("navNovaImg").style.display = "none";
-    document.getElementById("navPanelCanales").style.display = "none";
-    document.getElementById("navPanelImg").style.display = "none";
-
-
-    document
-        .getElementById(
-            "username"
-        )
-        .value =
-        "";
-
-
-    document
-        .getElementById(
-            "password"
-        )
-        .value =
-        "";
-
-
-    ocultarEstado(
-        "status"
-    );
-
-}
-
-
-/* =====================================================
-   CARGAR CANALES
-===================================================== */
-
-async function cargarCanales() {
-
-    const select =
-        document.getElementById(
-            "canal"
-        );
-
-
-    select.innerHTML =
-        '<option value="">Cargando canales...</option>';
-
-
-    try {
-
-        const response =
-            await fetch(
-                CATALOGO_URL,
-                {
-                    cache:
-                        "no-store"
-                }
-            );
-
-
-        if (
-            !response.ok
-        ) {
-
-            throw new Error(
-                "No se pudo cargar el catálogo."
-            );
-
-        }
-
-
-        const texto =
-            await response.text();
-
-
-        const parser =
-            new DOMParser();
-
-
-        const documento =
-            parser.parseFromString(
-                texto,
-                "text/html"
-            );
-
-
-        const tarjetas =
-            documento.querySelectorAll(
-                ".card"
-            );
-
-
-        select.innerHTML =
-            '<option value="">Selecciona un canal</option>';
-
-
-        let encontrados =
-            0;
-
-
-        tarjetas.forEach(
-            tarjeta => {
-
-
-                const nombre =
-                    tarjeta
-                    .querySelector(
-                        "h2"
-                    )
-                    ?.textContent
-                    ?.trim();
-
-
-                const elementoNumero =
-                    tarjeta.querySelector(
-                        ".channel-number"
-                    );
-
-
-                const numero =
-                    elementoNumero
-                    ?.textContent
-                    ?.replace(
-                        /CANAL/gi,
-                        ""
-                    )
-                    ?.trim();
-
-
-                const imagen =
-                    tarjeta.querySelector(
-                        "img"
-                    );
-
-
-                const rutaIcono =
-                    imagen
-                    ?.getAttribute(
-                        "src"
-                    );
-
-
-                if (
-                    !nombre ||
-                    !numero ||
-                    !rutaIcono
-                ) {
-                    return;
-                }
-
-
-                /*
-                Busca el archivo real:
-
-                icons/001.webp
-                icons/008.webp
-                */
-
-                const coincidencia =
-                    rutaIcono.match(
-                        /(?:icons\/)([^/?#]+\.webp)/i
-                    );
-
-
-                if (
-                    !coincidencia
-                ) {
-                    return;
-                }
-
-
-                const archivoIcono =
-                    coincidencia[1];
-
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                /*
-                Se utiliza el archivo real.
-                Ejemplo: 008.webp
-                */
-
-                option.value =
-                    archivoIcono;
-
-
-                option.textContent =
-                    `${nombre} (Canal ${numero})`;
-
-
-                select.appendChild(
-                    option
-                );
-
-
-                encontrados++;
-
-            }
-        );
-
-
-        if (
-            encontrados === 0
-        ) {
-
-            select.innerHTML =
-                '<option value="">No se encontraron canales con iconos</option>';
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        select.innerHTML =
-            '<option value="">Error cargando canales</option>';
-
-
-        mostrarEstado(
-            "status",
-            "error",
-            "No se pudo leer el catálogo de canales."
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   URL
-===================================================== */
-
-function limpiarArchivo() {
-
-    const archivo =
-        document.getElementById(
-            "imagenArchivo"
-        );
-
-
-    archivo.value =
-        "";
-
-
-    document
-        .getElementById(
-            "fileName"
-        )
-        .style.display =
-        "none";
-
-}
-
-
-function verImagenUrl() {
-
-    const url =
-        document
-        .getElementById(
-            "imagenUrl"
-        )
-        .value
-        .trim();
-
-
-    if (!url) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "Ingresa una URL de imagen."
-        );
-
-        return;
-
-    }
-
-
-    const imagen =
-        document.getElementById(
-            "previewImage"
-        );
-
-
-    imagen.onload =
-        () => {
-
-            document
-                .getElementById(
-                    "preview"
-                )
-                .style.display =
-                "block";
-
-        };
-
-
-    imagen.onerror =
-        () => {
-
-            mostrarEstado(
-                "status",
-                "error",
-                "No se pudo cargar la imagen desde esa URL."
-            );
-
-        };
-
-
-    imagen.src =
-        url;
-
-}
-
-
-/* =====================================================
-   ARCHIVO LOCAL
-===================================================== */
-
-function seleccionarArchivo() {
-
-    const input =
-        document.getElementById(
-            "imagenArchivo"
-        );
-
-
-    const archivo =
-        input.files?.[0];
-
-
-    const nombre =
-        document.getElementById(
-            "fileName"
-        );
-
-
-    /*
-    Limpiar URL.
-    */
-
-    document
-        .getElementById(
-            "imagenUrl"
-        )
-        .value =
-        "";
-
-
-    if (!archivo) {
-
-        nombre.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    if (
-        archivo.size >
-        MAX_FILE_SIZE
-    ) {
-
-        input.value =
-            "";
-
-
-        nombre.style.display =
-            "none";
-
-
-        mostrarEstado(
-            "status",
-            "error",
-            "La imagen supera el límite máximo de 25 MB."
-        );
-
-        return;
-
-    }
-
-
-    nombre.textContent =
-        `${archivo.name} · ${(archivo.size / 1024 / 1024).toFixed(2)} MB`;
-
-
-    nombre.style.display =
-        "block";
-
-}
-
-
-function verImagenArchivo() {
-
-    const input =
-        document.getElementById(
-            "imagenArchivo"
-        );
-
-
-    const archivo = input.files?.[0];
-
-
-    if (!archivo) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "Selecciona una imagen desde el dispositivo."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        archivo.size >
-        MAX_FILE_SIZE
-    ) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "La imagen supera el límite máximo de 25 MB."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        !archivo.type.startsWith(
-            "image/"
-        )
-    ) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "El archivo seleccionado no es una imagen."
-        );
-
-        return;
-
-    }
-
-
-    const url =
-        URL.createObjectURL(
-            archivo
-        );
-
-
-    const imagen =
-        document.getElementById(
-            "previewImage"
-        );
-
-
-    imagen.src =
-        url;
-
-
-    document
-        .getElementById(
-            "preview"
-        )
-        .style.display =
-        "block";
-
-}
-
-
-/* =====================================================
-   ACTUALIZAR ICONO
-===================================================== */
-
-async function actualizarIcono() {
-
-    const archivoIcono =
-        document
-        .getElementById(
-            "canal"
-        )
-        .value;
-
-
-    const imagenUrl =
-        document
-        .getElementById(
-            "imagenUrl"
-        )
-        .value
-        .trim();
-
-
-    const archivo =
-        document
-        .getElementById(
-            "imagenArchivo"
-        )
-        .files?.[0];
-
-
-    const boton =
-        document.getElementById(
-            "updateButton"
-        );
-
-
-    ocultarEstado(
-        "status"
-    );
-
-
-    if (
-        !archivoIcono
-    ) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "Selecciona un canal."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        !imagenUrl &&
-        !archivo
-    ) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "Ingresa una URL o selecciona una imagen."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        archivo &&
-        archivo.size >
-        MAX_FILE_SIZE
-    ) {
-
-        mostrarEstado(
-            "status",
-            "error",
-            "La imagen supera el límite máximo de 25 MB."
-        );
-
-        return;
-
-    }
-
-
-    boton.disabled =
-        true;
-
-
-    boton.textContent =
-        "Actualizando...";
-
-
-    try {
-
-        let response;
-        let data;
-
-
-        /*
-        ================================================
-        ARCHIVO LOCAL
-        ================================================
-        */
-
-        if (archivo) {
-
-            const formData =
-                new FormData();
-
-
-            formData.append(
-                "action",
-                "actualizar"
-            );
-
-
-            formData.append(
-                "canal",
-                archivoIcono
-            );
-
-
-            formData.append(
-                "imagen",
-                archivo
-            );
-
-
-            response =
-                await fetch(
-                    API_URL,
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "Authorization":
-                                "Bearer " +
-                                sessionToken
-
-                        },
-
-                        body:
-                            formData
-
-                    }
-                );
-
-        }
-
-
-        /*
-        ================================================
-        URL
-        ================================================
-        */
-
-        else {
-
-            response =
-                await fetch(
-                    API_URL,
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json",
-
-                            "Authorization":
-                                "Bearer " +
-                                sessionToken
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                action:
-                                    "actualizar",
-
-                                canal:
-                                    archivoIcono,
-
-                                imagen_url:
-                                    imagenUrl
-
-                            })
-
-                    }
-                );
-
-        }
-
-
+    async function fetchJSON(body, usarSesion = false) {
+        const headers = { "Content-Type": "application/json" };
+        if (usarSesion && sessionToken) headers.Authorization = "Bearer " + sessionToken;
         try {
-
-            data =
-                await response.json();
-
-        } catch {
-
-            data = {
-                error:
-                    "El servidor devolvió una respuesta inválida."
-            };
-
+            const response = await fetch(API_URL, { method: "POST", headers, body: JSON.stringify(body) });
+            const data = await response.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
+            return { response, data };
+        } catch (e) {
+            return { response: { ok: false }, data: { error: "Error de conexión con el servidor." } };
         }
-
-
-        if (
-            !response.ok
-        ) {
-
-            if (
-                response.status ===
-                401
-            ) {
-
-                localStorage.removeItem(
-                    "novaimg_session_token"
-                );
-
-                sessionToken = "";
-
-            }
-
-
-            throw new Error(
-                obtenerMensajeError(
-                    data,
-                    "Error al actualizar."
-                )
-            );
-
-        }
-
-
-        mostrarEstado(
-            "status",
-            "success",
-            data.message ||
-            "Actualización iniciada correctamente."
-        );
-
-
-        /*
-        Limpiar campos.
-        */
-
-        document
-            .getElementById(
-                "imagenUrl"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "imagenArchivo"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "fileName"
-            )
-            .style.display =
-            "none";
-
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        mostrarEstado(
-            "status",
-            "error",
-
-            error.message ===
-            "Failed to fetch"
-
-                ? "No se pudo conectar con el servidor."
-
-                : error.message
-        );
-
-    } finally {
-
-        boton.disabled =
-            false;
-
-
-        boton.textContent =
-            "Actualizar icono";
-
     }
 
-}
-
-
-/* =====================================================
-   ENTER PARA LOGIN
-===================================================== */
-
-document
-    .getElementById(
-        "password"
-    )
-    .addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key ===
-                "Enter"
-            ) {
-
-                iniciarSesion();
-
-            }
-
+    async function restaurarSesion() {
+        if (!sessionToken) return;
+        const { response } = await fetchJSON({ action: "verificar_sesion" }, true);
+        if (response.ok) {
+            UI_MostrarPanel();
+            await cargarCanales();
+        } else {
+            cerrarSesion();
         }
-    );
+    }
 
+    function UI_MostrarPanel() {
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("panel").style.display = "block";
+        document.getElementById("quickAccess").style.display = "flex";
+        document.getElementById("navLogout").style.display = "block";
+        document.getElementById("navLogin").style.display = "none";
+        document.getElementById("navNovaImg").style.display = "inline-block";
+        document.getElementById("navPanelCanales").style.display = "inline-block";
+    }
 
-/* =====================================================
-   INICIAR
-===================================================== */
+    async function iniciarSesion() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const btn = document.getElementById("loginButton");
+        ocultarEstado("loginStatus");
+        if (!username || !password) {
+            mostrarEstado("loginStatus", "error", "Ingresa tus credenciales.");
+            return;
+        }
+        btn.disabled = true; btn.textContent = "AUTENTICANDO...";
+        const { response, data } = await fetchJSON({ action: "login", username, password });
+        if (response.ok && data.token) {
+            sessionToken = data.token;
+            localStorage.setItem("novaimg_session_token", sessionToken);
+            document.getElementById("password").value = "";
+            UI_MostrarPanel();
+            await cargarCanales();
+        } else {
+            mostrarEstado("loginStatus", "error", data.error || "Acceso denegado.");
+        }
+        btn.disabled = false; btn.textContent = "INGRESAR AL PANEL";
+    }
 
-restaurarSesion();
+    function cerrarSesion() {
+        localStorage.removeItem("novaimg_session_token");
+        sessionToken = "";
+        location.reload();
+    }
 
+    async function cargarCanales() {
+        const select = document.getElementById("canal");
+        select.innerHTML = '<option value="">Cargando canales...</option>';
+        try {
+            const r = await fetch(CATALOGO_URL, { cache: "no-store" });
+            const html = await r.text();
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const cards = doc.querySelectorAll(".card");
+            select.innerHTML = '<option value="">Selecciona un canal</option>';
+            let count = 0;
+            cards.forEach(card => {
+                const name = card.querySelector("h2")?.textContent?.trim();
+                const num = card.querySelector(".channel-number")?.textContent?.replace(/CANAL/gi, "").trim();
+                const src = card.querySelector("img")?.getAttribute("src");
+                const match = src?.match(/(?:icons\/)([^/?#]+\.webp)/i);
+                if (name && num && match) {
+                    const opt = document.createElement("option");
+                    opt.value = match[1];
+                    opt.textContent = `${name} (Canal ${num})`;
+                    select.appendChild(opt);
+                    count++;
+                }
+            });
+            if (count === 0) select.innerHTML = '<option value="">No hay canales con iconos.</option>';
+        } catch (e) {
+            mostrarEstado("status", "error", "Error al leer el catálogo local.");
+        }
+    }
 
+    function limpiarArchivo() {
+        document.getElementById("imagenArchivo").value = "";
+        document.getElementById("fileName").style.display = "none";
+    }
+
+    function seleccionarArchivo() {
+        const input = document.getElementById("imagenArchivo");
+        const file = input.files?.[0];
+        document.getElementById("imagenUrl").value = "";
+        if (!file) {
+            document.getElementById("fileName").style.display = "none";
+            return;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+            input.value = "";
+            mostrarEstado("status", "error", "El archivo supera los 25 MB.");
+            return;
+        }
+        const nameEl = document.getElementById("fileName");
+        nameEl.textContent = `📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        nameEl.style.display = "block";
+    }
+
+    function verImagenUrl() {
+        const url = document.getElementById("imagenUrl").value.trim();
+        if (!url) { mostrarEstado("status", "error", "Escribe una URL."); return; }
+        const img = document.getElementById("previewImage");
+        img.onload = () => document.getElementById("preview").style.display = "block";
+        img.onerror = () => mostrarEstado("status", "error", "URL de imagen no válida.");
+        img.src = url;
+    }
+
+    function verImagenArchivo() {
+        const file = document.getElementById("imagenArchivo").files?.[0];
+        if (!file) { mostrarEstado("status", "error", "Sube una imagen."); return; }
+        const img = document.getElementById("previewImage");
+        img.src = URL.createObjectURL(file);
+        document.getElementById("preview").style.display = "block";
+    }
+
+    async function actualizarIcono() {
+        const canal = document.getElementById("canal").value;
+        const url = document.getElementById("imagenUrl").value.trim();
+        const file = document.getElementById("imagenArchivo").files?.[0];
+        const btn = document.getElementById("updateButton");
+        ocultarEstado("status");
+        if (!canal) { mostrarEstado("status", "error", "Selecciona un canal."); return; }
+        if (!url && !file) { mostrarEstado("status", "error", "Elige una imagen."); return; }
+
+        btn.disabled = true; btn.textContent = "⚡ PROCESANDO...";
+        try {
+            let res;
+            if (file) {
+                const fd = new FormData();
+                fd.append("action", "actualizar");
+                fd.append("canal", canal);
+                fd.append("imagen", file);
+                res = await fetch(API_URL, { method: "POST", headers: { "Authorization": "Bearer " + sessionToken }, body: fd });
+            } else {
+                res = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + sessionToken },
+                    body: JSON.stringify({ action: "actualizar", canal, imagen_url: url })
+                });
+            }
+            const data = await res.json();
+            if (res.ok) {
+                mostrarEstado("status", "success", data.message || "¡Icono actualizado!");
+                limpiarArchivo(); document.getElementById("imagenUrl").value = "";
+            } else {
+                if (res.status === 401) cerrarSesion();
+                throw new Error(data.error || "Error al actualizar.");
+            }
+        } catch (e) {
+            mostrarEstado("status", "error", e.message);
+        }
+        btn.disabled = false; btn.textContent = "🚀 APLICAR CAMBIO DE ICONO";
+    }
+
+    document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
+    restaurarSesion();
 </script>
-
-
-<footer class="novaplay-footer">
-  <div>© 2026 NOVAPLAY TV</div>
-  <div>© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS</div>
-</footer>
-<style>
-.novaplay-footer{
-  width:100%; text-align:center; padding:28px 16px 24px;
-  color:#aeb6c5; font-family:Arial,Helvetica,sans-serif;
-  font-size:13px; line-height:1.8; margin-top:40px;
-  border-top:1px solid rgba(255,255,255,.08);
-}
-</style>
-
 
 <script>
 function abrirDemoNovaPlay(){
@@ -1911,9 +396,5 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 </script>
-
 </body>
-
 </html>
-
-
