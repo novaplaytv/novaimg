@@ -26,71 +26,38 @@ def descargar_json(url):
 def obtener_archivo_icono(icono_url):
     """
     Convierte una URL como:
-
     https://servidor.com/icons/006.webp
-
     en:
-
     006.webp
     """
-
     if not icono_url:
         return ""
-
     icono_url = str(icono_url).strip()
-
     parsed = urlparse(icono_url)
-
     ruta = parsed.path
-
     if ruta:
         return os.path.basename(ruta)
-
-    return os.path.basename(
-        icono_url.split("?")[0]
-    )
+    return os.path.basename(icono_url.split("?")[0])
 
 
 def procesar_items(items, categoria_nombre):
-
     canales = []
-
     if not isinstance(items, list):
         return canales
-
     for item in items:
-
         if not isinstance(item, dict):
             continue
-
-        nombre = str(
-            item.get("name", "")
-        ).strip()
-
-        numero = str(
-            item.get("canal", "")
-        ).strip()
-
-        icono_url = str(
-            item.get("icono", "")
-        ).strip()
+        nombre = str(item.get("name", "")).strip()
+        numero = str(item.get("canal", "")).strip()
+        icono_url = str(item.get("icono", "")).strip()
 
         if not icono_url:
-            print(
-                f"⚠ Canal sin icono: "
-                f"{nombre or numero}"
-            )
+            print(f"⚠ Canal sin icono: {nombre or numero}")
             continue
 
-        icono = obtener_archivo_icono(
-            icono_url
-        )
-
+        icono = obtener_archivo_icono(icono_url)
         if not icono:
-            print(
-                f"⚠ No se pudo obtener archivo del icono: "
-                f"{nombre}"
-            )
+            print(f"⚠ No se pudo obtener archivo del icono: {nombre}")
             continue
 
         if not nombre:
@@ -106,135 +73,44 @@ def procesar_items(items, categoria_nombre):
             "icono_url": icono_url,
             "categoria": categoria_nombre
         })
-
     return canales
 
 
 def procesar_canales(data):
-
     canales = []
-
     if isinstance(data, list):
-
-        print(
-            f"Elementos principales encontrados: "
-            f"{len(data)}"
-        )
-
+        print(f"Elementos principales encontrados: {len(data)}")
         for grupo in data:
-
             if not isinstance(grupo, dict):
                 continue
-
-            categoria_nombre = str(
-                grupo.get(
-                    "title",
-                    grupo.get(
-                        "name",
-                        "SIN CATEGORÍA"
-                    )
-                )
-            ).strip()
-
-            # Caso normal:
-            # categoría -> items
-            if isinstance(
-                grupo.get("items"),
-                list
-            ):
-
+            categoria_nombre = str(grupo.get("title", grupo.get("name", "SIN CATEGORÍA"))).strip()
+            if isinstance(grupo.get("items"), list):
                 items = grupo["items"]
-
-                print(
-                    f"Procesando categoría: "
-                    f"{categoria_nombre} "
-                    f"({len(items)} items)"
-                )
-
-                canales.extend(
-                    procesar_items(
-                        items,
-                        categoria_nombre
-                    )
-                )
-
-            # Por si el elemento principal
-            # es directamente un canal
+                print(f"Procesando categoría: {categoria_nombre} ({len(items)} items)")
+                canales.extend(procesar_items(items, categoria_nombre))
             elif "icono" in grupo:
-
-                canales.extend(
-                    procesar_items(
-                        [grupo],
-                        categoria_nombre
-                    )
-                )
-
+                canales.extend(procesar_items([grupo], categoria_nombre))
     elif isinstance(data, dict):
-
-        # Caso:
-        # { "items": [...] }
-        if isinstance(
-            data.get("items"),
-            list
-        ):
-
-            canales.extend(
-                procesar_items(
-                    data["items"],
-                    str(
-                        data.get(
-                            "title",
-                            "SIN CATEGORÍA"
-                        )
-                    )
-                )
-            )
-
-        # Buscar categorías conocidas
+        if isinstance(data.get("items"), list):
+            canales.extend(procesar_items(data["items"], str(data.get("title", "SIN CATEGORÍA"))))
         else:
-
             for clave, valor in data.items():
-
                 if isinstance(valor, list):
-
-                    canales.extend(
-                        procesar_items(
-                            valor,
-                            clave
-                        )
-                    )
-
+                    canales.extend(procesar_items(valor, clave))
     return canales
 
 
 def ordenar_canal(canal):
-
-    numero = canal.get(
-        "numero",
-        ""
-    )
-
+    numero = canal.get("numero", "")
     try:
-        return (
-            0,
-            int(numero)
-        )
-    except (
-        ValueError,
-        TypeError
-    ):
-        return (
-            1,
-            canal["nombre"].lower()
-        )
+        return (0, int(numero))
+    except (ValueError, TypeError):
+        return (1, canal["nombre"].lower())
 
 
 def generar_tarjetas(canales):
-
     tarjetas = []
-
     for canal in canales:
-
         nombre = html.escape(canal["nombre"])
         numero = html.escape(canal["numero"])
         categoria = html.escape(canal["categoria"])
@@ -263,15 +139,15 @@ def generar_tarjetas(canales):
 
                 <div class="details">
                     <div class="detail">
-                        <span class="label">Archivo</span>
+                        <span class="label" data-i18n="file">Archivo</span>
                         <code>{icono}</code>
                     </div>
                     <div class="detail">
-                        <span class="label">URL Origen</span>
+                        <span class="label" data-i18n="originUrl">URL Origen</span>
                         <div class="url-row">
                             <a href="{icono_url}" target="_blank" rel="noopener noreferrer" class="icon-url">{icono_url}</a>
                             <button class="copy-button" data-url="{icono_url}" onclick="copiarURL(this)" title="Copiar URL">
-                                <i class="fas fa-copy"></i> Copiar
+                                <i class="fas fa-copy"></i> <span data-i18n="copy">Copiar</span>
                             </button>
                         </div>
                     </div>
@@ -280,19 +156,15 @@ def generar_tarjetas(canales):
         </article>
         """
         tarjetas.append(tarjeta)
-
     return "\n".join(tarjetas)
 
 
 def generar_html(canales):
-
     fecha = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
     tarjetas = generar_tarjetas(canales)
-
-    # Extract unique categories
     categorias = sorted(list(set(c['categoria'] for c in canales)))
 
-    filtro_botones = '<button class="filter-btn active" data-category="Todas">Todas</button>'
+    filtro_botones = '<button class="filter-btn active" data-category="Todas" data-i18n="all">Todas</button>'
     for cat in categorias:
         filtro_botones += f'\n<button class="filter-btn" data-category="{html.escape(cat)}">{html.escape(cat)}</button>'
 
@@ -344,6 +216,14 @@ body {{
     transition: 0.2s; padding: 10px 15px; border-radius: 10px;
 }}
 .nav-links a:hover {{ color: #fff; background: rgba(255, 255, 255, 0.05); }}
+
+.lang-toggle {{
+    background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--border);
+    padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
+}}
+.lang-toggle:hover {{ background: rgba(255, 255, 255, 0.1); border-color: var(--primary); }}
+
 .btn-login-nav, .btn-logout {{
     background: var(--primary); color: #fff !important; font-weight: 800 !important;
     padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 14px;
@@ -434,30 +314,15 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 
 /* NovaToast System */
 #toast-container {{
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    position: fixed; bottom: 30px; right: 30px; z-index: 99999;
+    display: flex; flex-direction: column; gap: 12px;
 }}
 .nova-toast {{
-    background: rgba(26, 31, 46, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    padding: 16px 24px;
-    border-radius: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    min-width: 280px;
+    background: rgba(26, 31, 46, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 16px 24px;
+    border-radius: 16px; font-size: 14px; font-weight: 600; display: flex;
+    align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); min-width: 280px;
 }}
 .nova-toast.success {{ border-left: 4px solid #10b981; }}
 .nova-toast.error {{ border-left: 4px solid #ef4444; }}
@@ -468,16 +333,10 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
     from {{ transform: translateX(100%) scale(0.9); opacity: 0; }}
     to {{ transform: translateX(0) scale(1); opacity: 1; }}
 }}
-.toast-fade-out {{
-    animation: toastFadeOut 0.4s forwards;
-}}
-@keyframes toastFadeOut {{
-    to {{ transform: translateX(20px); opacity: 0; }}
-}}
+.toast-fade-out {{ animation: toastFadeOut 0.4s forwards; }}
+@keyframes toastFadeOut {{ to {{ transform: translateX(20px); opacity: 0; }} }}
 
-@media (max-width: 900px) {{
-    .nav-links {{ display: none; }}
-}}
+@media (max-width: 900px) {{ .nav-links {{ display: none; }} }}
 @media (max-width: 600px) {{
     .grid {{ grid-template-columns: 1fr; }}
     .card-content {{ flex-direction: column; text-align: center; }}
@@ -499,6 +358,7 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
             <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
+            <button class="lang-toggle" onclick="toggleLanguage()" title="Cambiar Idioma">🌐 <span id="langLabel">EN</span></button>
             <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
@@ -507,10 +367,10 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 <header>
     <div class="header-content">
         <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
-        <h1 class="subtitle">Catálogo de Activos</h1>
-        <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
+        <h1 class="subtitle" data-i18n="title">Catálogo de Activos</h1>
+        <p class="description" data-i18n="subtitle">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
         <div class="stats">
-            <i class="fas fa-tv"></i> &nbsp; {len(canales)} canales indexados
+            <i class="fas fa-tv"></i> &nbsp; {len(canales)} <span data-i18n="indexed">canales indexados</span>
         </div>
     </div>
 </header>
@@ -531,6 +391,54 @@ footer p {{ margin: 10px 0; font-size: 14px; color: var(--text-muted); }}
 <div id="toast-container"></div>
 
 <script>
+const translations = {{
+    es: {{
+        title: "Catálogo de Activos",
+        subtitle: "Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.",
+        indexed: "canales indexados",
+        searchPlaceholder: "Buscar canal, categoría o nombre de archivo...",
+        all: "Todas",
+        file: "Archivo",
+        originUrl: "URL Origen",
+        copy: "Copiar",
+        copied: "Copiado",
+        urlCopied: "URL copiada al portapapeles"
+    }},
+    en: {{
+        title: "Asset Catalog",
+        subtitle: "Centralized management of channels, logos, and visual identities for the NovaPlay ecosystem.",
+        indexed: "indexed channels",
+        searchPlaceholder: "Search channel, category, or file name...",
+        all: "All",
+        file: "File",
+        originUrl: "Origin URL",
+        copy: "Copy",
+        copied: "Copied",
+        urlCopied: "URL copied to clipboard"
+    }}
+}};
+
+let currentLang = localStorage.getItem("novaimg_lang") || "es";
+
+function updateLanguage() {{
+    document.querySelectorAll("[data-i18n]").forEach(el => {{
+        const key = el.dataset.i18n;
+        if (translations[currentLang][key]) {{
+            el.textContent = translations[currentLang][key];
+        }}
+    }});
+
+    document.getElementById("search").placeholder = translations[currentLang].searchPlaceholder;
+    document.getElementById("langLabel").textContent = currentLang === "es" ? "EN" : "ES";
+    document.documentElement.lang = currentLang;
+}}
+
+function toggleLanguage() {{
+    currentLang = currentLang === "es" ? "en" : "es";
+    localStorage.setItem("novaimg_lang", currentLang);
+    updateLanguage();
+}}
+
 const searchInput = document.getElementById("search");
 const filterBtns = document.querySelectorAll(".filter-btn");
 let activeCategory = "Todas";
@@ -583,25 +491,29 @@ function novaToast(message, type = 'success') {{
 function copiarURL(button) {{
     const url = button.dataset.url;
     navigator.clipboard.writeText(url).then(() => {{
-        novaToast("URL copiada al portapapeles", "success");
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> Copiado';
-        setTimeout(() => {{ button.innerHTML = originalText; }}, 2000);
+        novaToast(translations[currentLang].urlCopied, "success");
+        const copyText = button.querySelector('[data-i18n="copy"]');
+        if (copyText) {{
+            copyText.textContent = translations[currentLang].copied;
+            setTimeout(() => {{ copyText.textContent = translations[currentLang].copy; }}, 2000);
+        }}
     }});
 }}
 
 function checkAuth() {{
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
-    document.getElementById("navLogin").style.display = token ? 'none' : 'block';
-    document.getElementById("navLogout").style.display = token ? 'block' : 'none';
+    const loginBtn = document.getElementById("navLogin");
+    const logoutBtn = document.getElementById("navLogout");
+    if (loginBtn) loginBtn.style.display = token ? 'none' : 'block';
+    if (logoutBtn) logoutBtn.style.display = token ? 'block' : 'none';
 }}
+
 function cerrarSesion() {{
     localStorage.removeItem("novaimg_session_token");
     localStorage.removeItem("novaplay_session_token");
     location.reload();
 }}
 
-// PWA Registration
 if ('serviceWorker' in navigator) {{
     window.addEventListener('load', () => {{
         navigator.serviceWorker.register('sw.js')
@@ -610,7 +522,10 @@ if ('serviceWorker' in navigator) {{
     }});
 }}
 
-document.addEventListener('DOMContentLoaded', checkAuth);
+document.addEventListener('DOMContentLoaded', () => {{
+    checkAuth();
+    updateLanguage();
+}});
 </script>
 </body>
 </html>
@@ -618,50 +533,25 @@ document.addEventListener('DOMContentLoaded', checkAuth);
 
 
 def main():
-
     JSON_URL = os.environ.get("NOVAPLAY_JSON_URL")
-
     if not JSON_URL:
         print("ERROR: No existe la variable NOVAPLAY_JSON_URL.")
         return
 
     data = descargar_json(JSON_URL)
-
-    canales = procesar_canales(
-        data
-    )
-
-    print(
-        f"Total de canales encontrados: "
-        f"{len(canales)}"
-    )
+    canales = procesar_canales(data)
+    print(f"Total de canales encontrados: {len(canales)}")
 
     if not canales:
-        raise SystemExit(
-            "ERROR: No se encontraron canales con iconos."
-        )
+        raise SystemExit("ERROR: No se encontraron canales con iconos.")
 
-    canales.sort(
-        key=ordenar_canal
-    )
+    canales.sort(key=ordenar_canal)
+    contenido = generar_html(canales)
 
-    contenido = generar_html(
-        canales
-    )
+    with open("index.html", "w", encoding="utf-8") as archivo:
+        archivo.write(contenido)
 
-    with open(
-        "index.html",
-        "w",
-        encoding="utf-8"
-    ) as archivo:
-
-        archivo.write(
-            contenido
-        )
-
-    print(
-        "✓ index.html generado correctamente."
-    )
+    print("✓ index.html generado correctamente.")
 
 
 if __name__ == "__main__":
