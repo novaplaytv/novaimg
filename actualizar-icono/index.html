@@ -35,6 +35,9 @@
         .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
         .nav-links a.active { color: var(--primary); }
 
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
+        .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
+
         .btn-login-nav, .btn-logout {
             background: var(--primary);
             color: #fff !important;
@@ -236,27 +239,31 @@
         footer { padding: 60px 20px; text-align: center; color: #444; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 40px; }
         footer p { margin: 8px 0; }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .nav-toggle { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+                background: rgba(8, 10, 16, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: center; align-items: center;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); gap: 20px; padding: 40px;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }
+
+            .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
             .nav-inner { padding: 0 20px; }
-            .nav-links a:not(.active) { display: none; }
-            .nav-brand span { display: none; }
             main { padding: calc(var(--nav-height) + 20px) 15px 30px; }
             .card { padding: 25px; border-radius: 22px; }
             .channel-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); padding: 10px; }
             .comparison { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
             .comp-arrow { transform: rotate(90deg); margin: 0 auto; }
-            .auth-card { width: 90%; padding: 35px; border-radius: 28px; }
+            .auth-card { width: 95%; padding: 35px; border-radius: 28px; }
 
-            /* Mobile Toast */
-            #toast-container {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
-            }
-            .toast-msg {
-                min-width: 0;
-                width: 100%;
-            }
+            #toast-container { bottom: 10px; right: 10px; left: 10px; }
+            .toast-msg { min-width: 0; width: 100%; }
         }
     </style>
 </head>
@@ -268,7 +275,12 @@
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
             NOVAPLAY
         </a>
-        <div class="nav-links">
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
             <a href="https://novaplaytv.github.io/">INICIO</a>
             <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
             <a href="#" class="active">ICONOS</a>
@@ -679,6 +691,26 @@
     });
 
     document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
+
+    // Toggle Menú Móvil
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Cerrar menú al clickear link (móvil)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navToggle) navToggle.classList.remove('active');
+            if (navLinks) navLinks.classList.remove('active');
+        });
+    });
+
     restaurarSesion();
 </script>
 </body>
