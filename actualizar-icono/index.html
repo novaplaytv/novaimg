@@ -148,12 +148,10 @@
         .comp-box img { width: 110px; height: 110px; object-fit: contain; border-radius: 18px; background: #000; border: 1px solid var(--border); padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .comp-arrow { font-size: 28px; color: var(--primary); font-weight: bold; }
 
-        /* Auth Overlay */
+        /* Auth View */
         #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
         .auth-card { width: 400px; padding: 50px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); text-align: center; }
-
-        .status { margin-top: 20px; padding: 16px; border-radius: 14px; font-size: 14px; font-weight: 800; display: none; text-align: center; }
-        .status.success { background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid var(--success); }
+        .status { margin-top: 15px; padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 800; display: none; text-align: center; }
         .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
 
         /* Toast Notification System */
@@ -236,8 +234,8 @@
 
         .hidden { display: none !important; }
 
-        footer { padding: 60px 20px; text-align: center; color: #444; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 40px; }
-        footer p { margin: 8px 0; }
+        footer { padding: 60px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
 
         @media (max-width: 900px) {
             .nav-toggle { display: flex; }
@@ -282,28 +280,28 @@
         </button>
         <div class="nav-links" id="navLinks">
             <a href="https://novaplaytv.github.io/">INICIO</a>
-            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
+            <a href="https://novaplaytv.github.io/NovaApps/">DESCARGAS</a>
             <a href="#" class="active">ICONOS</a>
             <a href="https://novaplaytv.github.io/panel-canales/">CANALES</a>
-            <a href="#" class="btn-login-nav" id="navLogin" onclick="location.reload()">INGRESAR</a>
+            <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
             <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
     </div>
 </nav>
 
 <!-- Auth View -->
-<div id="auth-view">
+<div id="auth-view" class="hidden">
     <div class="auth-card">
         <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
-        <div class="form-group" style="text-align: left;">
-            <label>Usuario</label>
-            <input type="text" id="username" placeholder="Usuario" autocomplete="username">
+        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase;">Usuario</label>
+            <input type="text" id="username" placeholder="Usuario Staff">
         </div>
-        <div class="form-group" style="text-align: left;">
-            <label>Contraseña</label>
-            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase;">Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
         </div>
-        <button class="btn-primary" id="loginButton" style="width:100%; justify-content:center; margin-top:10px; padding: 18px;" onclick="iniciarSesion()">ENTRAR AL PANEL</button>
+        <button class="btn-primary" id="loginButton" style="width:100%; justify-content:center; padding: 18px;" onclick="iniciarSesion()">ENTRAR AL PANEL</button>
         <div id="loginStatus" class="status"></div>
     </div>
 </div>
@@ -373,8 +371,10 @@
 </main>
 
 <footer>
-    <p>© 2026 NOVAPLAY TV - INFRAESTRUCTURA DE CONTENIDOS</p>
-    <p>MSGT - TODOS LOS DERECHOS RESERVADOS</p>
+    <div class="footer-text">
+        © 2026 NOVAPLAY TV<br>
+        © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS
+    </div>
 </footer>
 
 <div id="toast-container"></div>
@@ -442,16 +442,9 @@
     }
 
     async function restaurarSesion() {
-        const token = localStorage.getItem("novaplay_session_token");
-        if (token) {
-            sessionToken = token;
-            const { response } = await fetchJSON({ action: "verificar_sesion" }, true);
-            if (response.ok) {
-                UI_MostrarPanel();
-                await cargarCanales();
-            } else {
-                cerrarSesion();
-            }
+        if (sessionToken) {
+            UI_MostrarPanel();
+            await cargarCanales();
         } else {
             UI_MostrarLogin();
         }
@@ -484,17 +477,18 @@
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
 
-        const { response, data } = await fetchJSON({ action: "login", username, password });
-
         if (response.ok && data.token) {
             sessionToken = data.token;
             localStorage.setItem("novaplay_session_token", sessionToken);
             UI_MostrarPanel();
             await cargarCanales();
         } else {
-            mostrarEstado(statusId, "error", data.error || "Acceso denegado.");
+            const el = document.getElementById("loginStatus");
+            el.className = "status error";
+            el.textContent = "Acceso denegado.";
+            el.style.display = "block";
             btn.disabled = false;
-            btn.textContent = "ENTRAR AL PANEL";
+            btn.textContent = 'ENTRAR AL PANEL';
         }
     }
 
