@@ -40,25 +40,25 @@ if(Math.random()<0.25){
 
 
 <script>
-function abrirDemoNovaPlay(){
-  const url='https://novaplaytv.github.io/DEMO-NOVAPLAY/';
+function abrirNovaSports(){
+  const url='https://novaplaytv.github.io/NovaSports/';
   const w=Math.min(1280,Math.max(800,Math.round(screen.availWidth*.9)));
   const h=Math.min(820,Math.max(600,Math.round(screen.availHeight*.86)));
   const left=Math.max(0,Math.round((screen.availWidth-w)/2));
   const top=Math.max(0,Math.round((screen.availHeight-h)/2));
-  const win=window.open(url,'NOVAPLAY_DEMO','popup=yes,width='+w+',height='+h+',left='+left+',top='+top+',resizable=yes,scrollbars=yes');
+  const win=window.open(url,'NOVASPORTS_LIVE','popup=yes,width='+w+',height='+h+',left='+left+',top='+top+',resizable=yes,scrollbars=yes');
   if(win){win.focus();document.getElementById('demo-popup-permission')?.remove();}
   else{document.getElementById('demo-popup-blocked').style.display='block';}
 }
 function pedirDemoPopup(){
   const old=document.getElementById('demo-popup-permission'); if(old) old.remove();
   document.body.insertAdjacentHTML('beforeend',
-    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR DEMO</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR DEMO, la acción se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR DEMO</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR DEMO.</p></div></div>');
-  document.getElementById('demo-popup-open').addEventListener('click',abrirDemoNovaPlay);
+    '<div class="demo-popup-permission" id="demo-popup-permission"><div class="demo-popup-box"><h2>ABRIR NOVASPORTS</h2><p>NOVAPLAY necesita abrir la DEMO en una ventana emergente. Al pulsar ABRIR NOVASPORTS, la acción se ejecuta directamente por tu clic para reducir el bloqueo del navegador.</p><div class="demo-popup-actions"><button class="demo-popup-btn" id="demo-popup-open">ABRIR NOVASPORTS</button><button class="demo-popup-btn alt" id="demo-popup-cancel">CANCELAR</button></div><p id="demo-popup-blocked" style="display:none;color:#ff9b9b;margin-top:16px">El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio y vuelve a pulsar ABRIR NOVASPORTS.</p></div></div>');
+  document.getElementById('demo-popup-open').addEventListener('click',abrirNovaSports);
   document.getElementById('demo-popup-cancel').addEventListener('click',()=>document.getElementById('demo-popup-permission').remove());
 }
 document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('a[href="https://novaplaytv.github.io/DEMO-NOVAPLAY/"]').forEach(a=>{
+  document.querySelectorAll('a[href="https://novaplaytv.github.io/NovaSports/"]').forEach(a=>{
     a.addEventListener('click',e=>{e.preventDefault();pedirDemoPopup();});
   });
 });
