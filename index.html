@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaImg - Catálogo de Iconos</title>
+<title>NovaImg - CatÃ¡logo de Iconos</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#e50914">
 <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
@@ -182,22 +182,22 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
             <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
             <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
             <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
-            <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
+            <div class="admin-menu" id="adminMenu"><button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button><div class="dropdown-content"><a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a><a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a><a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a><a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a><a href="https://novaplaytv.github.io/novaimg/"><i class="fas fa-icons"></i> Gestión de Iconos</a><a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></div></div>
         </div>
     </div>
 </nav>
 <header>
     <div class="header-content">
         <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
-        <h1 class="subtitle">Catálogo de Activos</h1>
-        <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
+        <h1 class="subtitle">CatÃ¡logo de Activos</h1>
+        <p class="description">GestiÃ³n centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
         <div class="stats">
             <i class="fas fa-tv"></i> &nbsp; 440 canales indexados
         </div>
     </div>
 </header>
 <section class="controls">
-    <input id="search" type="search" placeholder="Buscar canal, categoría o nombre de archivo...">
+    <input id="search" type="search" placeholder="Buscar canal, categorÃ­a o nombre de archivo...">
     <section class="category-filters">
         <button class="filter-btn active" data-category="Todas">Todas</button>
 <button class="filter-btn" data-category="ARGENTINA">ARGENTINA</button>
@@ -206,7 +206,7 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 <button class="filter-btn" data-category="ENTRETENIMIENTO">ENTRETENIMIENTO</button>
 <button class="filter-btn" data-category="EVENTOS">EVENTOS</button>
 <button class="filter-btn" data-category="MEXICO">MEXICO</button>
-<button class="filter-btn" data-category="NIÑOS">NIÑOS</button>
+<button class="filter-btn" data-category="NIÃ‘OS">NIÃ‘OS</button>
 <button class="filter-btn" data-category="NOTICIAS INTERNACIONALES">NOTICIAS INTERNACIONALES</button>
 <button class="filter-btn" data-category="NOVAX">NOVAX</button>
 <button class="filter-btn" data-category="PARAGUAY">PARAGUAY</button>
@@ -217,18 +217,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 <button class="filter-btn" data-category="PLUTO TV - CURIOSIDAD">PLUTO TV - CURIOSIDAD</button>
 <button class="filter-btn" data-category="PLUTO TV - ENTRETENIMIENTO">PLUTO TV - ENTRETENIMIENTO</button>
 <button class="filter-btn" data-category="PLUTO TV - ESTILO DE VIDA">PLUTO TV - ESTILO DE VIDA</button>
-<button class="filter-btn" data-category="PLUTO TV - NIÑOS Y ADOLECENTES">PLUTO TV - NIÑOS Y ADOLECENTES</button>
+<button class="filter-btn" data-category="PLUTO TV - NIÃ‘OS Y ADOLECENTES">PLUTO TV - NIÃ‘OS Y ADOLECENTES</button>
 <button class="filter-btn" data-category="PLUTO TV - NOVELAS">PLUTO TV - NOVELAS</button>
 <button class="filter-btn" data-category="PLUTO TV - PELICULAS">PLUTO TV - PELICULAS</button>
 <button class="filter-btn" data-category="PLUTO TV - REALITY">PLUTO TV - REALITY</button>
 <button class="filter-btn" data-category="PLUTO TV - RETRO">PLUTO TV - RETRO</button>
 <button class="filter-btn" data-category="PLUTO TV - SERIES">PLUTO TV - SERIES</button>
 <button class="filter-btn" data-category="PLUTO TV DEPORTES">PLUTO TV DEPORTES</button>
-<button class="filter-btn" data-category="PLUTO TV INVESTIGACIÓN">PLUTO TV INVESTIGACIÓN</button>
-<button class="filter-btn" data-category="PLUTO TV MÚSICA">PLUTO TV MÚSICA</button>
+<button class="filter-btn" data-category="PLUTO TV INVESTIGACIÃ“N">PLUTO TV INVESTIGACIÃ“N</button>
+<button class="filter-btn" data-category="PLUTO TV MÃšSICA">PLUTO TV MÃšSICA</button>
 <button class="filter-btn" data-category="PLUTO TV NOTICIAS">PLUTO TV NOTICIAS</button>
 <button class="filter-btn" data-category="RELIGIOSO">RELIGIOSO</button>
-<button class="filter-btn" data-category="SECCIÓN TEST - PARA PROBAR CANALES">SECCIÓN TEST - PARA PROBAR CANALES</button>
+<button class="filter-btn" data-category="SECCIÃ“N TEST - PARA PROBAR CANALES">SECCIÃ“N TEST - PARA PROBAR CANALES</button>
 <button class="filter-btn" data-category="URUGUAY Y CHILE">URUGUAY Y CHILE</button>
 <button class="filter-btn" data-category="VARIADOS - INTERNACIONALES">VARIADOS - INTERNACIONALES</button>
     </section>
@@ -1123,18 +1123,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ÑANDUTI TV 25 PARAGUAY 024.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/024.webp">
+        <article class="card" data-search="Ã‘ANDUTI TV 25 PARAGUAY 024.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/024.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 25</div>
-                    <h2>ÑANDUTI TV</h2>
+                    <h2>Ã‘ANDUTI TV</h2>
                 </div>
                 <div class="category">PARAGUAY</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/024.webp" alt="ÑANDUTI TV" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/024.webp" alt="Ã‘ANDUTI TV" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -1382,18 +1382,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="TVS ENCARNACIÓN 32 PARAGUAY 031.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/031.webp">
+        <article class="card" data-search="TVS ENCARNACIÃ“N 32 PARAGUAY 031.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/031.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 32</div>
-                    <h2>TVS ENCARNACIÓN</h2>
+                    <h2>TVS ENCARNACIÃ“N</h2>
                 </div>
                 <div class="category">PARAGUAY</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/031.webp" alt="TVS ENCARNACIÓN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/031.webp" alt="TVS ENCARNACIÃ“N" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -1493,18 +1493,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="VISIÓN TV 35 PARAGUAY 034.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/034.webp">
+        <article class="card" data-search="VISIÃ“N TV 35 PARAGUAY 034.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/034.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 35</div>
-                    <h2>VISIÓN TV</h2>
+                    <h2>VISIÃ“N TV</h2>
                 </div>
                 <div class="category">PARAGUAY</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/034.webp" alt="VISIÓN TV" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/034.webp" alt="VISIÃ“N TV" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -4749,18 +4749,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BEIN SPORTS XTRA Ñ 123 DEPORTES 124.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/124.webp">
+        <article class="card" data-search="BEIN SPORTS XTRA Ã‘ 123 DEPORTES 124.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/124.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 123</div>
-                    <h2>BEIN SPORTS XTRA Ñ</h2>
+                    <h2>BEIN SPORTS XTRA Ã‘</h2>
                 </div>
                 <div class="category">DEPORTES</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/124.webp" alt="BEIN SPORTS XTRA Ñ" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/124.webp" alt="BEIN SPORTS XTRA Ã‘" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -6081,18 +6081,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="RCN MÁS 159 ENTRETENIMIENTO 161.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/161.webp">
+        <article class="card" data-search="RCN MÃS 159 ENTRETENIMIENTO 161.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/161.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 159</div>
-                    <h2>RCN MÁS</h2>
+                    <h2>RCN MÃS</h2>
                 </div>
                 <div class="category">ENTRETENIMIENTO</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/161.webp" alt="RCN MÁS" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/161.webp" alt="RCN MÃS" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -6488,18 +6488,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="SONY ONE ACCIÓN 170 ENTRETENIMIENTO 172.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/172.webp">
+        <article class="card" data-search="SONY ONE ACCIÃ“N 170 ENTRETENIMIENTO 172.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/172.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 170</div>
-                    <h2>SONY ONE ACCIÓN</h2>
+                    <h2>SONY ONE ACCIÃ“N</h2>
                 </div>
                 <div class="category">ENTRETENIMIENTO</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/172.webp" alt="SONY ONE ACCIÓN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/172.webp" alt="SONY ONE ACCIÃ“N" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -7228,18 +7228,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CNN EN ESPAÑOL 190 NOTICIAS INTERNACIONALES 192.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/192.webp">
+        <article class="card" data-search="CNN EN ESPAÃ‘OL 190 NOTICIAS INTERNACIONALES 192.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/192.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 190</div>
-                    <h2>CNN EN ESPAÑOL</h2>
+                    <h2>CNN EN ESPAÃ‘OL</h2>
                 </div>
                 <div class="category">NOTICIAS INTERNACIONALES</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/192.webp" alt="CNN EN ESPAÑOL" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/192.webp" alt="CNN EN ESPAÃ‘OL" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -8042,13 +8042,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BABY TV 212 NIÑOS 214.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/214.webp">
+        <article class="card" data-search="BABY TV 212 NIÃ‘OS 214.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/214.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 212</div>
                     <h2>BABY TV</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8079,13 +8079,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLIM PLIM 213 NIÑOS 215.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/215.webp">
+        <article class="card" data-search="PLIM PLIM 213 NIÃ‘OS 215.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/215.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 213</div>
                     <h2>PLIM PLIM</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8116,13 +8116,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CARTOON NETWORK 214 NIÑOS 216.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/216.webp">
+        <article class="card" data-search="CARTOON NETWORK 214 NIÃ‘OS 216.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/216.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 214</div>
                     <h2>CARTOON NETWORK</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8153,13 +8153,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CARTOONITO 215 NIÑOS 217.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/217.webp">
+        <article class="card" data-search="CARTOONITO 215 NIÃ‘OS 217.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/217.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 215</div>
                     <h2>CARTOONITO</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8190,13 +8190,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DISCOVERY KIDS 216 NIÑOS 218.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/218.webp">
+        <article class="card" data-search="DISCOVERY KIDS 216 NIÃ‘OS 218.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/218.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 216</div>
                     <h2>DISCOVERY KIDS</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8227,13 +8227,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DISNEY CHANNEL 217 NIÑOS 219.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/219.webp">
+        <article class="card" data-search="DISNEY CHANNEL 217 NIÃ‘OS 219.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/219.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 217</div>
                     <h2>DISNEY CHANNEL</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8264,13 +8264,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DISNEY JR 218 NIÑOS 220.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/220.webp">
+        <article class="card" data-search="DISNEY JR 218 NIÃ‘OS 220.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/220.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 218</div>
                     <h2>DISNEY JR</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8301,13 +8301,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DREAMWORKS 219 NIÑOS 221.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/221.webp">
+        <article class="card" data-search="DREAMWORKS 219 NIÃ‘OS 221.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/221.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 219</div>
                     <h2>DREAMWORKS</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8338,18 +8338,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="EL REINO INFANTIL ⭐ 220 NIÑOS 222.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/222.webp">
+        <article class="card" data-search="EL REINO INFANTIL â­ 220 NIÃ‘OS 222.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/222.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 220</div>
-                    <h2>EL REINO INFANTIL ⭐</h2>
+                    <h2>EL REINO INFANTIL â­</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/222.webp" alt="EL REINO INFANTIL ⭐" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/222.webp" alt="EL REINO INFANTIL â­" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -8375,13 +8375,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="KIDOO 221 NIÑOS 223.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/223.webp">
+        <article class="card" data-search="KIDOO 221 NIÃ‘OS 223.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/223.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 221</div>
                     <h2>KIDOO</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8412,13 +8412,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NICK JR 222 NIÑOS 224.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/224.webp">
+        <article class="card" data-search="NICK JR 222 NIÃ‘OS 224.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/224.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 222</div>
                     <h2>NICK JR</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8449,13 +8449,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NICKELODEON 223 NIÑOS 225.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/225.webp">
+        <article class="card" data-search="NICKELODEON 223 NIÃ‘OS 225.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/225.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 223</div>
                     <h2>NICKELODEON</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8486,13 +8486,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PAKA PAKA 224 NIÑOS 226.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/226.webp">
+        <article class="card" data-search="PAKA PAKA 224 NIÃ‘OS 226.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/226.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 224</div>
                     <h2>PAKA PAKA</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8523,13 +8523,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="TOONCAST 225 NIÑOS 227.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/227.webp">
+        <article class="card" data-search="TOONCAST 225 NIÃ‘OS 227.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/227.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 225</div>
                     <h2>TOONCAST</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8560,13 +8560,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BABY SHARK TV 226 NIÑOS 228.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/228.webp">
+        <article class="card" data-search="BABY SHARK TV 226 NIÃ‘OS 228.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/228.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 226</div>
                     <h2>BABY SHARK TV</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8597,13 +8597,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NARUTO SHIPPUDEN 227 NIÑOS 229.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/229.webp">
+        <article class="card" data-search="NARUTO SHIPPUDEN 227 NIÃ‘OS 229.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/229.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 227</div>
                     <h2>NARUTO SHIPPUDEN</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8634,13 +8634,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NICKELODEON TOONS 228 NIÑOS 230.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/230.webp">
+        <article class="card" data-search="NICKELODEON TOONS 228 NIÃ‘OS 230.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/230.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 228</div>
                     <h2>NICKELODEON TOONS</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8671,13 +8671,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NICK JR CLUB 229 NIÑOS 231.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/231.webp">
+        <article class="card" data-search="NICK JR CLUB 229 NIÃ‘OS 231.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/231.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 229</div>
                     <h2>NICK JR CLUB</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8708,13 +8708,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="POPEYE 230 NIÑOS 232.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/232.webp">
+        <article class="card" data-search="POPEYE 230 NIÃ‘OS 232.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/232.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 230</div>
                     <h2>POPEYE</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8745,13 +8745,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="POKEMON 231 NIÑOS 233.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/233.webp">
+        <article class="card" data-search="POKEMON 231 NIÃ‘OS 233.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/233.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 231</div>
                     <h2>POKEMON</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8782,13 +8782,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NICKELODEON CLASICOS 232 NIÑOS 234.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/234.webp">
+        <article class="card" data-search="NICKELODEON CLASICOS 232 NIÃ‘OS 234.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/234.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 232</div>
                     <h2>NICKELODEON CLASICOS</h2>
                 </div>
-                <div class="category">NIÑOS</div>
+                <div class="category">NIÃ‘OS</div>
             </div>
 
             <div class="card-content">
@@ -8856,18 +8856,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV CINE ACCIÓN 234 PLUTO TV - PELICULAS 236.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/236.webp">
+        <article class="card" data-search="PLUTO.TV CINE ACCIÃ“N 234 PLUTO TV - PELICULAS 236.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/236.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 234</div>
-                    <h2>PLUTO.TV CINE ACCIÓN</h2>
+                    <h2>PLUTO.TV CINE ACCIÃ“N</h2>
                 </div>
                 <div class="category">PLUTO TV - PELICULAS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/236.webp" alt="PLUTO.TV CINE ACCIÓN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/236.webp" alt="PLUTO.TV CINE ACCIÃ“N" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -8893,18 +8893,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ESTRELLAS DE ACCIÓN 235 PLUTO TV - PELICULAS 237.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/237.webp">
+        <article class="card" data-search="ESTRELLAS DE ACCIÃ“N 235 PLUTO TV - PELICULAS 237.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/237.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 235</div>
-                    <h2>ESTRELLAS DE ACCIÓN</h2>
+                    <h2>ESTRELLAS DE ACCIÃ“N</h2>
                 </div>
                 <div class="category">PLUTO TV - PELICULAS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/237.webp" alt="ESTRELLAS DE ACCIÓN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/237.webp" alt="ESTRELLAS DE ACCIÃ“N" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -9374,18 +9374,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV CINE CLÁSICO 248 PLUTO TV - PELICULAS 250.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/250.webp">
+        <article class="card" data-search="PLUTO.TV CINE CLÃSICO 248 PLUTO TV - PELICULAS 250.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/250.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 248</div>
-                    <h2>PLUTO.TV CINE CLÁSICO</h2>
+                    <h2>PLUTO.TV CINE CLÃSICO</h2>
                 </div>
                 <div class="category">PLUTO TV - PELICULAS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/250.webp" alt="PLUTO.TV CINE CLÁSICO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/250.webp" alt="PLUTO.TV CINE CLÃSICO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -9633,18 +9633,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="NÚM3ROS 255 PLUTO TV - SERIES 257.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/257.webp">
+        <article class="card" data-search="NÃšM3ROS 255 PLUTO TV - SERIES 257.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/257.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 255</div>
-                    <h2>NÚM3ROS</h2>
+                    <h2>NÃšM3ROS</h2>
                 </div>
                 <div class="category">PLUTO TV - SERIES</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/257.webp" alt="NÚM3ROS" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/257.webp" alt="NÃšM3ROS" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -9670,18 +9670,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV SERIES DE ACCIÓN 256 PLUTO TV - SERIES 258.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/258.webp">
+        <article class="card" data-search="PLUTO.TV SERIES DE ACCIÃ“N 256 PLUTO TV - SERIES 258.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/258.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 256</div>
-                    <h2>PLUTO.TV SERIES DE ACCIÓN</h2>
+                    <h2>PLUTO.TV SERIES DE ACCIÃ“N</h2>
                 </div>
                 <div class="category">PLUTO TV - SERIES</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/258.webp" alt="PLUTO.TV SERIES DE ACCIÓN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/258.webp" alt="PLUTO.TV SERIES DE ACCIÃ“N" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -9707,18 +9707,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ROOKIE BLUE: POLICÍAS NOVATOS 24/7 257 PLUTO TV - SERIES 259.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/259.webp">
+        <article class="card" data-search="ROOKIE BLUE: POLICÃAS NOVATOS 24/7 257 PLUTO TV - SERIES 259.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/259.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 257</div>
-                    <h2>ROOKIE BLUE: POLICÍAS NOVATOS 24/7</h2>
+                    <h2>ROOKIE BLUE: POLICÃAS NOVATOS 24/7</h2>
                 </div>
                 <div class="category">PLUTO TV - SERIES</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/259.webp" alt="ROOKIE BLUE: POLICÍAS NOVATOS 24/7" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/259.webp" alt="ROOKIE BLUE: POLICÃAS NOVATOS 24/7" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -10521,18 +10521,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="AZ CORAZÓN 279 PLUTO TV - NOVELAS 281.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/281.webp">
+        <article class="card" data-search="AZ CORAZÃ“N 279 PLUTO TV - NOVELAS 281.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/281.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 279</div>
-                    <h2>AZ CORAZÓN</h2>
+                    <h2>AZ CORAZÃ“N</h2>
                 </div>
                 <div class="category">PLUTO TV - NOVELAS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/281.webp" alt="AZ CORAZÓN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/281.webp" alt="AZ CORAZÃ“N" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -10558,18 +10558,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="SIN ##### NO HAY PARAÍSO 280 PLUTO TV - NOVELAS 282.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/282.webp">
+        <article class="card" data-search="SIN ##### NO HAY PARAÃSO 280 PLUTO TV - NOVELAS 282.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/282.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 280</div>
-                    <h2>SIN ##### NO HAY PARAÍSO</h2>
+                    <h2>SIN ##### NO HAY PARAÃSO</h2>
                 </div>
                 <div class="category">PLUTO TV - NOVELAS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/282.webp" alt="SIN ##### NO HAY PARAÍSO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/282.webp" alt="SIN ##### NO HAY PARAÃSO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -11187,18 +11187,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="HELL´S KITCHEN 297 PLUTO TV - COMPETENCIAS 299.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/299.webp">
+        <article class="card" data-search="HELLÂ´S KITCHEN 297 PLUTO TV - COMPETENCIAS 299.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/299.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 297</div>
-                    <h2>HELL´S KITCHEN</h2>
+                    <h2>HELLÂ´S KITCHEN</h2>
                 </div>
                 <div class="category">PLUTO TV - COMPETENCIAS</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/299.webp" alt="HELL´S KITCHEN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/299.webp" alt="HELLÂ´S KITCHEN" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -11779,18 +11779,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="LOCOS Y OBSESIÓNADOS POR LOS AUTOS 313 PLUTO TV - CURIOSIDAD 315.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/315.webp">
+        <article class="card" data-search="LOCOS Y OBSESIÃ“NADOS POR LOS AUTOS 313 PLUTO TV - CURIOSIDAD 315.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/315.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 313</div>
-                    <h2>LOCOS Y OBSESIÓNADOS POR LOS AUTOS</h2>
+                    <h2>LOCOS Y OBSESIÃ“NADOS POR LOS AUTOS</h2>
                 </div>
                 <div class="category">PLUTO TV - CURIOSIDAD</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/315.webp" alt="LOCOS Y OBSESIÓNADOS POR LOS AUTOS" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/315.webp" alt="LOCOS Y OBSESIÃ“NADOS POR LOS AUTOS" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -11816,18 +11816,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MI COCHE CLÁSICO 314 PLUTO TV - CURIOSIDAD 316.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/316.webp">
+        <article class="card" data-search="MI COCHE CLÃSICO 314 PLUTO TV - CURIOSIDAD 316.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/316.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 314</div>
-                    <h2>MI COCHE CLÁSICO</h2>
+                    <h2>MI COCHE CLÃSICO</h2>
                 </div>
                 <div class="category">PLUTO TV - CURIOSIDAD</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/316.webp" alt="MI COCHE CLÁSICO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/316.webp" alt="MI COCHE CLÃSICO" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -12001,18 +12001,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="EMPEÑOS A LO BESTIA 319 PLUTO TV - CURIOSIDAD 321.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/321.webp">
+        <article class="card" data-search="EMPEÃ‘OS A LO BESTIA 319 PLUTO TV - CURIOSIDAD 321.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/321.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 319</div>
-                    <h2>EMPEÑOS A LO BESTIA</h2>
+                    <h2>EMPEÃ‘OS A LO BESTIA</h2>
                 </div>
                 <div class="category">PLUTO TV - CURIOSIDAD</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/321.webp" alt="EMPEÑOS A LO BESTIA" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/321.webp" alt="EMPEÃ‘OS A LO BESTIA" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -12038,18 +12038,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MI OBSESIÓN FAVORITA 320 PLUTO TV - CURIOSIDAD 322.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/322.webp">
+        <article class="card" data-search="MI OBSESIÃ“N FAVORITA 320 PLUTO TV - CURIOSIDAD 322.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/322.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 320</div>
-                    <h2>MI OBSESIÓN FAVORITA</h2>
+                    <h2>MI OBSESIÃ“N FAVORITA</h2>
                 </div>
                 <div class="category">PLUTO TV - CURIOSIDAD</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/322.webp" alt="MI OBSESIÓN FAVORITA" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/322.webp" alt="MI OBSESIÃ“N FAVORITA" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -12260,13 +12260,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV INVESTIGA 326 PLUTO TV INVESTIGACIÓN 328.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/328.webp">
+        <article class="card" data-search="PLUTO.TV INVESTIGA 326 PLUTO TV INVESTIGACIÃ“N 328.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/328.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 326</div>
                     <h2>PLUTO.TV INVESTIGA</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12297,13 +12297,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CAZADOR DE HOMICIDAS 327 PLUTO TV INVESTIGACIÓN 329.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/329.webp">
+        <article class="card" data-search="CAZADOR DE HOMICIDAS 327 PLUTO TV INVESTIGACIÃ“N 329.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/329.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 327</div>
                     <h2>CAZADOR DE HOMICIDAS</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12334,13 +12334,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ZONAINVESTIGACION.TV 328 PLUTO TV INVESTIGACIÓN 330.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/330.webp">
+        <article class="card" data-search="ZONAINVESTIGACION.TV 328 PLUTO TV INVESTIGACIÃ“N 330.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/330.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 328</div>
                     <h2>ZONAINVESTIGACION.TV</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12371,13 +12371,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="LOS ARCHIVOS DEL F.B.I. 329 PLUTO TV INVESTIGACIÓN 331.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/331.webp">
+        <article class="card" data-search="LOS ARCHIVOS DEL F.B.I. 329 PLUTO TV INVESTIGACIÃ“N 331.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/331.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 329</div>
                     <h2>LOS ARCHIVOS DEL F.B.I.</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12408,13 +12408,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ARCHIVOS FORENSES 330 PLUTO TV INVESTIGACIÓN 332.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/332.webp">
+        <article class="card" data-search="ARCHIVOS FORENSES 330 PLUTO TV INVESTIGACIÃ“N 332.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/332.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 330</div>
                     <h2>ARCHIVOS FORENSES</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12445,13 +12445,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CRIMEN DE WB 331 PLUTO TV INVESTIGACIÓN 333.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/333.webp">
+        <article class="card" data-search="CRIMEN DE WB 331 PLUTO TV INVESTIGACIÃ“N 333.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/333.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 331</div>
                     <h2>CRIMEN DE WB</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12482,13 +12482,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="DR. G 332 PLUTO TV INVESTIGACIÓN 334.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/334.webp">
+        <article class="card" data-search="DR. G 332 PLUTO TV INVESTIGACIÃ“N 334.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/334.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 332</div>
                     <h2>DR. G</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12519,13 +12519,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="LOS NUEVOS DETECTIVES 333 PLUTO TV INVESTIGACIÓN 335.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/335.webp">
+        <article class="card" data-search="LOS NUEVOS DETECTIVES 333 PLUTO TV INVESTIGACIÃ“N 335.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/335.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 333</div>
                     <h2>LOS NUEVOS DETECTIVES</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -12556,13 +12556,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MISTERIOS SIN RESOLVER 334 PLUTO TV INVESTIGACIÓN 336.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/336.webp">
+        <article class="card" data-search="MISTERIOS SIN RESOLVER 334 PLUTO TV INVESTIGACIÃ“N 336.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/336.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 334</div>
                     <h2>MISTERIOS SIN RESOLVER</h2>
                 </div>
-                <div class="category">PLUTO TV INVESTIGACIÓN</div>
+                <div class="category">PLUTO TV INVESTIGACIÃ“N</div>
             </div>
 
             <div class="card-content">
@@ -14147,18 +14147,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CANAL CLARÓ 377 PLUTO TV - ENTRETENIMIENTO 379.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/379.webp">
+        <article class="card" data-search="CANAL CLARÃ“ 377 PLUTO TV - ENTRETENIMIENTO 379.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/379.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 377</div>
-                    <h2>CANAL CLARÓ</h2>
+                    <h2>CANAL CLARÃ“</h2>
                 </div>
                 <div class="category">PLUTO TV - ENTRETENIMIENTO</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/379.webp" alt="CANAL CLARÓ" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/379.webp" alt="CANAL CLARÃ“" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -14739,18 +14739,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="JOJO´S 24/7 393 PLUTO TV - ANIME &amp; GAMMING 395.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/395.webp">
+        <article class="card" data-search="JOJOÂ´S 24/7 393 PLUTO TV - ANIME &amp; GAMMING 395.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/395.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 393</div>
-                    <h2>JOJO´S 24/7</h2>
+                    <h2>JOJOÂ´S 24/7</h2>
                 </div>
                 <div class="category">PLUTO TV - ANIME &amp; GAMMING</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/395.webp" alt="JOJO´S 24/7" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/395.webp" alt="JOJOÂ´S 24/7" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -14998,13 +14998,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV TEENNICK 400 PLUTO TV - NIÑOS Y ADOLECENTES 402.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/402.webp">
+        <article class="card" data-search="PLUTO.TV TEENNICK 400 PLUTO TV - NIÃ‘OS Y ADOLECENTES 402.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/402.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 400</div>
                     <h2>PLUTO.TV TEENNICK</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15035,13 +15035,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV NICK JR. 401 PLUTO TV - NIÑOS Y ADOLECENTES 403.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/403.webp">
+        <article class="card" data-search="PLUTO.TV NICK JR. 401 PLUTO TV - NIÃ‘OS Y ADOLECENTES 403.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/403.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 401</div>
                     <h2>PLUTO.TV NICK JR.</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15072,13 +15072,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV NICKREWIND 402 PLUTO TV - NIÑOS Y ADOLECENTES 404.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/404.webp">
+        <article class="card" data-search="PLUTO.TV NICKREWIND 402 PLUTO TV - NIÃ‘OS Y ADOLECENTES 404.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/404.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 402</div>
                     <h2>PLUTO.TV NICKREWIND</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15109,13 +15109,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV NICKTOONS 403 PLUTO TV - NIÑOS Y ADOLECENTES 405.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/405.webp">
+        <article class="card" data-search="PLUTO.TV NICKTOONS 403 PLUTO TV - NIÃ‘OS Y ADOLECENTES 405.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/405.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 403</div>
                     <h2>PLUTO.TV NICKTOONS</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15146,13 +15146,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ICARLY 24/7 404 PLUTO TV - NIÑOS Y ADOLECENTES 406.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/406.webp">
+        <article class="card" data-search="ICARLY 24/7 404 PLUTO TV - NIÃ‘OS Y ADOLECENTES 406.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/406.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 404</div>
                     <h2>ICARLY 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15183,13 +15183,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="KENAN Y KEL 24/7 405 PLUTO TV - NIÑOS Y ADOLECENTES 407.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/407.webp">
+        <article class="card" data-search="KENAN Y KEL 24/7 405 PLUTO TV - NIÃ‘OS Y ADOLECENTES 407.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/407.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 405</div>
                     <h2>KENAN Y KEL 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15220,13 +15220,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BABY SHARK TV 406 PLUTO TV - NIÑOS Y ADOLECENTES 408.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/408.webp">
+        <article class="card" data-search="BABY SHARK TV 406 PLUTO TV - NIÃ‘OS Y ADOLECENTES 408.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/408.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 406</div>
                     <h2>BABY SHARK TV</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15257,13 +15257,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BABYFIRST 407 PLUTO TV - NIÑOS Y ADOLECENTES 409.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/409.webp">
+        <article class="card" data-search="BABYFIRST 407 PLUTO TV - NIÃ‘OS Y ADOLECENTES 409.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/409.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 407</div>
                     <h2>BABYFIRST</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15294,13 +15294,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV JUNIOR 408 PLUTO TV - NIÑOS Y ADOLECENTES 410.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/410.webp">
+        <article class="card" data-search="PLUTO.TV JUNIOR 408 PLUTO TV - NIÃ‘OS Y ADOLECENTES 410.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/410.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 408</div>
                     <h2>PLUTO.TV JUNIOR</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15331,13 +15331,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="EL REINO INFANTIL 409 PLUTO TV - NIÑOS Y ADOLECENTES 411.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/411.webp">
+        <article class="card" data-search="EL REINO INFANTIL 409 PLUTO TV - NIÃ‘OS Y ADOLECENTES 411.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/411.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 409</div>
                     <h2>EL REINO INFANTIL</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15368,13 +15368,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="HEY ARNOLD! 24/7 410 PLUTO TV - NIÑOS Y ADOLECENTES 412.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/412.webp">
+        <article class="card" data-search="HEY ARNOLD! 24/7 410 PLUTO TV - NIÃ‘OS Y ADOLECENTES 412.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/412.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 410</div>
                     <h2>HEY ARNOLD! 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15405,13 +15405,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="AVATAR: LA LEYENDA DE AANG 24/7 411 PLUTO TV - NIÑOS Y ADOLECENTES 413.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/413.webp">
+        <article class="card" data-search="AVATAR: LA LEYENDA DE AANG 24/7 411 PLUTO TV - NIÃ‘OS Y ADOLECENTES 413.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/413.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 411</div>
                     <h2>AVATAR: LA LEYENDA DE AANG 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15442,13 +15442,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="RUGRATS 24/7 412 PLUTO TV - NIÑOS Y ADOLECENTES 414.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/414.webp">
+        <article class="card" data-search="RUGRATS 24/7 412 PLUTO TV - NIÃ‘OS Y ADOLECENTES 414.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/414.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 412</div>
                     <h2>RUGRATS 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15479,13 +15479,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="BOB ESPONJA 24/7 413 PLUTO TV - NIÑOS Y ADOLECENTES 415.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/415.webp">
+        <article class="card" data-search="BOB ESPONJA 24/7 413 PLUTO TV - NIÃ‘OS Y ADOLECENTES 415.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/415.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 413</div>
                     <h2>BOB ESPONJA 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15516,13 +15516,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="LOS PADRINOS MAGICOS 24/7 414 PLUTO TV - NIÑOS Y ADOLECENTES 416.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/416.webp">
+        <article class="card" data-search="LOS PADRINOS MAGICOS 24/7 414 PLUTO TV - NIÃ‘OS Y ADOLECENTES 416.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/416.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 414</div>
                     <h2>LOS PADRINOS MAGICOS 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15553,13 +15553,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="LAS TORTUGAS NINJA 24/7 415 PLUTO TV - NIÑOS Y ADOLECENTES 417.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/417.webp">
+        <article class="card" data-search="LAS TORTUGAS NINJA 24/7 415 PLUTO TV - NIÃ‘OS Y ADOLECENTES 417.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/417.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 415</div>
                     <h2>LAS TORTUGAS NINJA 24/7</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15590,13 +15590,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="PLUTO.TV KIDS 416 PLUTO TV - NIÑOS Y ADOLECENTES 418.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/418.webp">
+        <article class="card" data-search="PLUTO.TV KIDS 416 PLUTO TV - NIÃ‘OS Y ADOLECENTES 418.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/418.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 416</div>
                     <h2>PLUTO.TV KIDS</h2>
                 </div>
-                <div class="category">PLUTO TV - NIÑOS Y ADOLECENTES</div>
+                <div class="category">PLUTO TV - NIÃ‘OS Y ADOLECENTES</div>
             </div>
 
             <div class="card-content">
@@ -15627,13 +15627,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MTV BIGGEST POP 417 PLUTO TV MÚSICA 419.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/419.webp">
+        <article class="card" data-search="MTV BIGGEST POP 417 PLUTO TV MÃšSICA 419.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/419.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 417</div>
                     <h2>MTV BIGGEST POP</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15664,18 +15664,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MTV SPANKIN´ NEW 418 PLUTO TV MÚSICA 420.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/420.webp">
+        <article class="card" data-search="MTV SPANKINÂ´ NEW 418 PLUTO TV MÃšSICA 420.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/420.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 418</div>
-                    <h2>MTV SPANKIN´ NEW</h2>
+                    <h2>MTV SPANKINÂ´ NEW</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/420.webp" alt="MTV SPANKIN´ NEW" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/420.webp" alt="MTV SPANKINÂ´ NEW" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -15701,13 +15701,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MTV FLOW LATINO 419 PLUTO TV MÚSICA 421.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/421.webp">
+        <article class="card" data-search="MTV FLOW LATINO 419 PLUTO TV MÃšSICA 421.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/421.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 419</div>
                     <h2>MTV FLOW LATINO</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15738,13 +15738,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MTV CLASSICS 420 PLUTO TV MÚSICA 422.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/422.webp">
+        <article class="card" data-search="MTV CLASSICS 420 PLUTO TV MÃšSICA 422.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/422.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 420</div>
                     <h2>MTV CLASSICS</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15775,13 +15775,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="MTV ROCKS 421 PLUTO TV MÚSICA 423.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/423.webp">
+        <article class="card" data-search="MTV ROCKS 421 PLUTO TV MÃšSICA 423.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/423.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 421</div>
                     <h2>MTV ROCKS</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15812,13 +15812,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="STINGRAY TIKTOK RADIO 422 PLUTO TV MÚSICA 424.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/424.webp">
+        <article class="card" data-search="STINGRAY TIKTOK RADIO 422 PLUTO TV MÃšSICA 424.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/424.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 422</div>
                     <h2>STINGRAY TIKTOK RADIO</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15849,13 +15849,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="STINGRAY CONCIERTOS 423 PLUTO TV MÚSICA 425.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/425.webp">
+        <article class="card" data-search="STINGRAY CONCIERTOS 423 PLUTO TV MÃšSICA 425.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/425.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 423</div>
                     <h2>STINGRAY CONCIERTOS</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15886,13 +15886,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="STINGRAY KARAOKE 424 PLUTO TV MÚSICA 426.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/426.webp">
+        <article class="card" data-search="STINGRAY KARAOKE 424 PLUTO TV MÃšSICA 426.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/426.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 424</div>
                     <h2>STINGRAY KARAOKE</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15923,13 +15923,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="CONCERT CHANNEL 425 PLUTO TV MÚSICA 427.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/427.webp">
+        <article class="card" data-search="CONCERT CHANNEL 425 PLUTO TV MÃšSICA 427.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/427.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 425</div>
                     <h2>CONCERT CHANNEL</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15960,13 +15960,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE HITS 426 PLUTO TV MÚSICA N51Rp7E.png https://i.imgur.com/N51Rp7E.png">
+        <article class="card" data-search="XITE HITS 426 PLUTO TV MÃšSICA N51Rp7E.png https://i.imgur.com/N51Rp7E.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 426</div>
                     <h2>XITE HITS</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -15997,13 +15997,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE LIVE 427 PLUTO TV MÚSICA N51Rp7E.png https://i.imgur.com/N51Rp7E.png">
+        <article class="card" data-search="XITE LIVE 427 PLUTO TV MÃšSICA N51Rp7E.png https://i.imgur.com/N51Rp7E.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 427</div>
                     <h2>XITE LIVE</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16034,13 +16034,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE 8OS FLASHBACK 428 PLUTO TV MÚSICA vwpOzuz.png https://i.imgur.com/vwpOzuz.png">
+        <article class="card" data-search="XITE 8OS FLASHBACK 428 PLUTO TV MÃšSICA vwpOzuz.png https://i.imgur.com/vwpOzuz.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 428</div>
                     <h2>XITE 8OS FLASHBACK</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16071,13 +16071,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE 90S THROWBACK 429 PLUTO TV MÚSICA vwpOzuz.png https://i.imgur.com/vwpOzuz.png">
+        <article class="card" data-search="XITE 90S THROWBACK 429 PLUTO TV MÃšSICA vwpOzuz.png https://i.imgur.com/vwpOzuz.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 429</div>
                     <h2>XITE 90S THROWBACK</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16108,13 +16108,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE CELEBRIDADES 430 PLUTO TV MÚSICA coSrUwV.png https://i.imgur.com/coSrUwV.png">
+        <article class="card" data-search="XITE CELEBRIDADES 430 PLUTO TV MÃšSICA coSrUwV.png https://i.imgur.com/coSrUwV.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 430</div>
                     <h2>XITE CELEBRIDADES</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16145,13 +16145,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE NUEVO LATINO 431 PLUTO TV MÚSICA 2qyl2y3.png https://i.imgur.com/2qyl2y3.png">
+        <article class="card" data-search="XITE NUEVO LATINO 431 PLUTO TV MÃšSICA 2qyl2y3.png https://i.imgur.com/2qyl2y3.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 431</div>
                     <h2>XITE NUEVO LATINO</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16182,13 +16182,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE SIEMPRE LATINO 432 PLUTO TV MÚSICA bwmIEgG.png https://i.imgur.com/bwmIEgG.png">
+        <article class="card" data-search="XITE SIEMPRE LATINO 432 PLUTO TV MÃšSICA bwmIEgG.png https://i.imgur.com/bwmIEgG.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 432</div>
                     <h2>XITE SIEMPRE LATINO</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16219,13 +16219,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE ROCK ON 433 PLUTO TV MÚSICA uIIUIuN.png https://i.imgur.com/uIIUIuN.png">
+        <article class="card" data-search="XITE ROCK ON 433 PLUTO TV MÃšSICA uIIUIuN.png https://i.imgur.com/uIIUIuN.png">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 433</div>
                     <h2>XITE ROCK ON</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16256,13 +16256,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="XITE JUST CHILL 434 PLUTO TV MÚSICA 436.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/436.webp">
+        <article class="card" data-search="XITE JUST CHILL 434 PLUTO TV MÃšSICA 436.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/436.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 434</div>
                     <h2>XITE JUST CHILL</h2>
                 </div>
-                <div class="category">PLUTO TV MÚSICA</div>
+                <div class="category">PLUTO TV MÃšSICA</div>
             </div>
 
             <div class="card-content">
@@ -16441,13 +16441,13 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="ANTIRETORNO AL CARGAR CANALES 439 SECCIÓN TEST - PARA PROBAR CANALES 442.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/442.webp">
+        <article class="card" data-search="ANTIRETORNO AL CARGAR CANALES 439 SECCIÃ“N TEST - PARA PROBAR CANALES 442.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/442.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 439</div>
                     <h2>ANTIRETORNO AL CARGAR CANALES</h2>
                 </div>
-                <div class="category">SECCIÓN TEST - PARA PROBAR CANALES</div>
+                <div class="category">SECCIÃ“N TEST - PARA PROBAR CANALES</div>
             </div>
 
             <div class="card-content">
@@ -16478,18 +16478,18 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </article>
         
 
-        <article class="card" data-search="Señal No Asignada 440 SECCIÓN TEST - PARA PROBAR CANALES 443.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/443.webp">
+        <article class="card" data-search="SeÃ±al No Asignada 440 SECCIÃ“N TEST - PARA PROBAR CANALES 443.webp https://raw.githubusercontent.com/novaplaytv/novaimg/main/icons/443.webp">
             <div class="card-header">
                 <div class="header-info">
                     <div class="channel-number">CANAL 440</div>
-                    <h2>Señal No Asignada</h2>
+                    <h2>SeÃ±al No Asignada</h2>
                 </div>
-                <div class="category">SECCIÓN TEST - PARA PROBAR CANALES</div>
+                <div class="category">SECCIÃ“N TEST - PARA PROBAR CANALES</div>
             </div>
 
             <div class="card-content">
                 <div class="icon-preview">
-                    <img src="icons/443.webp" alt="Señal No Asignada" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <img src="icons/443.webp" alt="SeÃ±al No Asignada" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                     <div class="missing-image">
                         <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px; opacity: 0.3;"></i>
                         <br>No disponible
@@ -16516,8 +16516,8 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
         </div>
 </main>
 <footer>
-    <p>© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
-    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 29/08/2026 22:20 UTC</p>
+    <p>Â© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
+    <p style="font-size: 11px; opacity: 0.5;">SincronizaciÃ³n automÃ¡tica: 29/08/2026 22:20 UTC</p>
 </footer>
 
 <div id="toast-container"></div>
@@ -16612,3 +16612,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
+
