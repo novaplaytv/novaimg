@@ -52,7 +52,10 @@
             display: none;
             transition: 0.2s;
         }
-        .btn-login-nav:hover, .btn-logout:hover { transform: scale(1.05); background: var(--primary-hover); }
+        .btn-login-nav:hover { transform: scale(1.05); background: var(--primary-hover); }
+        .btn-logout { display: none; background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .btn-logout:hover { transform: scale(1.05); filter: brightness(1.2); }
+
         /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
         .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; margin: 0 -10px; }
         .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
@@ -136,7 +139,7 @@
         </a>
         <div class="nav-links">
             <a href="https://novaplaytv.github.io/">INICIO</a>
-            <button class="btn-login-nav" id="navLogin" onclick="location.href='login/'">INGRESAR</button>
+            <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
             <div class="admin-menu" id="adminMenu">
                 <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
                 <div class="dropdown-content">
@@ -16550,11 +16553,11 @@ function copiarURL(button) {
 }
 
 function checkAuth() {
-    const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
-    const loginBtn = document.getElementById("navLogin");
-    const logoutBtn = document.getElementById("navLogout");
+    const token = localStorage.getItem('novaimg_session_token') || localStorage.getItem('novaplay_session_token');
+    const loginBtn = document.getElementById('navLogin');
+    const adminMenu = document.getElementById('adminMenu');
     if (loginBtn) loginBtn.style.display = token ? 'none' : 'block';
-    if (logoutBtn) logoutBtn.style.display = token ? 'block' : 'none';
+    if (adminMenu) adminMenu.style.display = token ? 'block' : 'none';
 }
 
 function cerrarSesion() {
