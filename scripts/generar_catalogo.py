@@ -225,7 +225,7 @@ def generar_html(canales):
         .btn-logout:hover {{ transform: scale(1.05); filter: brightness(1.2); }}
 
         /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
-        .admin-menu {{ position: relative; display: flex; align-items: center; height: var(--nav-height); padding: 0 10px; }}
+        .admin-menu {{ position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }}
         .btn-admin {{ background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }}
 
         .btn-admin:hover {{ background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }}
@@ -480,7 +480,9 @@ function UI_MostrarLogin() {{
 function checkAuth() {{
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
     const loginBtn = document.getElementById("navLogin");
+    const adminMenu = document.getElementById("adminMenu");
     if (loginBtn) loginBtn.style.display = token ? 'none' : 'flex';
+    if (adminMenu) adminMenu.style.display = token ? 'flex' : 'none';
 }}
 
 function cerrarSesion() {{

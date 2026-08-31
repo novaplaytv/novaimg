@@ -54,7 +54,7 @@
         .btn-logout:hover { transform: scale(1.05); filter: brightness(1.2); }
 
         /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
-        .admin-menu { position: relative; display: flex; align-items: center; height: var(--nav-height); padding: 0 10px; }
+        .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
         .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
         .btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
         .dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s; }
@@ -467,13 +467,17 @@
     function UI_MostrarPanel() {
         document.getElementById("auth-view").classList.add("hidden");
         const navLogin = document.getElementById("navLogin");
+        const adminMenu = document.getElementById("adminMenu");
         if(navLogin) navLogin.style.display = 'none';
+        if(adminMenu) adminMenu.style.display = 'flex';
     }
 
     function UI_MostrarLogin() {
         document.getElementById("auth-view").classList.remove("hidden");
         const navLogin = document.getElementById("navLogin");
+        const adminMenu = document.getElementById("adminMenu");
         if(navLogin) navLogin.style.display = 'flex';
+        if(adminMenu) adminMenu.style.display = 'none';
     }
 
     async function iniciarSesion() {
