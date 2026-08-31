@@ -474,7 +474,7 @@ function copiarURL(button) {{
 }}
 
 function UI_MostrarLogin() {{
-    window.location.href = "https://novaplaytv.github.io/novaimg/login/";
+    window.location.href = "https://novaplaytv.github.io/novaimg/actualizar-icono/";
 }}
 
 function checkAuth() {{
