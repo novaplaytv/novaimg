@@ -74,8 +74,12 @@
         main { max-width: 900px; margin: auto; padding: calc(var(--nav-height) + 40px) 20px 40px; }
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 35px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); width: 100%; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .section-header h2 { margin: 0; font-size: 18px; font-weight: 700; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .btn-action-small { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-action-small:hover { background: var(--primary); border-color: var(--primary); }
+        .btn-action-small.active { background: var(--primary); border-color: var(--primary); }
 
         .search-box { margin-bottom: 20px; position: relative; }
         .search-box input { width: 100%; padding: 16px 18px 16px 48px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; font-size: 15px; transition: 0.2s; }
@@ -337,10 +341,14 @@
         </div>
 
         <div class="section-header">
-            <h2>1. Selecciona el Canal</h2>
-            <a href="https://novaplaytv.github.io/novaimg/" target="_blank" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none;">
-                👁️ VER GALERÍA COMPLETA
-            </a>
+            <h2>1. Selecciona los Canales</h2>
+            <div class="header-actions">
+                <button class="btn-action-small" onclick="seleccionarTodoFiltrado()">SELECCIONAR FILTRADOS</button>
+                <button class="btn-action-small" onclick="limpiarSeleccion()">LIMPIAR</button>
+                <a href="https://novaplaytv.github.io/novaimg/" target="_blank" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none; margin-left: 10px;">
+                    👁️ VER GALERÍA
+                </a>
+            </div>
         </div>
 
         <div class="search-box">
@@ -402,7 +410,7 @@
     const CATALOGO_URL = '../index.html';
 
     let sessionToken = localStorage.getItem("novaplay_session_token") || "";
-    let canalSeleccionado = "";
+    let canalesSeleccionados = []; // Array de nombres de archivo (.webp)
     let listaCanales = [];
 
     // --- NovaToast System ---
@@ -560,7 +568,7 @@
         canales.forEach(c => {
             const div = document.createElement("div");
             div.className = "channel-card";
-            if (canalSeleccionado === c.file) div.classList.add("selected");
+            if (canalesSeleccionados.includes(c.file)) div.classList.add("selected");
 
             div.innerHTML = `
                 <img src="${c.icon}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
@@ -581,21 +589,75 @@
     }
 
     function seleccionarCanal(canal) {
-        canalSeleccionado = canal.file;
-        document.querySelectorAll(".channel-card").forEach(el => el.classList.remove("selected"));
+        const index = canalesSeleccionados.indexOf(canal.file);
+        if (index > -1) {
+            canalesSeleccionados.splice(index, 1);
+        } else {
+            canalesSeleccionados.push(canal.file);
+        }
 
-        const cards = document.querySelectorAll(".channel-card");
-        cards.forEach(card => {
-            if(card.querySelector('span:last-child').textContent === canal.name) {
-                card.classList.add("selected");
+        // Actualizar visual de tarjetas
+        renderGridActual();
+
+        const updateBtn = document.getElementById("updateButton");
+        if (canalesSeleccionados.length > 0) {
+            updateBtn.innerHTML = `🚀 PUBLICAR EN ${canalesSeleccionados.length} CANALES`;
+
+            // Mostrar el icono del primer canal seleccionado como referencia
+            const firstCanal = listaCanales.find(c => c.file === canalesSeleccionados[0]);
+            if (firstCanal) {
+                document.getElementById("currentIcon").src = firstCanal.icon;
+                document.getElementById("previewArea").style.display = "grid";
+            }
+        } else {
+            updateBtn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
+            document.getElementById("previewArea").style.display = "none";
+        }
+
+        if(window.innerWidth < 768 && canalesSeleccionados.length === 1) {
+             document.getElementById("dropzone").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function seleccionarTodoFiltrado() {
+        const query = document.getElementById("channelSearch").value.toLowerCase();
+        const filtrados = listaCanales.filter(c =>
+            c.name.toLowerCase().includes(query) ||
+            c.num.toLowerCase().includes(query)
+        );
+
+        filtrados.forEach(c => {
+            if (!canalesSeleccionados.includes(c.file)) {
+                canalesSeleccionados.push(c.file);
             }
         });
 
-        document.getElementById("currentIcon").src = canal.icon;
-        document.getElementById("previewArea").style.display = "grid";
+        renderGridActual();
+        actualizarTextoBoton();
+    }
 
-        if(window.innerWidth < 768) {
-             document.getElementById("dropzone").scrollIntoView({ behavior: 'smooth', block: 'center' });
+    function limpiarSeleccion() {
+        canalesSeleccionados = [];
+        renderGridActual();
+        actualizarTextoBoton();
+        document.getElementById("previewArea").style.display = "none";
+    }
+
+    function renderGridActual() {
+        const query = document.getElementById("channelSearch").value.toLowerCase();
+        const filtrados = listaCanales.filter(c =>
+            c.name.toLowerCase().includes(query) ||
+            c.num.toLowerCase().includes(query)
+        );
+        renderGrid(filtrados);
+    }
+
+    function actualizarTextoBoton() {
+        const updateBtn = document.getElementById("updateButton");
+        if (canalesSeleccionados.length > 0) {
+            updateBtn.innerHTML = `🚀 PUBLICAR EN ${canalesSeleccionados.length} CANALES`;
+        } else {
+            updateBtn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
         }
     }
 
@@ -631,8 +693,8 @@
         const file = document.getElementById("imagenArchivo").files[0];
         const btn = document.getElementById("updateButton");
 
-        if (!canalSeleccionado) {
-            novaToast("Selecciona un canal de la lista.", "error");
+        if (canalesSeleccionados.length === 0) {
+            novaToast("Selecciona al menos un canal de la lista.", "error");
             return;
         }
 
@@ -642,50 +704,65 @@
         }
 
         btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
+        const total = canalesSeleccionados.length;
+        let procesados = 0;
+
+        novaToast(`Iniciando actualización de ${total} canales...`, "info");
 
         try {
-            let res;
-            if (file) {
-                const fd = new FormData();
-                fd.append("action", "actualizar");
-                fd.append("canal", canalSeleccionado);
-                fd.append("imagen", file);
+            for (const canalFile of canalesSeleccionados) {
+                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${procesados + 1}/${total}`;
 
-                res = await fetch(API_URL_ICON, {
-                    method: "POST",
-                    headers: { "Authorization": "Bearer " + sessionToken },
-                    body: fd
-                });
-            } else {
-                res = await fetch(API_URL_ICON, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + sessionToken
-                    },
-                    body: JSON.stringify({ action: "actualizar", canal: canalSeleccionado, imagen_url: url })
-                });
+                let res;
+                if (file) {
+                    const fd = new FormData();
+                    fd.append("action", "actualizar");
+                    fd.append("canal", canalFile);
+                    fd.append("imagen", file);
+
+                    res = await fetch(API_URL_ICON, {
+                        method: "POST",
+                        headers: { "Authorization": "Bearer " + sessionToken },
+                        body: fd
+                    });
+                } else {
+                    res = await fetch(API_URL_ICON, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + sessionToken
+                        },
+                        body: JSON.stringify({ action: "actualizar", canal: canalFile, imagen_url: url })
+                    });
+                }
+
+                if (res.ok) {
+                    procesados++;
+                } else {
+                    const result = await res.json().catch(() => ({}));
+                    console.error(`Error en canal ${canalFile}:`, result.error);
+                }
             }
 
-            const result = await res.json().catch(() => ({ error: "Error en el servidor." }));
-
-            if (res.ok) {
-                novaToast("¡Icono actualizado! Se reflejará en breve.", "success");
+            if (procesados === total) {
+                novaToast(`¡Éxito! ${procesados} iconos actualizados.`, "success");
+                limpiarSeleccion();
                 document.getElementById("imagenArchivo").value = "";
                 document.getElementById("imagenUrl").value = "";
                 document.getElementById("fileName").style.display = "none";
                 setTimeout(() => {
                     document.getElementById("currentIcon").src = document.getElementById("newIcon").src;
                 }, 1000);
+            } else if (procesados > 0) {
+                novaToast(`Se actualizaron ${procesados} de ${total} iconos. Revisa la consola.`, "warning");
             } else {
-                throw new Error(result.error || "Fallo en la actualización.");
+                throw new Error("No se pudo actualizar ningún icono.");
             }
         } catch (e) {
             novaToast(e.message, "error");
         } finally {
             btn.disabled = false;
-            btn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
+            actualizarTextoBoton();
         }
     }
 
