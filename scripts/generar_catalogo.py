@@ -173,7 +173,7 @@ def generar_html(canales):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NOVAPLAY | GESTIÓN DE ICONOS</title>
+    <title>NOVAPLAY | CATÁLOGO DE IMAGENES</title>
     <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -225,8 +225,9 @@ def generar_html(canales):
         .btn-logout:hover {{ transform: scale(1.05); filter: brightness(1.2); }}
 
         /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
-        .admin-menu {{ position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }}
+        .admin-menu {{ position: relative; display: flex; align-items: center; height: var(--nav-height); padding: 0 10px; }}
         .btn-admin {{ background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }}
+
         .btn-admin:hover {{ background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }}
         .dropdown-content {{ position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s; }}
         .admin-menu:hover .dropdown-content {{ opacity: 1; visibility: visible; transform: translateY(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s; }}
@@ -360,7 +361,7 @@ def generar_html(canales):
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | GESTIÓN DE ICONOS
+            NOVAPLAY | CATÁLOGO DE IMAGENES
         </a>
         <div class="nav-links">
             <a href="https://novaplaytv.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
@@ -384,7 +385,6 @@ def generar_html(canales):
     <header>
         <div class="header-content">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
-            <h1 class="subtitle">Catálogo de Activos</h1>
             <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
             <div class="stats">
                 <i class="fas fa-tv"></i> &nbsp; {len(canales)} canales indexados
@@ -480,9 +480,7 @@ function UI_MostrarLogin() {{
 function checkAuth() {{
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
     const loginBtn = document.getElementById("navLogin");
-    const adminMenu = document.getElementById("adminMenu");
     if (loginBtn) loginBtn.style.display = token ? 'none' : 'flex';
-    if (adminMenu) adminMenu.style.display = token ? 'flex' : 'none';
 }}
 
 function cerrarSesion() {{
