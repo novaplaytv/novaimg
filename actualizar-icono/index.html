@@ -469,12 +469,13 @@
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value.trim();
         const btn = document.getElementById("loginButton");
-        const statusId = "loginStatus";
 
         if (!username || !password) return;
 
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
+
+        const { response, data } = await fetchJSON({ action: "login", username, password });
 
         if (response.ok && data.token) {
             sessionToken = data.token;
@@ -483,9 +484,11 @@
             await cargarCanales();
         } else {
             const el = document.getElementById("loginStatus");
-            el.className = "status error";
-            el.textContent = "Acceso denegado.";
-            el.style.display = "block";
+            if (el) {
+                el.className = "status error";
+                el.textContent = data.error || "Acceso denegado.";
+                el.style.display = "block";
+            }
             btn.disabled = false;
             btn.textContent = 'ENTRAR AL PANEL';
         }
