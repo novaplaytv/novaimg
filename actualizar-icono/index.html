@@ -30,13 +30,10 @@
         .nav-inner { max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
         .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
         .nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
+
         .nav-links { display: flex; gap: 15px; align-items: center; }
         .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }
         .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
-        .nav-links a.active { color: var(--primary); }
-
-        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
-        .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
 
         .btn-login-nav, .btn-logout {
             background: var(--primary);
@@ -52,8 +49,23 @@
             display: none;
             transition: 0.2s;
         }
-        .btn-login-nav:hover, .btn-logout:hover { transform: scale(1.05); background: var(--primary-hover); }
-        .btn-logout { background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .btn-login-nav:hover { transform: scale(1.05); background: var(--primary-hover); }
+        .btn-logout { display: none; background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .btn-logout:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
+        .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
+        .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
+        .btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
+        .dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s; }
+        .admin-menu:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s; }
+        .dropdown-content::before { content: ''; position: absolute; top: -50px; left: -50px; right: -50px; height: 100px; background: transparent; z-index: -1; }
+        .dropdown-content a { padding: 16px 25px; color: #fff !important; text-decoration: none !important; font-size: 13px !important; font-weight: 700 !important; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; align-items: center; gap: 15px; }
+        .dropdown-content a i { width: 20px; color: var(--primary); text-align: center; font-size: 16px; }
+        .dropdown-content a:hover { background: rgba(255,255,255,0.05); padding-left: 30px; color: var(--primary) !important; }
+        .dropdown-content .logout-link { color: var(--error) !important; border-bottom: none; }
+        .dropdown-content .logout-link i { color: var(--error); }
+
 
         /* Main Content */
         main { max-width: 900px; margin: auto; padding: calc(var(--nav-height) + 40px) 20px 40px; }
@@ -269,21 +281,24 @@
 
 <nav class="nova-nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="https://novaplaytv.github.io/Dashboard/">
-            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
+        <a class="nav-brand" href="https://novaplaytv.github.io/">
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
             NOVAPLAY | GESTIÓN DE ICONOS
         </a>
-        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="nav-links" id="navLinks">
-            <a href="https://novaplaytv.github.io/" class="active">INICIO</a>
-            <a href="#" class="active" style="color: #ccc;">ICONOS</a>
-            <a href="https://novaplaytv.github.io/panel-canales/">CANALES</a>
+        <div class="nav-links">
+            <a href="https://novaplaytv.github.io/">INICIO</a>
             <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
-            <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
+            <div class="admin-menu" id="adminMenu">
+                <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
+                <div class="dropdown-content">
+                    <a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
+                    <a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
+                    <a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
+                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
+                    <a href="https://novaplaytv.github.io/novaimg/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
+                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
@@ -452,17 +467,17 @@
     function UI_MostrarPanel() {
         document.getElementById("auth-view").classList.add("hidden");
         const navLogin = document.getElementById("navLogin");
-        const navLogout = document.getElementById("navLogout");
+        const adminMenu = document.getElementById("adminMenu");
         if(navLogin) navLogin.style.display = 'none';
-        if(navLogout) navLogout.style.display = 'block';
+        if(adminMenu) adminMenu.style.display = 'flex';
     }
 
     function UI_MostrarLogin() {
         document.getElementById("auth-view").classList.remove("hidden");
         const navLogin = document.getElementById("navLogin");
-        const navLogout = document.getElementById("navLogout");
-        if(navLogin) navLogin.style.display = 'block';
-        if(navLogout) navLogout.style.display = 'none';
+        const adminMenu = document.getElementById("adminMenu");
+        if(navLogin) navLogin.style.display = 'flex';
+        if(adminMenu) adminMenu.style.display = 'none';
     }
 
     async function iniciarSesion() {
