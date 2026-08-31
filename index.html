@@ -57,20 +57,6 @@ body {
     transform: translateY(-2px); background: var(--primary-hover);
     box-shadow: 0 6px 20px rgba(229, 9, 20, 0.3);
 }
-
-/* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
-.admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
-.btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
-.btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
-.dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s; }
-.admin-menu:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s; }
-.dropdown-content::before { content: ''; position: absolute; top: -50px; left: -50px; right: -50px; height: 100px; background: transparent; z-index: -1; }
-.dropdown-content a { padding: 16px 25px; color: #fff !important; text-decoration: none !important; font-size: 13px !important; font-weight: 700 !important; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; align-items: center; gap: 15px; }
-.dropdown-content a i { width: 20px; color: var(--primary); text-align: center; font-size: 16px; }
-.dropdown-content a:hover { background: rgba(255,255,255,0.05); padding-left: 30px; color: var(--primary) !important; }
-.dropdown-content .logout-link { color: var(--error) !important; border-bottom: none; }
-.dropdown-content .logout-link i { color: var(--error); }
-
 header {
     background: linear-gradient(to bottom, #11151f, var(--bg));
     padding: 100px 20px 30px; text-align: center; border-bottom: 1px solid var(--border);
@@ -187,23 +173,16 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 <nav class="nova-nav">
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
-            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | ICONOS
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
+            NOVAPLAY
         </a>
         <div class="nav-links">
             <a href="https://novaplaytv.github.io/">INICIO</a>
+            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
+            <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
+            <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
             <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
-            <div class="admin-menu" id="adminMenu">
-                <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
-                <div class="dropdown-content">
-                    <a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
-                    <a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
-                    <a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
-                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
-                    <a href="https://novaplaytv.github.io/novaimg/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
-                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-                </div>
-            </div>
+            <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
     </div>
 </nav>
@@ -16205,7 +16184,7 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 </main>
 <footer>
     <p>© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
-    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 31/08/2026 16:00 UTC</p>
+    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 31/08/2026 17:00 UTC</p>
 </footer>
 
 <div id="toast-container"></div>
@@ -16275,9 +16254,9 @@ function copiarURL(button) {
 function checkAuth() {
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
     const loginBtn = document.getElementById("navLogin");
-    const adminMenu = document.getElementById("adminMenu");
+    const logoutBtn = document.getElementById("navLogout");
     if (loginBtn) loginBtn.style.display = token ? 'none' : 'block';
-    if (adminMenu) adminMenu.style.display = token ? 'flex' : 'none';
+    if (logoutBtn) logoutBtn.style.display = token ? 'block' : 'none';
 }
 
 function cerrarSesion() {
