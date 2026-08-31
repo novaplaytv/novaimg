@@ -26,49 +26,37 @@ body {
     margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text);
     -webkit-font-smoothing: antialiased; overflow-x: hidden;
 }
+.nova-nav {
+    position: fixed; top: 0; width: 100%; z-index: 10000;
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;
+}
+.nav-inner {
+    max-width: 1400px; margin: auto; height: 70px; padding: 0 30px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand {
+    display: flex; align-items: center; gap: 12px; text-decoration: none;
+    color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px;
+}
+.nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
+.nav-links { display: flex; gap: 15px; align-items: center; }
+.nav-links a {
+    color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600;
+    transition: 0.2s; padding: 10px 15px; border-radius: 10px;
+}
+.nav-links a:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
 
-        /* Navegación Premium */
-        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .nav-inner { max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
-        .nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
-
-        .nav-links { display: flex; gap: 15px; align-items: center; }
-        .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }
-        .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
-
-        .btn-login-nav, .btn-logout {
-            background: var(--primary);
-            color: #fff !important;
-            font-weight: 800 !important;
-            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
-            border: none;
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 14px;
-            display: none;
-            transition: 0.2s;
-        }
-        .btn-login-nav:hover { transform: scale(1.05); background: var(--primary-hover); }
-        .btn-logout { display: none; background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
-        .btn-logout:hover { transform: scale(1.05); filter: brightness(1.2); }
-
-        /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
-        .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
-        .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
-        .btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
-        .dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s; }
-        .admin-menu:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s; }
-        .dropdown-content::before { content: ''; position: absolute; top: -50px; left: -50px; right: -50px; height: 100px; background: transparent; z-index: -1; }
-        .dropdown-content a { padding: 16px 25px; color: #fff !important; text-decoration: none !important; font-size: 13px !important; font-weight: 700 !important; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; align-items: center; gap: 15px; }
-        .dropdown-content a i { width: 20px; color: var(--primary); text-align: center; font-size: 16px; }
-        .dropdown-content a:hover { background: rgba(255,255,255,0.05); padding-left: 30px; color: var(--primary) !important; }
-        .dropdown-content .logout-link { color: var(--error) !important; border-bottom: none; }
-        .dropdown-content .logout-link i { color: var(--error); }
-
-
+.btn-login-nav, .btn-logout {
+    background: var(--primary); color: #fff !important; font-weight: 800 !important;
+    padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 14px;
+    transition: 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.2);
+    display: none;
+}
+.btn-login-nav:hover, .btn-logout:hover {
+    transform: translateY(-2px); background: var(--primary-hover);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.3);
+}
 header {
     background: linear-gradient(to bottom, #11151f, var(--bg));
     padding: 100px 20px 30px; text-align: center; border-bottom: 1px solid var(--border);
@@ -185,23 +173,16 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 <nav class="nova-nav">
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
-            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | GESTIÓN DE ICONOS
+            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="Logo">
+            NOVAPLAY
         </a>
         <div class="nav-links">
             <a href="https://novaplaytv.github.io/">INICIO</a>
-            <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
-            <div class="admin-menu" id="adminMenu">
-                <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
-                <div class="dropdown-content">
-                    <a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
-                    <a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
-                    <a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
-                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
-                    <a href="https://novaplaytv.github.io/novaimg/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
-                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-                </div>
-            </div>
+            <a href="https://novaplaytv.github.io/DEMO-NOVAPLAY/">WEB DEMO</a>
+            <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" id="navPanelIconos">ICONOS</a>
+            <a href="https://novaplaytv.github.io/panel-canales/" id="navPanelCanales">CANALES</a>
+            <a href="https://novaplaytv.github.io/novaimg/login/" class="btn-login-nav" id="navLogin">INGRESAR</a>
+            <button class="btn-logout" id="navLogout" onclick="cerrarSesion()">SALIR</button>
         </div>
     </div>
 </nav>
@@ -16203,7 +16184,7 @@ footer p { margin: 10px 0; font-size: 14px; color: var(--text-muted); }
 </main>
 <footer>
     <p>© 2026 NOVAPLAY TV - Todos los derechos reservados.</p>
-    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 31/08/2026 17:00 UTC</p>
+    <p style="font-size: 11px; opacity: 0.5;">Sincronización automática: 31/08/2026 18:54 UTC</p>
 </footer>
 
 <div id="toast-container"></div>
@@ -16273,13 +16254,9 @@ function copiarURL(button) {
 function checkAuth() {
     const token = localStorage.getItem("novaimg_session_token") || localStorage.getItem("novaplay_session_token");
     const loginBtn = document.getElementById("navLogin");
-    const adminMenu = document.getElementById("adminMenu");
-    if (loginBtn) loginBtn.style.display = token ? 'none' : 'flex';
-    if (adminMenu) adminMenu.style.display = token ? 'flex' : 'none';
-}
-
-function UI_MostrarLogin() {
-    window.location.href = "https://novaplaytv.github.io/novaimg/login/";
+    const logoutBtn = document.getElementById("navLogout");
+    if (loginBtn) loginBtn.style.display = token ? 'none' : 'block';
+    if (logoutBtn) logoutBtn.style.display = token ? 'block' : 'none';
 }
 
 function cerrarSesion() {
