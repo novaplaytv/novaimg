@@ -363,7 +363,7 @@ def generar_html(canales):
             NOVAPLAY | GESTIÓN DE ICONOS
         </a>
         <div class="nav-links">
-            <a href="https://novaplaytv.github.io/">INICIO</a>
+            <a href="https://novaplaytv.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
             <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
             <div class="admin-menu" id="adminMenu">
                 <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
