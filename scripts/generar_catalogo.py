@@ -113,6 +113,7 @@ def ordenar_canal(canal):
 
 def generar_tarjetas(canales):
     tarjetas = []
+    ts = int(datetime.now(timezone.utc).timestamp())
     for canal in canales:
         nombre = html.escape(canal["nombre"])
         numero = html.escape(canal["numero"])
@@ -167,7 +168,6 @@ def generar_html(canales):
     fecha = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
     tarjetas = generar_tarjetas(canales)
     categorias = sorted(list(set(c['categoria'] for c in canales)))
-    ts = int(datetime.now(timezone.utc).timestamp())
 
     filtro_botones = '<button class="filter-btn active" data-category="Todas">Todas</button>'
     for cat in categorias:
