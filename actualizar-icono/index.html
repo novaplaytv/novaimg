@@ -413,6 +413,7 @@
     let sessionToken = localStorage.getItem("novaplay_session_token") || "";
     let canalesSeleccionados = []; // Array de nombres de archivo (.webp)
     let listaCanales = [];
+    let studioFile = null; // Para recibir imágenes del Icon Studio
 
     // --- NovaToast System ---
     function novaToast(message, type = 'success') {
@@ -666,6 +667,7 @@
         const file = document.getElementById("imagenArchivo").files[0];
         if (!file) return;
 
+        studioFile = null; // Limpiar si se selecciona un archivo manual
         document.getElementById("imagenUrl").value = "";
         const nameEl = document.getElementById("fileName");
         nameEl.textContent = `✅ LISTO: ${file.name}`;
@@ -691,7 +693,8 @@
 
     async function actualizarIcono() {
         const url = document.getElementById("imagenUrl").value.trim();
-        const file = document.getElementById("imagenArchivo").files[0];
+        const fileInput = document.getElementById("imagenArchivo").files[0];
+        const file = fileInput || studioFile;
         const btn = document.getElementById("updateButton");
 
         if (canalesSeleccionados.length === 0) {
@@ -751,6 +754,8 @@
                 document.getElementById("imagenArchivo").value = "";
                 document.getElementById("imagenUrl").value = "";
                 document.getElementById("fileName").style.display = "none";
+                studioFile = null;
+                localStorage.removeItem('pending_studio_icon');
                 setTimeout(() => {
                     document.getElementById("currentIcon").src = document.getElementById("newIcon").src;
                 }, 1000);
@@ -803,7 +808,27 @@
         });
     });
 
+    function dataURLtoFile(dataurl, filename) {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+        return new File([u8arr], filename, {type:mime});
+    }
+
+    async function checkPendingStudioIcon() {
+        const pending = localStorage.getItem('pending_studio_icon');
+        if (pending) {
+            studioFile = dataURLtoFile(pending, 'studio_icon.webp');
+            document.getElementById("newIcon").src = pending;
+            document.getElementById("previewArea").style.display = "grid";
+            document.getElementById("fileName").textContent = "✅ IMAGEN CARGADA DESDE ICON STUDIO";
+            document.getElementById("fileName").style.display = "block";
+            novaToast("Se ha cargado la imagen del Icon Studio", "info");
+        }
+    }
+
     restaurarSesion();
+    checkPendingStudioIcon();
 </script>
 </body>
 </html>
