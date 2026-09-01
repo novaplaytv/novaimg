@@ -21,14 +21,15 @@
             --text-muted: #9aa3b2;
             --border: #293246;
             --success: #10b981;
+            --error: #ef4444;
             --nav-height: 70px;
         }
 
         * { box-sizing: border-box; outline: none; margin: 0; padding: 0; }
-        html, body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
         /* Navegación Premium */
-        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
         .nav-inner { max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
         .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
         .nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
@@ -64,9 +65,10 @@
         .dropdown-content .logout-link { color: var(--error) !important; border-bottom: none; }
         .dropdown-content .logout-link i { color: var(--error); }
 
-        /* Main Content */
-        main { max-width: 1000px; margin: auto; padding: calc(var(--nav-height) + 40px) 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        @media (max-width: 900px) { main { grid-template-columns: 1fr; padding-bottom: 40px; } }
+        /* Layout */
+        #main-panel { margin-top: var(--nav-height); min-height: calc(100vh - var(--nav-height)); display: flex; flex-direction: column; align-items: center; }
+        main { max-width: 1000px; width: 100%; padding: 40px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
 
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
         h1 { font-size: 24px; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; }
@@ -87,27 +89,29 @@
         input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; transition: 0.2s; }
         input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .option-btn { background: var(--bg); border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 700; transition: 0.2s; }
+        .btn-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .option-btn { background: var(--bg); border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 700; transition: 0.2s; text-transform: uppercase; }
         .option-btn:hover { border-color: var(--primary); }
         .option-btn.active { background: var(--primary); border-color: var(--primary); }
 
         /* Preview Area */
-        .preview-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: sticky; top: 110px; }
-        .canvas-wrapper { position: relative; width: 350px; height: 350px; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
+        .preview-container { display: flex; flex-direction: column; align-items: center; }
+        .canvas-wrapper { position: relative; width: 350px; height: 350px; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 30px 70px rgba(0,0,0,0.8); margin-bottom: 30px; }
         canvas { width: 100%; height: 100%; display: block; }
-
         .grid-guide { position: absolute; inset: 0; pointer-events: none; border: 1px dashed rgba(255,255,255,0.1); display: none; }
         .grid-guide::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); }
         .grid-guide::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.1); }
 
-        .btn-download { width: 100%; margin-top: 30px; background: #fff; color: #000; border: 0; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 15px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-download:hover { background: var(--primary); color: #fff; transform: translateY(-5px); box-shadow: 0 15px 30px rgba(229,9,20,0.4); }
+        .btn-download { width: 100%; background: #fff; color: #000; border: 0; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 15px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .btn-download:hover { background: var(--primary); color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(229,9,20,0.3); }
         .btn-download:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; }
 
-        .btn-use { width: 100%; margin-top: 15px; background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid var(--success); padding: 18px; border-radius: 18px; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-use { width: 100%; background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid var(--success); padding: 18px; border-radius: 18px; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px; }
         .btn-use:hover { background: var(--success); color: #fff; transform: translateY(-3px); }
         .btn-use:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; }
+
+        .btn-back { width: 100%; font-size: 14px; color: var(--primary); font-weight: 800; text-decoration: none; border: 2px solid var(--primary); padding: 12px; border-radius: 12px; transition: 0.3s; text-align: center; }
+        .btn-back:hover { background: var(--primary); color: #fff; }
 
         /* Auth View */
         #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
@@ -115,27 +119,25 @@
         .auth-card input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: #fff; margin-bottom: 15px; }
         .status { margin-top: 15px; padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 800; display: none; text-align: center; }
         .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
-
         .form-group-auth { text-align: left; margin-bottom: 20px; }
         .form-group-auth label { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; }
 
-        footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--border); margin-top: 60px; width: 100%; background: #000; }
-        .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
-
         /* NovaModal Premium */
         .nova-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .nova-modal { background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
+        .nova-modal { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
         @keyframes modal-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .nova-modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
         .nova-modal p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
-        .nova-modal input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; margin-bottom: 20px; font-size: 15px; }
         .nova-modal-btns { display: flex; gap: 12px; }
         .nova-modal-btn { flex: 1; padding: 15px; border-radius: 14px; border: 0; font-weight: 800; cursor: pointer; transition: 0.2s; }
         .btn-confirm { background: var(--primary); color: #fff; }
         .btn-cancel { background: #222; color: #fff; }
-        .nova-modal-btn:hover { transform: scale(1.03); }
+
+        footer { padding: 60px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; width: 100%; margin-top: auto; }
+        .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
 
         .hidden { display: none !important; }
+        #fileName { text-align:center; font-size:13px; font-weight:800; color:var(--success); margin-bottom:15px; display:none; }
     </style>
 </head>
 <body>
@@ -164,90 +166,105 @@
     </div>
 </nav>
 
-    <div class="app-container hidden" id="main-panel">
-        <main>
-            <div class="card">
-                <h1>Icon Studio</h1>
-                <p class="subtitle">Convierte cualquier logo al estándar de NovaPlay (512x512 WebP)</p>
+<div id="main-panel" class="hidden">
+    <main>
+        <div class="card">
+            <h1>Icon Studio</h1>
+            <p class="subtitle">Convierte cualquier logo al estándar de NovaPlay (512x512 WebP)</p>
 
-                <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Suelte el logotipo aquí o <b>busque archivo</b></p>
-                    <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFile(this.files[0])">
-                </div>
-
-                <div class="control-group">
-                    <label>O vincula una URL directa</label>
-                    <input id="input-url" type="url" placeholder="https://ejemplo.com/logo.png" oninput="handleUrl(this.value)" style="margin-bottom: 0;">
-                </div>
-
-                <div class="control-group">
-                    <label>Margen del Logo (Padding) <span id="val-padding">15%</span></label>
-                    <input type="range" id="input-padding" min="0" max="40" value="15" oninput="updateCanvas()">
-                </div>
-
-                <div class="control-group">
-                    <label>Estilo de Fondo</label>
-                    <div class="btn-grid" style="grid-template-columns: repeat(2, 1fr);">
-                        <button class="option-btn active" data-type="bg" data-val="black" onclick="setBg('black', this)">NEGRO</button>
-                        <button class="option-btn" data-type="bg" data-val="white" onclick="setBg('white', this)">BLANCO</button>
-                        <button class="option-btn" data-type="bg" data-val="blur" onclick="setBg('blur', this)">BLUR</button>
-                        <button class="option-btn" data-type="bg" data-val="transparent" onclick="setBg('transparent', this)">TRANS</button>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label>Guías Visuales</label>
-                    <button class="option-btn" id="btn-guides" onclick="toggleGuides()" style="width:100%">MOSTRAR REJILLA DE CENTRADO</button>
-                </div>
-
-                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; text-align: justify;">
-                    <b>Nota:</b> El procesador ajustará automáticamente el logo al centro, aplicará un filtro de suavizado y exportará en formato WebP de alta fidelidad.
-                </p>
+            <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Suelte el logotipo aquí o <b>busque archivo</b></p>
+                <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFile(this.files[0])">
             </div>
 
-            <div class="preview-container">
-                <div class="canvas-wrapper">
-                    <canvas id="mainCanvas" width="512" height="512"></canvas>
-                    <div class="grid-guide" id="gridGuide"></div>
+            <div class="control-group">
+                <label>O vincula una URL directa</label>
+                <input id="input-url" type="url" placeholder="https://ejemplo.com/logo.png" oninput="handleUrl(this.value)">
+            </div>
+
+            <div id="fileName"></div>
+
+            <div class="control-group">
+                <label>Margen del Logo (Padding) <span id="val-padding">15%</span></label>
+                <input type="range" id="input-padding" min="0" max="40" value="15" oninput="updateCanvas()">
+            </div>
+
+            <div class="control-group">
+                <label>Estilo de Fondo</label>
+                <div class="btn-grid">
+                    <button class="option-btn active" data-type="bg" data-val="black" onclick="setBg('black', this)">NEGRO</button>
+                    <button class="option-btn" data-type="bg" data-val="white" onclick="setBg('white', this)">BLANCO</button>
+                    <button class="option-btn" data-type="bg" data-val="blur" onclick="setBg('blur', this)">BLUR</button>
+                    <button class="option-btn" data-type="bg" data-val="transparent" onclick="setBg('transparent', this)">TRANS</button>
                 </div>
-                <button id="downloadBtn" class="btn-download" disabled onclick="downloadIcon()">
-                    <i class="fas fa-download"></i> DESCARGAR LOGO .WEBP
-                </button>
-                <button id="useBtn" class="btn-use" disabled onclick="usarEnGestion()">
-                    <i class="fas fa-paper-plane"></i> USAR EN GESTIÓN DE ICONOS
-                </button>
-                <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" style="margin-top: 25px; margin-bottom: 20px; font-size: 14px; color: var(--primary); font-weight: 800; text-decoration: none; display: block; border: 2px solid var(--primary); padding: 12px; border-radius: 12px; transition: 0.3s; text-align: center;">
-                    <i class="fas fa-arrow-left"></i> VOLVER A GESTIÓN DE ICONOS
-                </a>
             </div>
-        </main>
-        <footer>
-            <div class="footer-text">
-                © 2026 NOVAPLAY TV | ICON STUDIO V1.0<br>
-                © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS
+
+            <div class="control-group">
+                <label>Guías Visuales</label>
+                <button class="option-btn" id="btn-guides" onclick="toggleGuides()" style="width:100%">MOSTRAR REJILLA DE CENTRADO</button>
             </div>
-        </footer>
+
+            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; text-align: justify;">
+                <b>Nota:</b> El procesador ajustará automáticamente el logo al centro, aplicará un filtro de suavizado y exportará en formato WebP de alta fidelidad.
+            </p>
+        </div>
+
+        <div class="preview-container">
+            <div class="canvas-wrapper">
+                <canvas id="mainCanvas" width="512" height="512"></canvas>
+                <div class="grid-guide" id="gridGuide"></div>
+            </div>
+
+            <button id="downloadBtn" class="btn-download" disabled onclick="downloadIcon()">
+                <i class="fas fa-download"></i> DESCARGAR LOGO .WEBP
+            </button>
+
+            <button id="useBtn" class="btn-use" disabled onclick="usarEnGestion()">
+                <i class="fas fa-paper-plane"></i> USAR EN GESTIÓN DE ICONOS
+            </button>
+
+            <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/" class="btn-back">
+                <i class="fas fa-arrow-left"></i> VOLVER A GESTIÓN DE ICONOS
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-text">
+            © 2026 NOVAPLAY TV | ICON STUDIO V1.0<br>
+            © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS
+        </div>
+    </footer>
+</div>
+
+<!-- Auth View -->
+<div id="auth-view" class="hidden">
+    <div class="auth-card">
+        <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
+        <div class="form-group-auth">
+            <label>Usuario</label>
+            <input type="text" id="username" placeholder="Usuario Staff">
+        </div>
+        <div class="form-group-auth">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button class="option-btn active" id="loginButton" style="width:100%; padding: 18px; font-size: 14px;" onclick="iniciarSesion()">ENTRAR AL STUDIO</button>
+        <div id="loginStatus" class="status"></div>
     </div>
+</div>
 
-    <div id="auth-view" class="hidden">
-        <!-- Login UI -->
-    </div>
-
-    <div class="nova-modal-overlay" id="novaModal">
-        <div class="nova-modal">
-            <h3 id="modalTitle">Confirmar</h3>
-            <p id="modalMessage">¿Deseas realizar esta acción?</p>
-            <div id="modalInputContainer" class="hidden">
-                <input type="text" id="modalInput" placeholder="...">
-                <select id="modalSelect" class="hidden"></select>
-            </div>
-            <div class="nova-modal-btns">
-                <button class="nova-modal-btn btn-cancel" id="modalCancel">CANCELAR</button>
-                <button class="nova-modal-btn btn-confirm" id="modalConfirm">ACEPTAR</button>
-            </div>
+<div class="nova-modal-overlay" id="novaModal">
+    <div class="nova-modal">
+        <h3 id="modalTitle">Confirmar</h3>
+        <p id="modalMessage">¿Deseas realizar esta acción?</p>
+        <div class="nova-modal-btns">
+            <button class="nova-modal-btn btn-cancel" id="modalCancel">CANCELAR</button>
+            <button class="nova-modal-btn btn-confirm" id="modalConfirm">ACEPTAR</button>
         </div>
     </div>
+</div>
 
 <script>
     const API_URL = "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-canales";
@@ -318,42 +335,14 @@
         });
     }
 
-    /* NovaModal Premium */
-    function openModal(title, msg, onConfirm, type = "confirm", options = [], defaultValue = "") {
+    function openModal(title, msg, onConfirm) {
         const m = document.getElementById("novaModal");
         if (!m) return;
         document.getElementById("modalTitle").innerText = title;
         document.getElementById("modalMessage").innerText = msg;
-        const inputContainer = document.getElementById("modalInputContainer");
-        const input = document.getElementById("modalInput");
-        const select = document.getElementById("modalSelect");
-
-        if (inputContainer) inputContainer.classList.add("hidden");
-        if (input) input.classList.add("hidden");
-        if (select) select.classList.add("hidden");
-
-        if (type === "prompt") {
-            inputContainer.classList.remove("hidden");
-            input.classList.remove("hidden");
-            input.value = defaultValue;
-            setTimeout(() => input.focus(), 100);
-        } else if (type === "select") {
-            inputContainer.classList.remove("hidden");
-            select.classList.remove("hidden");
-            select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
-            setTimeout(() => select.focus(), 100);
-        }
-
         m.style.display = "flex";
-
-        const close = () => { m.style.display = "none"; };
-        document.getElementById("modalCancel").onclick = close;
-        document.getElementById("modalConfirm").onclick = () => {
-            if (type === "prompt") onConfirm(input.value);
-            else if (type === "select") onConfirm(select.value);
-            else onConfirm();
-            close();
-        };
+        document.getElementById("modalCancel").onclick = () => m.style.display = "none";
+        document.getElementById("modalConfirm").onclick = () => { onConfirm(); m.style.display = "none"; };
     }
 
     function handleUrl(url) {
@@ -366,6 +355,7 @@
             document.getElementById('downloadBtn').disabled = false;
             document.getElementById('useBtn').disabled = false;
             document.getElementById('fileInput').value = "";
+            document.getElementById('fileName').style.display = "none";
         };
         img.src = url;
     }
@@ -392,10 +382,14 @@
                 updateCanvas();
                 document.getElementById('downloadBtn').disabled = false;
                 document.getElementById('useBtn').disabled = false;
+                document.getElementById('input-url').value = "";
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
+        const nameEl = document.getElementById("fileName");
+        nameEl.textContent = `✅ ARCHIVO: ${file.name}`;
+        nameEl.style.display = "block";
     }
 
     function setBg(val, btn) {
@@ -413,46 +407,28 @@
 
     function updateCanvas() {
         if (!currentImage) return;
-
         const paddingPercent = parseInt(document.getElementById('input-padding').value);
         document.getElementById('val-padding').innerText = paddingPercent + "%";
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // 1. Draw Background
-        if (bgStyle === 'black') {
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        } else if (bgStyle === 'white') {
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        } else if (bgStyle === 'blur') {
-            // Fondo blur basado en el logo
+        if (bgStyle === 'black') { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+        else if (bgStyle === 'white') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+        else if (bgStyle === 'blur') {
             ctx.save();
             ctx.filter = 'blur(30px) brightness(0.6)';
             ctx.drawImage(currentImage, -50, -50, canvas.width + 100, canvas.height + 100);
             ctx.restore();
-            // Overlay oscuro para que el logo resalte
             ctx.fillStyle = 'rgba(0,0,0,0.3)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
-
-        // 2. Calculate Proportions
         const padding = (canvas.width * paddingPercent) / 100;
         const maxWidth = canvas.width - (padding * 2);
         const maxHeight = canvas.height - (padding * 2);
-
         let drawWidth = currentImage.width;
         let drawHeight = currentImage.height;
         const ratio = Math.min(maxWidth / drawWidth, maxHeight / drawHeight);
-
-        drawWidth *= ratio;
-        drawHeight *= ratio;
-
+        drawWidth *= ratio; drawHeight *= ratio;
         const x = (canvas.width - drawWidth) / 2;
         const y = (canvas.height - drawHeight) / 2;
-
-        // 3. Draw Image
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(currentImage, x, y, drawWidth, drawHeight);
@@ -474,17 +450,9 @@
     }
 
     document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
-
-    // Canvas Inicial
-    ctx.fillStyle = '#080a10';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#1a1f2e';
-    ctx.font = '800 20px Inter';
-    ctx.textAlign = 'center';
-    ctx.fillText('VISTA PREVIA', canvas.width/2, canvas.height/2);
-
+    ctx.fillStyle = '#080a10'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#1a1f2e'; ctx.font = '800 20px Inter'; ctx.textAlign = 'center'; ctx.fillText('VISTA PREVIA', canvas.width/2, canvas.height/2);
     restaurarSesion();
 </script>
-
 </body>
 </html>
