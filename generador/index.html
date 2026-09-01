@@ -60,6 +60,16 @@
         .url-input-wrapper input:focus { border-color: var(--primary); background: #000; box-shadow: 0 0 20px rgba(229,9,20,0.15); }
         .url-reference { font-size: 10px; color: var(--text-muted); margin-top: 12px; text-align: left; display: block; font-weight: 600; opacity: 0.8; letter-spacing: 0.3px; }
 
+        /* Evitar que Chrome cambie el color al autocompletar */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #05070a inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
         /* Dropdown de Administración Premium */
         .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
         .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
@@ -189,7 +199,7 @@
                 <label>VINCULAR URL DIRECTA</label>
                 <div class="url-input-wrapper">
                     <i class="fas fa-link"></i>
-                    <input id="input-url" type="url" placeholder="https://dominio.com/assets/logo-ejemplo.png" oninput="handleUrl(this.value)">
+                    <input id="input-url" type="url" placeholder="https://dominio.com/assets/logo-ejemplo.png" oninput="handleUrl(this.value)" autocomplete="off" spellcheck="false">
                 </div>
                 <span class="url-reference">
                     <i class="fas fa-info-circle" style="color: var(--primary);"></i>
