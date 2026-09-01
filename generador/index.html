@@ -122,6 +122,19 @@
         footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--border); margin-top: 60px; width: 100%; background: #000; }
         .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
 
+        /* NovaModal Premium */
+        .nova-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .nova-modal { background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
+        @keyframes modal-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .nova-modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+        .nova-modal p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .nova-modal input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; margin-bottom: 20px; font-size: 15px; }
+        .nova-modal-btns { display: flex; gap: 12px; }
+        .nova-modal-btn { flex: 1; padding: 15px; border-radius: 14px; border: 0; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-confirm { background: var(--primary); color: #fff; }
+        .btn-cancel { background: #222; color: #fff; }
+        .nova-modal-btn:hover { transform: scale(1.03); }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -217,20 +230,22 @@
         </footer>
     </div>
 
-    <!-- Auth View -->
     <div id="auth-view" class="hidden">
-        <div class="auth-card">
-            <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
-            <div class="form-group-auth">
-                <label>Usuario</label>
-                <input type="text" id="username" placeholder="Usuario Staff">
+        <!-- Login UI -->
+    </div>
+
+    <div class="nova-modal-overlay" id="novaModal">
+        <div class="nova-modal">
+            <h3 id="modalTitle">Confirmar</h3>
+            <p id="modalMessage">¿Deseas realizar esta acción?</p>
+            <div id="modalInputContainer" class="hidden">
+                <input type="text" id="modalInput" placeholder="...">
+                <select id="modalSelect" class="hidden"></select>
             </div>
-            <div class="form-group-auth">
-                <label>Contraseña</label>
-                <input type="password" id="password" placeholder="••••••••">
+            <div class="nova-modal-btns">
+                <button class="nova-modal-btn btn-cancel" id="modalCancel">CANCELAR</button>
+                <button class="nova-modal-btn btn-confirm" id="modalConfirm">ACEPTAR</button>
             </div>
-            <button class="option-btn active" id="loginButton" style="width:100%; padding: 18px; font-size: 14px;" onclick="iniciarSesion()">ENTRAR AL STUDIO</button>
-            <div id="loginStatus" class="status"></div>
         </div>
     </div>
 
@@ -297,8 +312,48 @@
     }
 
     function cerrarSesion() {
-        localStorage.removeItem("novaplay_session_token");
-        location.reload();
+        openModal("Cerrar Sesión", "¿Estás seguro que deseas salir del Studio?", () => {
+            localStorage.removeItem("novaplay_session_token");
+            location.reload();
+        });
+    }
+
+    /* NovaModal Premium */
+    function openModal(title, msg, onConfirm, type = "confirm", options = [], defaultValue = "") {
+        const m = document.getElementById("novaModal");
+        if (!m) return;
+        document.getElementById("modalTitle").innerText = title;
+        document.getElementById("modalMessage").innerText = msg;
+        const inputContainer = document.getElementById("modalInputContainer");
+        const input = document.getElementById("modalInput");
+        const select = document.getElementById("modalSelect");
+
+        if (inputContainer) inputContainer.classList.add("hidden");
+        if (input) input.classList.add("hidden");
+        if (select) select.classList.add("hidden");
+
+        if (type === "prompt") {
+            inputContainer.classList.remove("hidden");
+            input.classList.remove("hidden");
+            input.value = defaultValue;
+            setTimeout(() => input.focus(), 100);
+        } else if (type === "select") {
+            inputContainer.classList.remove("hidden");
+            select.classList.remove("hidden");
+            select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
+            setTimeout(() => select.focus(), 100);
+        }
+
+        m.style.display = "flex";
+
+        const close = () => { m.style.display = "none"; };
+        document.getElementById("modalCancel").onclick = close;
+        document.getElementById("modalConfirm").onclick = () => {
+            if (type === "prompt") onConfirm(input.value);
+            else if (type === "select") onConfirm(select.value);
+            else onConfirm();
+            close();
+        };
     }
 
     function handleUrl(url) {
