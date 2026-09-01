@@ -2,15 +2,18 @@ import os
 import json
 import html
 import urllib.request
+import time
 from urllib.parse import urlparse
 from datetime import datetime, timezone
 
 
 def descargar_json(url):
     print("Descargando datos de NovaPlay...")
+    # Añadir timestamp para evitar caché del servidor
+    url_fresca = f"{url}?t={int(time.time())}"
 
     request = urllib.request.Request(
-        url,
+        url_fresca,
         headers={
             "User-Agent": "NovaImg-Catalog-Generator/1.0"
         }
@@ -116,7 +119,8 @@ def generar_tarjetas(canales):
         categoria = html.escape(canal["categoria"])
         icono = html.escape(canal["icono"])
         icono_url = html.escape(canal["icono_url"], quote=True)
-        ruta_local = f"icons/{icono}"
+        # Añadir timestamp a la ruta local para forzar actualización visual
+        ruta_local = f"icons/{icono}?t={ts}"
 
         tarjeta = f"""
         <article class="card" data-search="{nombre} {numero} {categoria} {icono} {icono_url}">
@@ -163,6 +167,7 @@ def generar_html(canales):
     fecha = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
     tarjetas = generar_tarjetas(canales)
     categorias = sorted(list(set(c['categoria'] for c in canales)))
+    ts = int(datetime.now(timezone.utc).timestamp())
 
     filtro_botones = '<button class="filter-btn active" data-category="Todas">Todas</button>'
     for cat in categorias:
