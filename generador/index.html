@@ -107,6 +107,9 @@
         .adjustment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .adj-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 16px; border: 1px solid var(--border); }
         .adj-box label { margin-bottom: 8px; font-size: 9px; }
+        .adj-box.full { grid-column: 1 / -1; }
+        .adj-box input[type="text"], .adj-box input[type="color"] { width: 100%; margin-top: 5px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: #fff; padding: 8px; font-size: 12px; }
+        .adj-box input[type="color"] { height: 35px; padding: 2px; cursor: pointer; }
 
         input[type="range"] { width: 100%; height: 6px; background: var(--bg); border-radius: 5px; appearance: none; outline: none; }
         input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; transition: 0.2s; }
@@ -279,6 +282,40 @@
                     <div class="adj-box">
                         <label>Redondear <span id="val-radius">0px</span></label>
                         <input type="range" id="input-radius" min="0" max="256" value="0" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Mover X <span id="val-offset-x">0px</span></label>
+                        <input type="range" id="input-offset-x" min="-250" max="250" value="0" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Mover Y <span id="val-offset-y">0px</span></label>
+                        <input type="range" id="input-offset-y" min="-250" max="250" value="0" oninput="updateCanvas()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Texto Profesional (Opcional)</label>
+                <div class="adjustment-grid">
+                    <div class="adj-box full">
+                        <label>Contenido del Texto</label>
+                        <input type="text" id="input-text" placeholder="Ej: 4K, HD, LIVE..." oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Tamaño <span id="val-text-size">30px</span></label>
+                        <input type="range" id="input-text-size" min="10" max="150" value="30" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Color</label>
+                        <input type="color" id="input-text-color" value="#ffffff" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Posición X <span id="val-text-x">50%</span></label>
+                        <input type="range" id="input-text-x" min="0" max="512" value="256" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Posición Y <span id="val-text-y">85%</span></label>
+                        <input type="range" id="input-text-y" min="0" max="512" value="435" oninput="updateCanvas()">
                     </div>
                 </div>
             </div>
@@ -624,18 +661,35 @@
         const contrastEl = document.getElementById('input-contrast');
         const saturateEl = document.getElementById('input-saturate');
         const radiusEl = document.getElementById('input-radius');
+        const offsetXEl = document.getElementById('input-offset-x');
+        const offsetYEl = document.getElementById('input-offset-y');
 
-        if (!brightEl || !contrastEl || !saturateEl || !radiusEl) return;
+        if (!brightEl || !contrastEl || !saturateEl || !radiusEl || !offsetXEl || !offsetYEl) return;
 
         const bright = brightEl.value;
         const contrast = contrastEl.value;
         const saturate = saturateEl.value;
         const radius = radiusEl.value;
+        const offsetX = parseInt(offsetXEl.value);
+        const offsetY = parseInt(offsetYEl.value);
 
         document.getElementById('val-bright').innerText = bright + "%";
         document.getElementById('val-contrast').innerText = contrast + "%";
         document.getElementById('val-saturate').innerText = saturate + "%";
         document.getElementById('val-radius').innerText = radius + "px";
+        document.getElementById('val-offset-x').innerText = offsetX + "px";
+        document.getElementById('val-offset-y').innerText = offsetY + "px";
+
+        // Datos de Texto
+        const textContent = document.getElementById('input-text').value.trim();
+        const textSize = document.getElementById('input-text-size').value;
+        const textColor = document.getElementById('input-text-color').value;
+        const textX = document.getElementById('input-text-x').value;
+        const textY = document.getElementById('input-text-y').value;
+
+        document.getElementById('val-text-size').innerText = textSize + "px";
+        document.getElementById('val-text-x').innerText = Math.round((textX / 512) * 100) + "%";
+        document.getElementById('val-text-y').innerText = Math.round((textY / 512) * 100) + "%";
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -669,8 +723,8 @@
         drawWidth *= ratio;
         drawHeight *= ratio;
 
-        const x = (canvas.width - drawWidth) / 2;
-        const y = (canvas.height - drawHeight) / 2;
+        const x = (canvas.width - drawWidth) / 2 + offsetX;
+        const y = (canvas.height - drawHeight) / 2 + offsetY;
 
         // 3. Draw Image with Filters & Radius
         ctx.save();
@@ -691,6 +745,29 @@
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(currentImage, x, y, drawWidth, drawHeight);
         ctx.restore();
+
+        // 4. Draw Professional Text Overlay
+        if (textContent !== "") {
+            ctx.save();
+            ctx.font = `900 ${textSize}px Inter`;
+            ctx.fillStyle = textColor;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            // Sombra profesional para legibilidad
+            ctx.shadowColor = "rgba(0,0,0,0.8)";
+            ctx.shadowBlur = 15;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 4;
+
+            // Borde sutil
+            ctx.strokeStyle = "rgba(0,0,0,0.5)";
+            ctx.lineWidth = parseInt(textSize) / 15;
+            ctx.strokeText(textContent, textX, textY);
+
+            ctx.fillText(textContent, textX, textY);
+            ctx.restore();
+        }
     }
 
     function downloadIcon() {
