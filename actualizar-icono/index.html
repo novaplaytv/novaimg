@@ -270,21 +270,32 @@
         .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
 
         @media (max-width: 900px) {
-            .nav-toggle { display: flex; }
+            html, body { height: auto !important; overflow-y: auto !important; }
+            .nav-inner { padding: 0 15px; }
+            .nav-toggle { display: flex; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
+            .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
+
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
                 background: rgba(8, 10, 16, 0.98); backdrop-filter: blur(20px);
-                flex-direction: column; justify-content: center; align-items: center;
-                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); gap: 20px; padding: 40px;
+                flex-direction: column; justify-content: flex-start; align-items: center;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); gap: 15px; padding: 100px 40px 40px;
+                overflow-y: auto;
             }
             .nav-links.active { right: 0; }
             .nav-links a { font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }
+
+            /* Ajuste del botón PANEL en móvil */
+            .admin-menu { width: 100%; height: auto; justify-content: center; padding: 0; flex-direction: column; }
+            .admin-menu.active .dropdown-content { opacity: 1; visibility: visible; display: flex; }
+            .btn-admin { width: 100%; justify-content: center; padding: 18px; font-size: 16px; border-radius: 15px; }
+            .dropdown-content { position: relative; width: 100%; top: 0; margin-top: 10px; opacity: 0; visibility: hidden; display: none; transform: none; box-shadow: none; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
+            .dropdown-content a { padding: 15px; font-size: 14px !important; }
 
             .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .nav-toggle.active span:nth-child(2) { opacity: 0; }
             .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-            .nav-inner { padding: 0 20px; }
             main { padding: calc(var(--nav-height) + 20px) 15px 30px; }
             .card { padding: 25px; border-radius: 22px; }
             .channel-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); padding: 10px; }
@@ -294,6 +305,9 @@
 
             #toast-container { bottom: 10px; right: 10px; left: 10px; }
             .toast-msg { min-width: 0; width: 100%; }
+
+            footer { padding: 40px 15px; }
+            .footer-text { font-size: 11px; }
         }
     </style>
 </head>
@@ -303,9 +317,16 @@
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | GESTIÓN DE ICONOS
+            NOVAPLAY | GESTIÓN
         </a>
-        <div class="nav-links">
+
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-links" id="navLinks">
             <a href="https://novaplaytv.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
             <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
             <div class="admin-menu" id="adminMenu">
@@ -878,11 +899,23 @@
     // Toggle Menú Móvil
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
+    const adminMenu = document.getElementById('adminMenu');
+    const btnAdmin = document.querySelector('.btn-admin');
 
     if (navToggle) {
         navToggle.addEventListener('click', () => {
             navToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
+        });
+    }
+
+    // Toggle Dropdown en Móvil
+    if (btnAdmin) {
+        btnAdmin.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                e.preventDefault();
+                adminMenu.classList.toggle('active');
+            }
         });
     }
 
