@@ -53,6 +53,8 @@
         }
         .btn-login-nav:hover { transform: scale(1.05); background: var(--primary-hover); }
 
+        .nav-toggle { display: none; }
+
         /* Botón de Mantenimiento Nav */
         .url-input-wrapper { position: relative; margin-top: 10px; width: 100%; }
         .url-input-wrapper input { width: 100%; padding: 18px 20px 18px 55px; background: #05070a; border: 1px solid var(--border); border-radius: 16px; color: #fff; font-size: 13px; transition: 0.3s; font-weight: 500; }
@@ -101,6 +103,10 @@
         .control-group { margin-bottom: 25px; }
         .control-group label { display: flex; justify-content: space-between; font-weight: 800; color: var(--text-muted); font-size: 11px; text-transform: uppercase; margin-bottom: 12px; }
         .control-group label span { color: var(--primary); }
+
+        .adjustment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .adj-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 16px; border: 1px solid var(--border); }
+        .adj-box label { margin-bottom: 8px; font-size: 9px; }
 
         input[type="range"] { width: 100%; height: 6px; background: var(--bg); border-radius: 5px; appearance: none; outline: none; }
         input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; transition: 0.2s; }
@@ -539,12 +545,31 @@
 
     function updateCanvas() {
         if (!currentImage) return;
+
         const paddingPercent = parseInt(document.getElementById('input-padding').value);
         document.getElementById('val-padding').innerText = paddingPercent + "%";
+
+        // Filtros Pro
+        const bright = document.getElementById('input-bright').value;
+        const contrast = document.getElementById('input-contrast').value;
+        const saturate = document.getElementById('input-saturate').value;
+        const radius = document.getElementById('input-radius').value;
+
+        document.getElementById('val-bright').innerText = bright + "%";
+        document.getElementById('val-contrast').innerText = contrast + "%";
+        document.getElementById('val-saturate').innerText = saturate + "%";
+        document.getElementById('val-radius').innerText = radius + "px";
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (bgStyle === 'black') { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
-        else if (bgStyle === 'white') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
-        else if (bgStyle === 'blur') {
+
+        // 1. Draw Background
+        if (bgStyle === 'black') {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else if (bgStyle === 'white') {
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else if (bgStyle === 'blur') {
             ctx.save();
             ctx.filter = 'blur(30px) brightness(0.6)';
             ctx.drawImage(currentImage, -50, -50, canvas.width + 100, canvas.height + 100);
@@ -552,18 +577,37 @@
             ctx.fillStyle = 'rgba(0,0,0,0.3)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
+
+        // 2. Calculate Proportions
         const padding = (canvas.width * paddingPercent) / 100;
         const maxWidth = canvas.width - (padding * 2);
         const maxHeight = canvas.height - (padding * 2);
+
         let drawWidth = currentImage.width;
         let drawHeight = currentImage.height;
         const ratio = Math.min(maxWidth / drawWidth, maxHeight / drawHeight);
-        drawWidth *= ratio; drawHeight *= ratio;
+
+        drawWidth *= ratio;
+        drawHeight *= ratio;
+
         const x = (canvas.width - drawWidth) / 2;
         const y = (canvas.height - drawHeight) / 2;
+
+        // 3. Draw Image with Filters & Radius
+        ctx.save();
+
+        // Aplicar Esquinas Redondeadas al canvas (opcional, si se quiere redondear el diseño final)
+        if (radius > 0) {
+            ctx.beginPath();
+            ctx.roundRect(0, 0, canvas.width, canvas.height, parseInt(radius));
+            ctx.clip();
+        }
+
+        ctx.filter = `brightness(${bright}%) contrast(${contrast}%) saturate(${saturate}%)`;
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(currentImage, x, y, drawWidth, drawHeight);
+        ctx.restore();
     }
 
     function downloadIcon() {
