@@ -377,14 +377,14 @@
         </div>
 
         <div class="comparison" id="previewArea" style="display:none;">
-            <div class="comp-box">
+            <div class="comp-box" id="currentIconBox">
                 <span>Actual en TV</span>
-                <img id="currentIcon" src="" alt="Actual">
+                <img id="currentIcon" src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'" alt="Actual">
             </div>
             <div class="comp-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="comp-box">
                 <span>Nuevo Diseño</span>
-                <img id="newIcon" src="" alt="Nuevo">
+                <img id="newIcon" src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'" alt="Nuevo">
             </div>
         </div>
 
@@ -601,8 +601,11 @@
         renderGridActual();
 
         const updateBtn = document.getElementById("updateButton");
+        const currentIconBox = document.getElementById("currentIconBox");
+
         if (canalesSeleccionados.length > 0) {
             updateBtn.innerHTML = `🚀 PUBLICAR EN ${canalesSeleccionados.length} CANALES`;
+            currentIconBox.style.display = "block";
 
             // Mostrar el icono del primer canal seleccionado como referencia
             const firstCanal = listaCanales.find(c => c.file === canalesSeleccionados[0]);
@@ -612,7 +615,12 @@
             }
         } else {
             updateBtn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
-            document.getElementById("previewArea").style.display = "none";
+            // Si hay una imagen cargada pero no canales, solo ocultamos el "Actual"
+            if (document.getElementById("newIcon").src.startsWith("data:") || document.getElementById("imagenUrl").value) {
+                currentIconBox.style.display = "none";
+            } else {
+                document.getElementById("previewArea").style.display = "none";
+            }
         }
 
         if(window.innerWidth < 768 && canalesSeleccionados.length === 1) {
@@ -675,6 +683,11 @@
         reader.onload = (e) => {
             document.getElementById("newIcon").src = e.target.result;
             document.getElementById("previewArea").style.display = "grid";
+
+            // Si no hay canales seleccionados, ocultamos el lado "Actual"
+            if (canalesSeleccionados.length === 0) {
+                document.getElementById("currentIconBox").style.display = "none";
+            }
         };
         reader.readAsDataURL(file);
     }
@@ -687,6 +700,11 @@
         document.getElementById("fileName").style.display = "none";
         document.getElementById("newIcon").src = url;
         document.getElementById("previewArea").style.display = "grid";
+
+        // Si no hay canales seleccionados, ocultamos el lado "Actual"
+        if (canalesSeleccionados.length === 0) {
+            document.getElementById("currentIconBox").style.display = "none";
+        }
     }
 
     async function actualizarIcono() {
@@ -825,6 +843,7 @@
                 // Forzar la previsualización
                 document.getElementById("newIcon").src = pending;
                 document.getElementById("previewArea").style.display = "grid";
+                document.getElementById("currentIconBox").style.display = "none"; // Ocultar "Actual" hasta que elija canal
                 document.getElementById("fileName").textContent = "✅ IMAGEN CARGADA DESDE ICON STUDIO";
                 document.getElementById("fileName").style.display = "block";
 
