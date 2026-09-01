@@ -300,7 +300,7 @@
                 <div class="adjustment-grid">
                     <div class="adj-box full">
                         <label>Contenido del Texto</label>
-                        <input type="text" id="input-text" placeholder="Ej: 4K, HD, LIVE..." oninput="updateCanvas()" autocomplete="off" spellcheck="false" name="icon-text-overlay">
+                        <input type="text" id="input-canvas-text" name="input-canvas-text" placeholder="Ej: 4K, HD, LIVE..." oninput="updateCanvas()" autocomplete="one-time-code" spellcheck="false" data-lpignore="true">
                     </div>
                     <div class="adj-box">
                         <label>Tamaño <span id="val-text-size">30px</span></label>
@@ -682,7 +682,7 @@
         document.getElementById('val-offset-y').innerText = offsetY + "px";
 
         // Datos de Texto
-        const textContent = document.getElementById('input-text').value.trim();
+        const textContent = document.getElementById('input-canvas-text').value.trim();
         const textSize = document.getElementById('input-text-size').value;
         const textColor = document.getElementById('input-text-color').value;
         const textX = document.getElementById('input-text-x').value;
