@@ -253,6 +253,19 @@
 
         .hidden { display: none !important; }
 
+        /* NovaModal Premium */
+        .nova-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .nova-modal { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
+        @keyframes modal-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .nova-modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+        .nova-modal p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .nova-modal input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; margin-bottom: 20px; font-size: 15px; }
+        .nova-modal-btns { display: flex; gap: 12px; }
+        .nova-modal-btn { flex: 1; padding: 15px; border-radius: 14px; border: 0; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-confirm { background: var(--primary); color: #fff; }
+        .btn-cancel { background: #222; color: #fff; }
+        .nova-modal-btn:hover { transform: scale(1.03); }
+
         footer { padding: 60px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
         .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
 
@@ -396,6 +409,17 @@
     </div>
 </main>
 
+<div class="nova-modal-overlay" id="novaModal">
+    <div class="nova-modal">
+        <h3 id="novaModalTitle" style="font-weight:900;">Confirmar</h3>
+        <p id="novaModalMessage" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;"></p>
+        <div class="nova-modal-btns">
+            <button class="nova-modal-btn btn-cancel" id="novaModalCancel">CANCELAR</button>
+            <button class="nova-modal-btn btn-confirm" id="novaModalConfirm">ACEPTAR</button>
+        </div>
+    </div>
+</div>
+
 <footer>
     <div class="footer-text">
         © 2026 NOVAPLAY TV<br>
@@ -522,8 +546,25 @@
     }
 
     function cerrarSesion() {
-        localStorage.removeItem("novaplay_session_token");
-        location.reload();
+        openModal("Cerrar Sesión", "¿Estás seguro que deseas salir de la Gestión de Iconos?", () => {
+            localStorage.removeItem("novaplay_session_token");
+            location.reload();
+        });
+    }
+
+    /* NovaModal Premium */
+    function openModal(title, msg, onConfirm) {
+        const m = document.getElementById("novaModal");
+        if (!m) return;
+        document.getElementById("novaModalTitle").innerText = title;
+        document.getElementById("novaModalMessage").innerText = msg;
+        m.style.display = "flex";
+
+        document.getElementById("novaModalCancel").onclick = () => { m.style.display = "none"; };
+        document.getElementById("novaModalConfirm").onclick = () => {
+            onConfirm();
+            m.style.display = "none";
+        };
     }
 
     // --- Icon Manager Logic ---
