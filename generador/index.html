@@ -161,6 +161,11 @@
                 </div>
 
                 <div class="control-group">
+                    <label>O vincula una URL directa</label>
+                    <input id="input-url" type="url" placeholder="https://ejemplo.com/logo.png" oninput="handleUrl(this.value)" style="margin-bottom: 0;">
+                </div>
+
+                <div class="control-group">
                     <label>Margen del Logo (Padding) <span id="val-padding">15%</span></label>
                     <input type="range" id="input-padding" min="0" max="40" value="15" oninput="updateCanvas()">
                 </div>
@@ -291,6 +296,20 @@
     function cerrarSesion() {
         localStorage.removeItem("novaplay_session_token");
         location.reload();
+    }
+
+    function handleUrl(url) {
+        if (!url) return;
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            currentImage = img;
+            updateCanvas();
+            document.getElementById('downloadBtn').disabled = false;
+            document.getElementById('useBtn').disabled = false;
+            document.getElementById('fileInput').value = "";
+        };
+        img.src = url;
     }
 
     // Drag & Drop
