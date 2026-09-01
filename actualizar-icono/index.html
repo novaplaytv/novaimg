@@ -413,7 +413,6 @@
     let sessionToken = localStorage.getItem("novaplay_session_token") || "";
     let canalesSeleccionados = []; // Array de nombres de archivo (.webp)
     let listaCanales = [];
-    let studioFile = null; // Para recibir imágenes del Icon Studio
 
     // --- NovaToast System ---
     function novaToast(message, type = 'success') {
@@ -667,7 +666,6 @@
         const file = document.getElementById("imagenArchivo").files[0];
         if (!file) return;
 
-        studioFile = null; // Limpiar si se selecciona un archivo manual
         document.getElementById("imagenUrl").value = "";
         const nameEl = document.getElementById("fileName");
         nameEl.textContent = `✅ LISTO: ${file.name}`;
@@ -693,8 +691,7 @@
 
     async function actualizarIcono() {
         const url = document.getElementById("imagenUrl").value.trim();
-        const fileInput = document.getElementById("imagenArchivo").files[0];
-        const file = fileInput || studioFile;
+        const file = document.getElementById("imagenArchivo").files[0];
         const btn = document.getElementById("updateButton");
 
         if (canalesSeleccionados.length === 0) {
@@ -754,7 +751,6 @@
                 document.getElementById("imagenArchivo").value = "";
                 document.getElementById("imagenUrl").value = "";
                 document.getElementById("fileName").style.display = "none";
-                studioFile = null;
                 localStorage.removeItem('pending_studio_icon');
                 setTimeout(() => {
                     document.getElementById("currentIcon").src = document.getElementById("newIcon").src;
@@ -816,14 +812,26 @@
     }
 
     async function checkPendingStudioIcon() {
-        const pending = localStorage.getItem('pending_studio_icon');
-        if (pending) {
-            studioFile = dataURLtoFile(pending, 'studio_icon.webp');
-            document.getElementById("newIcon").src = pending;
-            document.getElementById("previewArea").style.display = "grid";
-            document.getElementById("fileName").textContent = "✅ IMAGEN CARGADA DESDE ICON STUDIO";
-            document.getElementById("fileName").style.display = "block";
-            novaToast("Se ha cargado la imagen del Icon Studio", "info");
+        try {
+            const pending = localStorage.getItem('pending_studio_icon');
+            if (pending) {
+                const file = dataURLtoFile(pending, 'studio_icon.webp');
+
+                // Inyectar el archivo directamente en el input para que sea visible y procesable
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                document.getElementById('imagenArchivo').files = dt.files;
+
+                // Forzar la previsualización
+                document.getElementById("newIcon").src = pending;
+                document.getElementById("previewArea").style.display = "grid";
+                document.getElementById("fileName").textContent = "✅ IMAGEN CARGADA DESDE ICON STUDIO";
+                document.getElementById("fileName").style.display = "block";
+
+                novaToast("Se ha cargado la imagen del Icon Studio", "info");
+            }
+        } catch (e) {
+            console.error("Error al cargar imagen del studio:", e);
         }
     }
 
