@@ -633,17 +633,27 @@
             listaCanales = [];
 
             cards.forEach(card => {
-                const name = card.querySelector("h2")?.textContent?.trim();
-                const num = card.querySelector(".channel-number")?.textContent?.replace(/CANAL/gi, "").trim();
-                const src = card.querySelector("img")?.getAttribute("src");
-                const match = src?.match(/(?:icons\/)([^/?#]+\.webp)/i);
+                const nameEl = card.querySelector("h2");
+                const numEl = card.querySelector(".channel-number");
+                const imgEl = card.querySelector("img");
 
-                if (name && num && match) {
+                if (!nameEl || !imgEl) return;
+
+                const name = nameEl.textContent.trim();
+                const num = numEl ? numEl.textContent.replace(/CANAL/gi, "").trim() : "—";
+                const src = imgEl.getAttribute("src");
+
+                // Regex más robusto para extraer el nombre del archivo
+                // Busca lo que esté entre 'icons/' y un posible '?' o el final del string
+                const match = src?.match(/icons\/([^?#]+)/i);
+
+                if (name && match) {
+                    const fileName = match[1];
                     listaCanales.push({
-                        name,
-                        num,
-                        file: match[1],
-                        icon: "https://novaplaytv.github.io/novaimg/icons/" + match[1]
+                        name: name,
+                        num: num,
+                        file: fileName,
+                        icon: "https://novaplaytv.github.io/novaimg/icons/" + fileName
                     });
                 }
             });
