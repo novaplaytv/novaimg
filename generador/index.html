@@ -159,6 +159,12 @@
         footer { padding: 60px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; width: 100%; margin-top: auto; }
         .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
 
+        /* NovaToast Styles */
+        #nova-toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 30000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .nova-toast { background: #1a1a1a; color: #fff; padding: 15px 25px; border-radius: 12px; border-left: 5px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; min-width: 280px; pointer-events: auto; animation: toast-in 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; transition: 0.3s; }
+        .nova-toast.fade-out { opacity: 0; transform: translateX(100px); }
+        @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
         /* Responsividad Mejorada */
         @media (max-width: 900px) {
             html, body { height: auto !important; overflow-y: auto !important; }
@@ -330,6 +336,8 @@
     </footer>
 </div>
 
+<div id="nova-toast-container"></div>
+
 <!-- Auth View -->
 <div id="auth-view" class="hidden">
     <div class="auth-card">
@@ -370,6 +378,22 @@
     let currentImage = null;
     let bgStyle = 'black';
     let showGuides = false;
+
+    function novaToast(message, type = 'info') {
+        const container = document.getElementById('nova-toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `nova-toast ${type}`;
+        let icon = '🔔';
+        if (type === 'success') icon = '✅';
+        if (type === 'error') icon = '❌';
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
 
     // --- Auth Logic ---
     async function req(body) {
@@ -504,19 +528,36 @@
         };
     }
 
+    let urlLoadTimeout = null;
     function handleUrl(url) {
         if (!url) return;
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.onload = () => {
-            currentImage = img;
-            updateCanvas();
-            document.getElementById('downloadBtn').disabled = false;
-            document.getElementById('useBtn').disabled = false;
-            document.getElementById('fileInput').value = "";
-            document.getElementById('fileName').style.display = "none";
-        };
-        img.src = url;
+
+        clearTimeout(urlLoadTimeout);
+        urlLoadTimeout = setTimeout(() => {
+            const cleanUrl = url.trim();
+            if (!cleanUrl.startsWith("http")) return;
+
+            novaToast("Cargando imagen desde URL...", "info");
+
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+
+            img.onload = () => {
+                currentImage = img;
+                updateCanvas();
+                document.getElementById('downloadBtn').disabled = false;
+                document.getElementById('useBtn').disabled = false;
+                document.getElementById('fileInput').value = "";
+                document.getElementById('fileName').style.display = "none";
+                novaToast("Imagen cargada con éxito", "success");
+            };
+
+            img.onerror = () => {
+                novaToast("Error: No se pudo cargar la imagen. Verifique el enlace o permisos CORS.", "error");
+            };
+
+            img.src = cleanUrl;
+        }, 800);
     }
 
     // Drag & Drop
@@ -532,7 +573,13 @@
     });
 
     function handleFile(file) {
-        if (!file || !file.type.startsWith('image/')) return;
+        if (!file || !file.type.startsWith('image/')) {
+            novaToast("Error: Formato de archivo no válido", "error");
+            return;
+        }
+
+        novaToast("Procesando archivo local...", "info");
+
         const reader = new FileReader();
         reader.onload = e => {
             const img = new Image();
@@ -543,6 +590,7 @@
                 document.getElementById('useBtn').disabled = false;
                 const urlInput = document.getElementById('icon-source-path');
                 if (urlInput) urlInput.value = "";
+                novaToast("Archivo cargado con éxito", "success");
             };
             img.src = e.target.result;
         };
