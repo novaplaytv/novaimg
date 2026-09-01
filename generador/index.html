@@ -256,6 +256,28 @@
             <div id="fileName"></div>
 
             <div class="control-group">
+                <label>Ajustes de Imagen (Pro)</label>
+                <div class="adjustment-grid">
+                    <div class="adj-box">
+                        <label>Brillo <span id="val-bright">100%</span></label>
+                        <input type="range" id="input-bright" min="50" max="150" value="100" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Contraste <span id="val-contrast">100%</span></label>
+                        <input type="range" id="input-contrast" min="50" max="150" value="100" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Saturación <span id="val-saturate">100%</span></label>
+                        <input type="range" id="input-saturate" min="0" max="200" value="100" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Redondear <span id="val-radius">0px</span></label>
+                        <input type="range" id="input-radius" min="0" max="256" value="0" oninput="updateCanvas()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
                 <label>Margen del Logo (Padding) <span id="val-padding">15%</span></label>
                 <input type="range" id="input-padding" min="0" max="40" value="15" oninput="updateCanvas()">
             </div>
@@ -549,11 +571,18 @@
         const paddingPercent = parseInt(document.getElementById('input-padding').value);
         document.getElementById('val-padding').innerText = paddingPercent + "%";
 
-        // Filtros Pro
-        const bright = document.getElementById('input-bright').value;
-        const contrast = document.getElementById('input-contrast').value;
-        const saturate = document.getElementById('input-saturate').value;
-        const radius = document.getElementById('input-radius').value;
+        // Filtros Pro - Verificando existencia antes de acceder
+        const brightEl = document.getElementById('input-bright');
+        const contrastEl = document.getElementById('input-contrast');
+        const saturateEl = document.getElementById('input-saturate');
+        const radiusEl = document.getElementById('input-radius');
+
+        if (!brightEl || !contrastEl || !saturateEl || !radiusEl) return;
+
+        const bright = brightEl.value;
+        const contrast = contrastEl.value;
+        const saturate = saturateEl.value;
+        const radius = radiusEl.value;
 
         document.getElementById('val-bright').innerText = bright + "%";
         document.getElementById('val-contrast').innerText = contrast + "%";
@@ -563,6 +592,7 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // 1. Draw Background
+        ctx.save();
         if (bgStyle === 'black') {
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -577,6 +607,7 @@
             ctx.fillStyle = 'rgba(0,0,0,0.3)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
+        ctx.restore();
 
         // 2. Calculate Proportions
         const padding = (canvas.width * paddingPercent) / 100;
@@ -596,10 +627,14 @@
         // 3. Draw Image with Filters & Radius
         ctx.save();
 
-        // Aplicar Esquinas Redondeadas al canvas (opcional, si se quiere redondear el diseño final)
-        if (radius > 0) {
+        if (parseInt(radius) > 0) {
             ctx.beginPath();
-            ctx.roundRect(0, 0, canvas.width, canvas.height, parseInt(radius));
+            // Fallback para navegadores antiguos sin roundRect
+            if (ctx.roundRect) {
+                ctx.roundRect(0, 0, canvas.width, canvas.height, parseInt(radius));
+            } else {
+                ctx.rect(0, 0, canvas.width, canvas.height);
+            }
             ctx.clip();
         }
 
