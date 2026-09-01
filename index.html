@@ -57,6 +57,9 @@
         .btn-logout { display: none; background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
         .btn-logout:hover { transform: scale(1.05); filter: brightness(1.2); }
 
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
+        .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
+
         /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
         .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
         .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
@@ -178,7 +181,53 @@
         .toast-fade-out { animation: toastFadeOut 0.4s forwards; }
         @keyframes toastFadeOut { to { transform: translateX(20px); opacity: 0; } }
 
-        @media (max-width: 900px) { .nav-links { display: none; } }
+        /* NovaModal Premium */
+        .nova-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .nova-modal { background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
+        @keyframes modal-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .nova-modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+        .nova-modal p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .nova-modal input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; margin-bottom: 20px; font-size: 15px; }
+        .nova-modal-btns { display: flex; gap: 12px; }
+        .nova-modal-btn { flex: 1; padding: 15px; border-radius: 14px; border: 0; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-confirm { background: var(--primary); color: #fff; }
+        .btn-cancel { background: #222; color: #fff; }
+        .nova-modal-btn:hover { transform: scale(1.03); }
+
+        @media (max-width: 900px) {
+            html, body { height: auto !important; overflow-y: auto !important; }
+            .nav-inner { padding: 0 15px; }
+            .nav-toggle { display: flex; }
+
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+                background: rgba(8, 10, 16, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: flex-start; align-items: center;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); gap: 15px; padding: 100px 40px 40px;
+                overflow-y: auto;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }
+
+            /* Ajuste del botón PANEL en móvil */
+            .admin-menu { width: 100%; height: auto; justify-content: center; padding: 0; flex-direction: column; }
+            .admin-menu.active .dropdown-content { opacity: 1; visibility: visible; display: flex; }
+            .btn-admin { width: 100%; justify-content: center; padding: 18px; font-size: 16px; border-radius: 15px; }
+            .dropdown-content { position: relative; width: 100%; top: 0; margin-top: 10px; opacity: 0; visibility: hidden; display: none; transform: none; box-shadow: none; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
+            .dropdown-content a { padding: 15px; font-size: 14px !important; }
+
+            .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            header { padding-top: 120px; }
+            .subtitle { font-size: 22px; }
+            .controls { padding: 20px 10px; }
+
+            footer { padding: 40px 15px; }
+            .footer-text { font-size: 11px; }
+        }
+
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
             .card-content { flex-direction: column; text-align: center; }
@@ -194,9 +243,16 @@
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | CATÁLOGO DE IMAGENES
+            NOVAPLAY | GALERÍA
         </a>
-        <div class="nav-links">
+
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-links" id="navLinks">
             <a href="https://novaplaytv.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
             <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
             <div class="admin-menu" id="adminMenu">
@@ -16174,11 +16230,27 @@
         </article>
         </div>
     </div>
+
+    <div class="nova-modal-overlay" id="novaModal">
+        <div class="nova-modal">
+            <h3 id="novaModalTitle" style="font-weight:900;">Confirmar</h3>
+            <p id="novaModalMessage" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;"></p>
+            <div id="modalInputContainer" class="hidden">
+                <input type="text" id="modalInput" placeholder="...">
+                <select id="modalSelect" class="hidden"></select>
+            </div>
+            <div class="nova-modal-btns">
+                <button class="nova-modal-btn btn-cancel" id="novaModalCancel">CANCELAR</button>
+                <button class="nova-modal-btn btn-confirm" id="novaModalConfirm">ACEPTAR</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-text">
             © 2026 NOVAPLAY TV<br>
             © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS<br>
-            <span style="font-size: 11px; opacity: 0.5;">Sincronización automática: 01/09/2026 02:14 UTC</span>
+            <span style="font-size: 11px; opacity: 0.5;">Sincronización automática: 01/09/2026 11:44 UTC</span>
         </div>
     </footer>
 </main>
@@ -16260,9 +16332,53 @@ function checkAuth() {
 }
 
 function cerrarSesion() {
-    localStorage.removeItem("novaimg_session_token");
-    localStorage.removeItem("novaplay_session_token");
-    location.reload();
+    openModal("Cerrar Sesión", "¿Estás seguro que deseas salir del Catálogo?", () => {
+        localStorage.removeItem("novaimg_session_token");
+        localStorage.removeItem("novaplay_session_token");
+        location.reload();
+    });
+}
+
+/* NovaModal Premium */
+function openModal(title, msg, onConfirm, type = "confirm", options = [], defaultValue = "") {
+    const m = document.getElementById("novaModal");
+    if (!m) return;
+    document.getElementById("novaModalTitle").innerText = title;
+    document.getElementById("novaModalMessage").innerText = msg;
+    const inputContainer = document.getElementById("modalInputContainer");
+    const input = document.getElementById("modalInput");
+    const select = document.getElementById("modalSelect");
+
+    if (inputContainer) inputContainer.classList.add("hidden");
+    if (input) input.classList.add("hidden");
+    if (select) select.classList.add("hidden");
+
+    if (type === "prompt") {
+        if (inputContainer) inputContainer.classList.remove("hidden");
+        if (input) {
+            input.classList.remove("hidden");
+            input.value = defaultValue;
+            setTimeout(() => input.focus(), 100);
+        }
+    } else if (type === "select") {
+        if (inputContainer) inputContainer.classList.remove("hidden");
+        if (select) {
+            select.classList.remove("hidden");
+            select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
+            setTimeout(() => select.focus(), 100);
+        }
+    }
+
+    m.style.display = "flex";
+
+    const close = () => { m.style.display = "none"; };
+    document.getElementById("novaModalCancel").onclick = close;
+    document.getElementById("novaModalConfirm").onclick = () => {
+        if (type === "prompt") onConfirm(input.value);
+        else if (type === "select") onConfirm(select.value);
+        else onConfirm();
+        close();
+    };
 }
 
 if ('serviceWorker' in navigator) {
@@ -16275,6 +16391,37 @@ if ('serviceWorker' in navigator) {
 
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
+
+    // Toggle Menú Móvil
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const adminMenu = document.getElementById('adminMenu');
+    const btnAdmin = document.querySelector('.btn-admin');
+
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Toggle Dropdown en Móvil
+    if (btnAdmin) {
+        btnAdmin.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                e.preventDefault();
+                adminMenu.classList.toggle('active');
+            }
+        });
+    }
+
+    // Cerrar menú al clickear link (móvil)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navToggle) navToggle.classList.remove('active');
+            if (navLinks) navLinks.classList.remove('active');
+        });
+    });
 });
 </script>
 </body>
