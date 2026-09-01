@@ -199,7 +199,7 @@
                 <label>VINCULAR URL DIRECTA</label>
                 <div class="url-input-wrapper">
                     <i class="fas fa-link"></i>
-                    <input id="input-url" type="url" placeholder="https://dominio.com/assets/logo-ejemplo.png" oninput="handleUrl(this.value)" autocomplete="off" spellcheck="false">
+                    <input id="icon-source-path" name="icon-source-path" type="text" placeholder="https://dominio.com/assets/logo-ejemplo.png" oninput="handleUrl(this.value)" autocomplete="one-time-code" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" onmousedown="this.removeAttribute('readonly');">
                 </div>
                 <span class="url-reference">
                     <i class="fas fa-info-circle" style="color: var(--primary);"></i>
@@ -406,7 +406,8 @@
                 updateCanvas();
                 document.getElementById('downloadBtn').disabled = false;
                 document.getElementById('useBtn').disabled = false;
-                document.getElementById('input-url').value = "";
+                const urlInput = document.getElementById('icon-source-path');
+                if (urlInput) urlInput.value = "";
             };
             img.src = e.target.result;
         };
