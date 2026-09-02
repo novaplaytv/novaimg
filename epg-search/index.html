@@ -37,22 +37,19 @@
         #countryFilter { padding: 0 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; min-width: 180px; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 20px; }
         #countryFilter:focus { border-color: var(--primary); outline: none; }
 
-        @media (max-width: 600px) {
-            .search-container { flex-direction: column; }
-            #countryFilter { padding: 15px 20px; }
-        }
-
         .results-count { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
 
         .channel-list { display: grid; gap: 12px; }
         .channel-item { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
         .channel-item:hover { border-color: var(--primary); transform: translateX(5px); }
 
-        .ch-info { display: flex; align-items: center; gap: 15px; overflow: hidden; }
+        .ch-info { display: flex; align-items: center; gap: 15px; overflow: hidden; flex-grow: 1; }
         .ch-logo { width: 45px; height: 45px; background: #000; border-radius: 10px; object-fit: contain; border: 1px solid var(--border); }
-        .ch-details { overflow: hidden; }
+        .ch-details { overflow: hidden; flex-grow: 1; }
         .ch-name { font-weight: 800; font-size: 15px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .ch-country { font-size: 11px; font-weight: 900; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        .ch-country { font-size: 10px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .ch-live { font-size: 12px; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 6px; }
+        .live-dot-mini { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 5px var(--success); animation: blink 1s infinite; }
 
         .ch-actions { display: flex; align-items: center; gap: 10px; }
         .epg-id-badge { background: var(--input-bg); padding: 10px 15px; border-radius: 10px; font-family: monospace; font-size: 13px; color: var(--success); font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.2); }
@@ -63,6 +60,11 @@
         .loader { text-align: center; padding: 60px; display: none; }
         .loader i { font-size: 40px; color: var(--primary); }
 
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @media (max-width: 600px) {
+            .search-container { flex-direction: column; }
+            #countryFilter { padding: 15px 20px; }
+        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
     </style>
@@ -101,12 +103,10 @@
 
     async function init() {
         try {
-            // Cargar base de datos optimizada (generada por GitHub Actions)
             const resp = await fetch(EPG_DB_URL);
             if (!resp.ok) throw new Error("Archivo no encontrado");
             epgDatabase = await resp.json();
 
-            // Llenar filtro de países
             const countries = [...new Set(epgDatabase.map(ch => ch.country))].sort();
             const filter = document.getElementById('countryFilter');
             countries.forEach(c => {
@@ -139,6 +139,8 @@
             return;
         }
 
+        const nowStr = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+
         const filtered = epgDatabase.filter(ch => {
             const matchesQuery = !query || ch.name.toLowerCase().includes(query) || ch.id.toLowerCase().includes(query);
             const matchesCountry = !country || ch.country === country;
@@ -148,21 +150,34 @@
         infoContainer.innerText = `Encontrados ${filtered.length} IDs compatibles con NovaPlay`;
         infoContainer.style.display = 'block';
 
-        listContainer.innerHTML = filtered.map(ch => `
-            <div class="channel-item">
-                <div class="ch-info">
-                    <img class="ch-logo" src="${ch.logo || 'https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
-                    <div class="ch-details">
-                        <div class="ch-name">${ch.name}</div>
-                        <div class="ch-country">${ch.country} | Fuente: <b>${ch.site}</b></div>
+        listContainer.innerHTML = filtered.map(ch => {
+            let currentProg = "Programación no disponible";
+            if (ch.progs && ch.progs.length > 0) {
+                const match = ch.progs.find(p => nowStr >= p[1] && nowStr < p[2]);
+                if (match) currentProg = match[0];
+                else if (nowStr < ch.progs[0][1]) currentProg = "Próximamente: " + ch.progs[0][0];
+            }
+
+            return `
+                <div class="channel-item">
+                    <div class="ch-info">
+                        <img class="ch-logo" src="${ch.logo || 'https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
+                        <div class="ch-details">
+                            <div class="ch-name">${ch.name}</div>
+                            <div class="ch-country">${ch.country} | Fuente: <b>${ch.site}</b></div>
+                            <div class="ch-live">
+                                <span class="live-dot-mini"></span>
+                                <span>EN VIVO: ${currentProg}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ch-actions">
+                        <div class="epg-id-badge">${ch.id}</div>
+                        <button class="btn-copy" onclick="copyId('${ch.id}', this)">COPIAR ID</button>
                     </div>
                 </div>
-                <div class="ch-actions">
-                    <div class="epg-id-badge">${ch.id}</div>
-                    <button class="btn-copy" onclick="copyId('${ch.id}', this)">COPIAR ID</button>
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     function copyId(id, btn) {
