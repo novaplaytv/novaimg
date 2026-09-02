@@ -1,78 +1,57 @@
 import json
-import urllib.request
 import os
-
-CHANNELS_API = 'https://iptv-org.github.io/api/channels.json'
-GUIDES_API = 'https://iptv-org.github.io/api/guides.json'
-
-# Países de Latinoamérica y el Caribe (LATAC)
-TARGET_COUNTRIES = [
-    'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'SV',
-    'GT', 'HT', 'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY',
-    'VE', 'BS', 'BB', 'JM', 'LC', 'TT', 'AW', 'CW', 'GP', 'MQ'
-]
-
-# Sitios especializados en la región habilitados en NovaPlay
-ENABLED_SITES = [
-    'mi.tv', 'gatotv.com', 'directv.com.ar', 'reportv.com.ar',
-    'programacion.tcc.com.uy', 'directv.com.uy', 'tv.movistar.com.pe',
-    'tv.movistar.co', 'siba.com.co', 'claro.com.co', 'clarotv.com.br'
-]
-
-def get_json(url):
-    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    with urllib.request.urlopen(req) as response:
-        return json.loads(response.read().decode('utf-8'))
+import xml.etree.ElementTree as ET
 
 def main():
-    print("🚀 Iniciando generación de Base de Datos EPG NovaPlay...")
+    print("🚀 Generando Base de Datos de Búsqueda desde guide.xml...")
 
-    # Obtener ruta absoluta del script para guardar el JSON en el lugar correcto
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    output_dir = os.path.join(base_dir, 'epg-search')
-    output_file = os.path.join(output_dir, 'epg_db.json')
+    # Obtener ruta absoluta del script para localizar archivos
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.dirname(current_dir)
+    input_file = os.path.join(base_dir, 'epg', 'guide.xml')
+    output_file = os.path.join(base_dir, 'epg-search', 'epg_db.json')
+
+    if not os.path.exists(input_file):
+        print(f"❌ Error: No se encuentra {input_file}")
+        return
 
     try:
-        # 1. Cargar canales
-        channels = get_json(CHANNELS_API)
-        channel_meta = {}
-        for ch in channels:
-            cid = ch.get('id')
-            country = ch.get('country')
-            if cid and country in TARGET_COUNTRIES:
-                channel_meta[cid] = {
-                    'n': ch.get('name', ''),
-                    'l': ch.get('logo', ''),
-                    'c': country
-                }
+        # Parsear el XMLTV real que acabamos de generar
+        tree = ET.parse(input_file)
+        root = tree.getroot()
 
-        print(f"✓ {len(channel_meta)} canales mapeados en la región.")
-
-        # 2. Cargar guías y filtrar
-        guides = get_json(GUIDES_API)
         optimized_db = []
+        # Extraer canales definidos en el XML
+        for channel in root.findall('channel'):
+            ch_id = channel.get('id')
+            display_name = channel.find('display-name').text if channel.find('display-name') is not None else ch_id
+            icon_elem = channel.find('icon')
+            logo = icon_elem.get('src') if icon_elem is not None else ""
 
-        for g in guides:
-            ch_id = g.get('channel')
-            site = g.get('site')
+            # Deducir país desde el ID (ej: Telefe.ar@SD -> AR)
+            country = "LATAM"
+            if '.' in ch_id:
+                parts = ch_id.split('.')
+                if len(parts) > 1:
+                    # Extraer el código de país (ej: ar, py, uy)
+                    suffix = parts[1].split('@')[0].split('#')[0]
+                    if len(suffix) == 2:
+                        country = suffix.upper()
 
-            # Solo incluir si el canal es de interés Y el sitio está habilitado
-            if ch_id in channel_meta and site in ENABLED_SITES:
-                meta = channel_meta[ch_id]
-                optimized_db.append({
-                    'id': ch_id,
-                    'name': meta['n'],
-                    'logo': meta['l'],
-                    'country': meta['c'],
-                    'site': site
-                })
+            optimized_db.append({
+                'id': ch_id,
+                'name': display_name,
+                'logo': logo,
+                'country': country,
+                'site': ch_id.split('@')[-1] if '@' in ch_id else "XMLTV"
+            })
 
-        # Guardar base de datos optimizada
-        os.makedirs(output_dir, exist_ok=True)
+        # Guardar base de datos optimizada para el buscador web
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(optimized_db, f, separators=(',', ':'), ensure_ascii=False)
 
-        print(f"✓ Éxito: {len(optimized_db)} registros generados en {output_file}")
+        print(f"✓ Éxito: {len(optimized_db)} IDs reales indexados en epg_db.json")
 
     except Exception as e:
         print(f"❌ Error crítico: {str(e)}")
