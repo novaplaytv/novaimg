@@ -55,14 +55,8 @@ def procesar_items(items, categoria_nombre):
         icono_url = str(item.get("icono", "")).strip()
 
         if not icono_url:
-            print(f"ℹ Canal sin icono (usando genérico para gestión): {nombre or numero}")
-            # Si no hay icono, predecimos el nombre basado en el número o nombre
-            if numero and numero.isdigit():
-                icono = f"{numero.zfill(3)}.webp"
-            else:
-                # Limpiar nombre para crear un archivo válido
-                clean_name = "".join(c for c in (nombre or "extra") if c.isalnum()).lower()
-                icono = f"{clean_name}.webp"
+            print(f"ℹ Canal sin icono definido en JSON: {nombre or numero}")
+            icono = "novasplash.webp"
             icono_url = "https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp"
         else:
             icono = obtener_archivo_icono(icono_url)
