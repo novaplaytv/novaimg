@@ -773,8 +773,9 @@
 
     function downloadIcon() {
         if (!currentImage) return;
+        const randomId = Math.random().toString(36).substring(2, 10);
         const link = document.createElement('a');
-        link.download = 'logo_novaplay.webp';
+        link.download = `icon_${randomId}.webp`;
         link.href = canvas.toDataURL('image/webp', 0.9);
         link.click();
     }
