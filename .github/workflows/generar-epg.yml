@@ -44,7 +44,8 @@ jobs:
         run: |
           cd grabber
           # Scrapers enfocados 100% en Latinoamérica y el Caribe
-          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,tv.movistar.com.pe,tv.movistar.co,siba.com.co,claro.com.co --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
+          # v81: Reducimos timeout a 10s para ignorar canales lentos/caídos al instante y pasar al siguiente.
+          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,tv.movistar.com.pe,tv.movistar.co,siba.com.co,claro.com.co --maxConnections=5 --timeout=10000 --output=../epg/guide.xml
 
       - name: Comprimir y Validar
         run: |
