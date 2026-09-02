@@ -5,18 +5,22 @@ import os
 CHANNELS_API = 'https://iptv-org.github.io/api/channels.json'
 GUIDES_API = 'https://iptv-org.github.io/api/guides.json'
 
-# Países prioritarios para NovaPlay
-TARGET_COUNTRIES = ['AR', 'PY', 'UY', 'MX', 'US', 'CA', 'CL', 'CO', 'PE', 'ES', 'BR']
+# Países de Latinoamérica y el Caribe (LATAC)
+TARGET_COUNTRIES = [
+    'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'SV',
+    'GT', 'HT', 'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY',
+    'VE', 'BS', 'BB', 'JM', 'LC', 'TT', 'AW', 'CW', 'GP', 'MQ'
+]
 
-# Sitios que usamos en nuestro generador
+# Sitios especializados en la región
 ENABLED_SITES = [
     'mi.tv', 'gatotv.com', 'directv.com.ar', 'reportv.com.ar',
-    'programacion.tcc.com.uy', 'directv.com.uy', 'ontvtonight.com',
-    'directv.com', 'tvguide.com', 'tvpassport.com'
+    'programacion.tcc.com.uy', 'directv.com.uy', 'tv.movistar.com.pe',
+    'tv.movistar.co', 'siba.com.co', 'claro.com.co', 'clarotv.com.br'
 ]
 
 def main():
-    print("Sincronizando base de datos de EPG (NovaPlay Edition)...")
+    print("Filtrando Base de Datos EPG para Latinoamérica y el Caribe...")
 
     try:
         # 1. Cargar canales para saber a qué país pertenecen
@@ -25,9 +29,8 @@ def main():
 
         channel_meta = {}
         for ch in channels:
-            # Obtener códigos de país
             countries = [c['code'] for c in ch.get('countries', [])]
-            # Si el canal pertenece a uno de nuestros países objetivo
+            # Filtrado estricto por región solicitada
             if any(c in TARGET_COUNTRIES for c in countries):
                 channel_meta[ch['id']] = {
                     'n': ch.get('name', ''),
@@ -44,7 +47,6 @@ def main():
             ch_id = g.get('channel')
             site = g.get('site')
 
-            # Solo incluir si el canal es de interés Y el sitio está habilitado
             if ch_id in channel_meta and site in ENABLED_SITES:
                 meta = channel_meta[ch_id]
                 optimized_db.append({
@@ -55,12 +57,11 @@ def main():
                     'site': site
                 })
 
-        # Guardar base de datos optimizada
         os.makedirs('epg-search', exist_ok=True)
         with open('epg-search/epg_db.json', 'w', encoding='utf-8') as f:
             json.dump(optimized_db, f, separators=(',', ':'), ensure_ascii=False)
 
-        print(f"Éxito: Base de datos creada con {len(optimized_db)} canales optimizados.")
+        print(f"✓ Base de Datos LATAM lista: {len(optimized_db)} canales.")
 
     except Exception as e:
         print(f"Error: {e}")

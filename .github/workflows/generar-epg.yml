@@ -40,10 +40,11 @@ jobs:
           cd grabber
           npm install
 
-      - name: Generar Guía (Global & Latam)
+      - name: Generar Guía (Latam & Caribe)
         run: |
           cd grabber
-          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,ontvtonight.com,directv.com,tvguide.com,tvpassport.com --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
+          # Scrapers enfocados 100% en Latinoamérica y el Caribe
+          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,tv.movistar.com.pe,tv.movistar.co,siba.com.co,claro.com.co --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
 
       - name: Comprimir y Validar
         run: |
