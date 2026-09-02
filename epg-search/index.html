@@ -28,10 +28,19 @@
         h1 { font-size: 32px; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; }
         p.subtitle { color: var(--text-muted); font-size: 15px; }
 
-        .search-wrapper { position: relative; margin-bottom: 30px; }
+        .search-container { display: flex; gap: 15px; margin-bottom: 30px; }
+        .search-wrapper { position: relative; flex-grow: 1; }
         .search-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 18px; }
         #searchInput { width: 100%; padding: 20px 20px 20px 60px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: #fff; font-size: 16px; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         #searchInput:focus { border-color: var(--primary); outline: none; background: #161b29; box-shadow: 0 15px 40px rgba(229, 9, 20, 0.15); }
+
+        #countryFilter { padding: 0 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; min-width: 180px; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 20px; }
+        #countryFilter:focus { border-color: var(--primary); outline: none; }
+
+        @media (max-width: 600px) {
+            .search-container { flex-direction: column; }
+            #countryFilter { padding: 15px 20px; }
+        }
 
         .results-count { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
 
@@ -67,9 +76,14 @@
         <p class="subtitle">Busca y copia el ID exacto para la guía de programación de NovaPlay</p>
     </header>
 
-    <div class="search-wrapper">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Escribe el nombre del canal (ej: HBO, ESPN, Telefe...)" disabled>
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Escribe el nombre del canal (ej: HBO, ESPN, Telefe...)" disabled>
+        </div>
+        <select id="countryFilter" disabled>
+            <option value="">🌎 TODOS LOS PAÍSES</option>
+        </select>
     </div>
 
     <div id="loader" class="loader" style="display: block;">
@@ -92,8 +106,20 @@
             if (!resp.ok) throw new Error("Archivo no encontrado");
             epgDatabase = await resp.json();
 
+            // Llenar filtro de países
+            const countries = [...new Set(epgDatabase.map(ch => ch.country))].sort();
+            const filter = document.getElementById('countryFilter');
+            countries.forEach(c => {
+                if (!c) return;
+                const opt = document.createElement('option');
+                opt.value = c;
+                opt.textContent = c.toUpperCase();
+                filter.appendChild(opt);
+            });
+
             document.getElementById('loader').style.display = 'none';
             document.getElementById('searchInput').disabled = false;
+            document.getElementById('countryFilter').disabled = false;
             document.getElementById('searchInput').focus();
         } catch (e) {
             console.error(e);
@@ -103,19 +129,21 @@
 
     function search() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const country = document.getElementById('countryFilter').value;
         const listContainer = document.getElementById('channelList');
         const infoContainer = document.getElementById('resultsInfo');
 
-        if (query.length < 2) {
+        if (query.length < 2 && !country) {
             listContainer.innerHTML = '';
             infoContainer.style.display = 'none';
             return;
         }
 
-        const filtered = epgDatabase.filter(ch =>
-            ch.name.toLowerCase().includes(query) ||
-            ch.id.toLowerCase().includes(query)
-        ).slice(0, 100);
+        const filtered = epgDatabase.filter(ch => {
+            const matchesQuery = !query || ch.name.toLowerCase().includes(query) || ch.id.toLowerCase().includes(query);
+            const matchesCountry = !country || ch.country === country;
+            return matchesQuery && matchesCountry;
+        }).slice(0, 100);
 
         infoContainer.innerText = `Encontrados ${filtered.length} IDs compatibles con NovaPlay`;
         infoContainer.style.display = 'block';
@@ -150,6 +178,7 @@
     }
 
     document.getElementById('searchInput').oninput = search;
+    document.getElementById('countryFilter').onchange = search;
     init();
 </script>
 
