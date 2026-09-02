@@ -34,9 +34,9 @@ jobs:
           # Ejecutamos el grabber con optimizaciones de red:
           # 1. mi.tv y directv.com.ar (Fuentes principales)
           # 2. reportv.com.ar (Respaldo para Argentina si DirecTV falla)
-          # --max-connections=5: Para no saturar y evitar el error "Unexpected token <" (Baneo de IP por exceso de peticiones)
+          # --maxConnections=5: Para no saturar y evitar el error "Unexpected token <" (Baneo de IP por exceso de peticiones)
           # --timeout=60000: Aumentar espera para servidores lentos
-          npm run grab -- --sites=mi.tv,directv.com.ar,reportv.com.ar --max-connections=5 --timeout=60000 --output=../epg/guide.xml
+          npm run grab -- --sites=mi.tv,directv.com.ar,reportv.com.ar --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
 
       - name: Comprimir y Validar
         run: |
