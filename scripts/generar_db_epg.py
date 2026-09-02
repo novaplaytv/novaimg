@@ -17,7 +17,7 @@ def parse_xmltv_date(date_str):
         return date_str[:14]
 
 def main():
-    print("🚀 Generando Base de Datos de Búsqueda En Vivo (UTC Normalized)...")
+    print("🚀 Generando Base de Datos de Búsqueda En Vivo...")
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.dirname(current_dir)
@@ -40,7 +40,12 @@ def main():
             logo = icon_elem.get('src') if icon_elem is not None else ""
 
             country = "LATAM"
-            if '.' in ch_id:
+            ch_id_low = ch_id.lower()
+            if '#' in ch_id_low:
+                prefix = ch_id_low.split('#')[0]
+                if len(prefix) == 2:
+                    country = prefix.upper()
+            elif '.' in ch_id:
                 parts = ch_id.split('.')
                 if len(parts) > 1:
                     suffix = parts[1].split('@')[0].split('#')[0]
@@ -79,10 +84,10 @@ def main():
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(optimized_list, f, separators=(',', ':'), ensure_ascii=False)
 
-        print(f"✓ Éxito: {len(optimized_list)} canales indexados con horarios normalizados UTC.")
+        print(f"✓ Éxito: {len(optimized_list)} canales indexados.")
 
     except Exception as e:
-        print(f"❌ Error crítico: {str(e)}")
+        print(f"❌ Error: {e}")
         exit(1)
 
 if __name__ == "__main__":
