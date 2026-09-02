@@ -25,12 +25,12 @@ jobs:
       - name: Instalar grabber de iptv-org
         run: |
           git clone --depth 1 https://github.com/iptv-org/epg.git grabber
-          cd epg
+          cd grabber
           npm install
 
       - name: Generar Guía (Latam & Deportes)
         run: |
-          cd epg
+          cd grabber
           # Ejecutamos el grabber para los sitios más estables de la región
           # mi.tv y directv.com.ar cubren la mayoría de tus canales
           npm run grab -- --sites=mi.tv,directv.com.ar --output=../epg/guide.xml
