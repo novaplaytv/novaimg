@@ -1,5 +1,5 @@
 import json
-import requests
+import urllib.request
 import os
 
 CHANNELS_API = 'https://iptv-org.github.io/api/channels.json'
@@ -12,41 +12,51 @@ TARGET_COUNTRIES = [
     'VE', 'BS', 'BB', 'JM', 'LC', 'TT', 'AW', 'CW', 'GP', 'MQ'
 ]
 
-# Sitios especializados en la región
+# Sitios especializados en la región habilitados en NovaPlay
 ENABLED_SITES = [
     'mi.tv', 'gatotv.com', 'directv.com.ar', 'reportv.com.ar',
     'programacion.tcc.com.uy', 'directv.com.uy', 'tv.movistar.com.pe',
     'tv.movistar.co', 'siba.com.co', 'claro.com.co', 'clarotv.com.br'
 ]
 
+def get_json(url):
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    with urllib.request.urlopen(req) as response:
+        return json.loads(response.read().decode('utf-8'))
+
 def main():
-    print("Filtrando Base de Datos EPG para Latinoamérica y el Caribe...")
+    print("🚀 Iniciando generación de Base de Datos EPG NovaPlay...")
+
+    # Obtener ruta absoluta del script para guardar el JSON en el lugar correcto
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_dir = os.path.join(base_dir, 'epg-search')
+    output_file = os.path.join(output_dir, 'epg_db.json')
 
     try:
-        # 1. Cargar canales para saber a qué país pertenecen
-        resp_ch = requests.get(CHANNELS_API, timeout=30)
-        channels = resp_ch.json()
-
+        # 1. Cargar canales
+        channels = get_json(CHANNELS_API)
         channel_meta = {}
         for ch in channels:
-            countries = [c['code'] for c in ch.get('countries', [])]
-            # Filtrado estricto por región solicitada
-            if any(c in TARGET_COUNTRIES for c in countries):
-                channel_meta[ch['id']] = {
+            cid = ch.get('id')
+            country = ch.get('country')
+            if cid and country in TARGET_COUNTRIES:
+                channel_meta[cid] = {
                     'n': ch.get('name', ''),
                     'l': ch.get('logo', ''),
-                    'c': ', '.join([c['name'] for c in ch.get('countries', [])])
+                    'c': country
                 }
 
-        # 2. Cargar guías y filtrar
-        resp_gd = requests.get(GUIDES_API, timeout=30)
-        guides = resp_gd.json()
+        print(f"✓ {len(channel_meta)} canales mapeados en la región.")
 
+        # 2. Cargar guías y filtrar
+        guides = get_json(GUIDES_API)
         optimized_db = []
+
         for g in guides:
             ch_id = g.get('channel')
             site = g.get('site')
 
+            # Solo incluir si el canal es de interés Y el sitio está habilitado
             if ch_id in channel_meta and site in ENABLED_SITES:
                 meta = channel_meta[ch_id]
                 optimized_db.append({
@@ -57,14 +67,15 @@ def main():
                     'site': site
                 })
 
-        os.makedirs('epg-search', exist_ok=True)
-        with open('epg-search/epg_db.json', 'w', encoding='utf-8') as f:
+        # Guardar base de datos optimizada
+        os.makedirs(output_dir, exist_ok=True)
+        with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(optimized_db, f, separators=(',', ':'), ensure_ascii=False)
 
-        print(f"✓ Base de Datos LATAM lista: {len(optimized_db)} canales.")
+        print(f"✓ Éxito: {len(optimized_db)} registros generados en {output_file}")
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"❌ Error crítico: {str(e)}")
         exit(1)
 
 if __name__ == "__main__":
