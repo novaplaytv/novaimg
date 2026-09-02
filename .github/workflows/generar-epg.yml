@@ -2,9 +2,8 @@ name: Generar EPG NovaPlay
 
 on:
   schedule:
-    # Se ejecuta todos los días a las 04:00 AM UTC
     - cron: '0 4 * * *'
-  workflow_dispatch: # Permite ejecutarlo manualmente
+  workflow_dispatch: 
 
 permissions:
   contents: write
@@ -16,6 +15,19 @@ jobs:
     steps:
       - name: Checkout novaimg
         uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Instalar Dependencias Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Optimizar Base de Datos de Búsqueda
+        run: python scripts/generar_db_epg.py
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,24 +43,21 @@ jobs:
       - name: Generar Guía (Global & Latam)
         run: |
           cd grabber
-          # Ejecutamos el grabber para las regiones solicitadas:
-          # Argentina, Paraguay, Uruguay, EE.UU, México, Canadá y Latam
           npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,ontvtonight.com,directv.com,tvguide.com,tvpassport.com --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
 
       - name: Comprimir y Validar
         run: |
           ls -lh epg/guide.xml
-          # Crear versión comprimida para ahorro de datos en la App
           gzip -c epg/guide.xml > epg/guide.xml.gz
 
       - name: Guardar en repositorio
         run: |
           git config user.name "NovaEPG Bot"
           git config user.email "nova-epg@users.noreply.github.com"
-          git add epg/guide.xml epg/guide.xml.gz
+          git add epg/guide.xml epg/guide.xml.gz epg-search/epg_db.json
           if git diff --cached --quiet; then
-            echo "Sin cambios en la programación."
+            echo "Sin cambios detectados."
           else
-            git commit -m "EPG: Actualización automática de programación"
+            git commit -m "EPG & Search: Actualización automática"
             git push
           fi
