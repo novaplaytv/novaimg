@@ -28,15 +28,12 @@ jobs:
           cd grabber
           npm install
 
-      - name: Generar Guía (Latam & Deportes)
+      - name: Generar Guía (Global & Latam)
         run: |
           cd grabber
-          # Ejecutamos el grabber con optimizaciones de red:
-          # 1. mi.tv y directv.com.ar (Fuentes principales)
-          # 2. reportv.com.ar (Respaldo para Argentina si DirecTV falla)
-          # --maxConnections=5: Para no saturar y evitar el error "Unexpected token <" (Baneo de IP por exceso de peticiones)
-          # --timeout=60000: Aumentar espera para servidores lentos
-          npm run grab -- --sites=mi.tv,directv.com.ar,reportv.com.ar --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
+          # Ejecutamos el grabber para las regiones solicitadas:
+          # Argentina, Paraguay, Uruguay, EE.UU, México, Canadá y Latam
+          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,ontvtonight.com,directv.com,tvguide.com,tvpassport.com --maxConnections=5 --timeout=60000 --output=../epg/guide.xml
 
       - name: Comprimir y Validar
         run: |

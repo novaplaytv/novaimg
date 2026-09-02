@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVAPLAY | EPG ID SEARCH</title>
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e50914;
+            --bg: #080a10;
+            --card-bg: #11151f;
+            --input-bg: #1a1f2e;
+            --text: #ffffff;
+            --text-muted: #9aa3b2;
+            --border: rgba(255,255,255,0.05);
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; padding: 40px 20px; }
+
+        .container { max-width: 900px; margin: auto; }
+
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 32px; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; }
+        p.subtitle { color: var(--text-muted); font-size: 15px; }
+
+        .search-wrapper { position: relative; margin-bottom: 30px; }
+        .search-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 18px; }
+        #searchInput { width: 100%; padding: 20px 20px 20px 60px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: #fff; font-size: 16px; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        #searchInput:focus { border-color: var(--primary); outline: none; background: #161b29; box-shadow: 0 15px 40px rgba(229, 9, 20, 0.15); }
+
+        .results-count { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
+
+        .channel-list { display: grid; gap: 12px; }
+        .channel-item { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
+        .channel-item:hover { border-color: var(--primary); transform: translateX(5px); }
+
+        .ch-info { display: flex; align-items: center; gap: 15px; overflow: hidden; }
+        .ch-logo { width: 45px; height: 45px; background: #000; border-radius: 10px; object-fit: contain; border: 1px solid var(--border); }
+        .ch-details { overflow: hidden; }
+        .ch-name { font-weight: 800; font-size: 15px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ch-country { font-size: 11px; font-weight: 900; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .ch-actions { display: flex; align-items: center; gap: 10px; }
+        .epg-id-badge { background: var(--input-bg); padding: 10px 15px; border-radius: 10px; font-family: monospace; font-size: 13px; color: var(--success); font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .btn-copy { background: var(--primary); color: #fff; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 800; transition: 0.2s; }
+        .btn-copy:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .btn-copy:active { transform: scale(0.95); }
+
+        .loader { text-align: center; padding: 60px; display: none; }
+        .loader i { font-size: 40px; color: var(--primary); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" width="60" style="margin-bottom: 20px;">
+        <h1>EPG ID Finder</h1>
+        <p class="subtitle">Busca y copia el ID exacto para la guía de programación de NovaPlay</p>
+    </header>
+
+    <div class="search-wrapper">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Escribe el nombre del canal (ej: HBO, ESPN, Telefe...)" disabled>
+    </div>
+
+    <div id="loader" class="loader" style="display: block;">
+        <i class="fas fa-circle-notch fa-spin"></i>
+        <p style="margin-top: 20px; font-weight: 700; color: var(--text-muted);">Sincronizando Base de Datos Mundial...</p>
+    </div>
+
+    <div id="resultsInfo" class="results-count" style="display: none;"></div>
+    <div id="channelList" class="channel-list"></div>
+</div>
+
+<script>
+    const API_URL = 'https://iptv-org.github.io/api/channels.json';
+    let allChannels = [];
+
+    async function init() {
+        try {
+            const resp = await fetch(API_URL);
+            const data = await resp.json();
+
+            // Filtrar canales que tengan ID y pertenezcan a las regiones de interés o tengan logos
+            allChannels = data.filter(ch => ch.id && !ch.closed);
+
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('searchInput').disabled = false;
+            document.getElementById('searchInput').focus();
+        } catch (e) {
+            alert('Error al cargar la base de datos de canales.');
+        }
+    }
+
+    function search() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const listContainer = document.getElementById('channelList');
+        const infoContainer = document.getElementById('resultsInfo');
+
+        if (query.length < 2) {
+            listContainer.innerHTML = '';
+            infoContainer.style.display = 'none';
+            return;
+        }
+
+        const filtered = allChannels.filter(ch =>
+            ch.name.toLowerCase().includes(query) ||
+            ch.id.toLowerCase().includes(query)
+        ).slice(0, 50); // Limitar a 50 resultados para fluidez
+
+        infoContainer.innerText = `Encontrados ${filtered.length} canales`;
+        infoContainer.style.display = 'block';
+
+        listContainer.innerHTML = filtered.map(ch => `
+            <div class="channel-item">
+                <div class="ch-info">
+                    <img class="ch-logo" src="${ch.logo || 'https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
+                    <div class="ch-details">
+                        <div class="ch-name">${ch.name}</div>
+                        <div class="ch-country">${ch.countries.map(c => c.name).join(', ')}</div>
+                    </div>
+                </div>
+                <div class="ch-actions">
+                    <div class="epg-id-badge">${ch.id}</div>
+                    <button class="btn-copy" onclick="copyId('${ch.id}', this)">COPIAR ID</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function copyId(id, btn) {
+        navigator.clipboard.writeText(id).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = '¡COPIADO!';
+            btn.style.background = '#10b981';
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = '';
+            }, 1500);
+        });
+    }
+
+    document.getElementById('searchInput').oninput = search;
+    init();
+</script>
+
+</body>
+</html>
