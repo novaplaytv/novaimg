@@ -44,28 +44,37 @@ jobs:
           npm run grab -- --channels=../epg/custom_latam.channels.xml --maxConnections=5 --timeout=10000 --output=../epg/custom.xml
           
           # 2. Grabamos el resto de la región desde los sitios oficiales
-          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,tv.movistar.com.pe,tv.movistar.co,siba.com.co,claro.com.co --maxConnections=5 --timeout=10000 --output=../epg/sites.xml
+          # v82: Eliminamos siba.com.co por inestabilidad (timeouts constantes)
+          npm run grab -- --sites=mi.tv,gatotv.com,directv.com.ar,reportv.com.ar,programacion.tcc.com.uy,directv.com.uy,tv.movistar.com.pe,tv.movistar.co,claro.com.co --maxConnections=5 --timeout=10000 --output=../epg/sites.xml
 
       - name: Fusionar y Comprimir
         run: |
-          # Unir los archivos XML en uno solo oficial (guide.xml)
+          # Unir los archivos XML en uno solo oficial (guide.xml) con validación de cierre (v82)
           python - <<'PY'
           import os
           files = ['epg/custom.xml', 'epg/sites.xml']
           output = 'epg/guide.xml'
-          with open(output, 'w', encoding='utf-8') as f:
-              f.write('<?xml version="1.0" encoding="UTF-8" ?><tv>')
-              for fn in files:
-                  if os.path.exists(fn):
-                      with open(fn, 'r', encoding='utf-8') as inf:
-                          content = inf.read()
-                          start = content.find('>') + 1
-                          if '<tv' in content[:start]:
-                              start = content.find('>', content.find('<tv')) + 1
-                          end = content.rfind('</tv>')
-                          if start > 0 and end > start:
-                              f.write(content[start:end])
-              f.write('</tv>')
+          
+          def merge_xml():
+              with open(output, 'w', encoding='utf-8') as f:
+                  f.write('<?xml version="1.0" encoding="UTF-8" ?>\n<tv>')
+                  for fn in files:
+                      if os.path.exists(fn) and os.path.getsize(fn) > 100:
+                          print(f"Fusionando {fn}...")
+                          with open(fn, 'r', encoding='utf-8') as inf:
+                              content = inf.read()
+                              # Extraer solo el contenido entre <tv...> y </tv>
+                              start = content.find('>') + 1
+                              if '<tv' in content[:start]:
+                                  start = content.find('>', content.find('<tv')) + 1
+                              end = content.rfind('</tv>')
+                              if start > 0 and end > start:
+                                  f.write(content[start:end])
+                      else:
+                          print(f"Saltando {fn} (archivo inexistente o corrupto)")
+                  f.write('\n</tv>')
+          
+          merge_xml()
           PY
           
           ls -lh epg/guide.xml

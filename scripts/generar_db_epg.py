@@ -29,8 +29,27 @@ def main():
         return
 
     try:
-        tree = ET.parse(input_file)
-        root = tree.getroot()
+        # FASE REPARACIÓN (v82): Validación de integridad del XML antes de procesar
+        if os.path.getsize(input_file) < 1000:
+            print(f"❌ Error: {input_file} es demasiado pequeño o está incompleto.")
+            return
+
+        # Parsear el XMLTV real con manejo de errores
+        try:
+            tree = ET.parse(input_file)
+            root = tree.getroot()
+        except ET.ParseError as pe:
+            print(f"❌ Error de sintaxis XML (posible archivo truncado): {pe}")
+            # Intentar reparar el final del archivo si falta el tag de cierre
+            with open(input_file, 'a') as f:
+                f.write('\n</tv>')
+            print("🔧 Intento de reparación: Se añadió tag de cierre </tv> manualmente.")
+            try:
+                tree = ET.parse(input_file)
+                root = tree.getroot()
+            except:
+                print("❌ Falló la reparación manual. Abortando.")
+                return
 
         channels_map = {}
         for channel in root.findall('channel'):
