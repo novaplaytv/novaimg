@@ -8,6 +8,7 @@
   <channel site="mi.tv" lang="es" xmltv_id="py#tigo-max" site_id="py#tigo-max">Tigo Max</channel>
   <channel site="mi.tv" lang="es" xmltv_id="py#canal-100" site_id="py#canal-100">Canal 100</channel>
   <channel site="mi.tv" lang="es" xmltv_id="py#universo-970" site_id="py#universo-970">Universo 970</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="py#tvs" site_id="py#tvs">TVS</channel>
 
   <!-- Argentina - mi.tv -->
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn-premium" site_id="ar#espn-premium">ESPN Premium</channel>
