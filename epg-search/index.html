@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOVAPLAY | EPG ID SEARCH</title>
+    <title>EPG ID SEARCH | NOVAPLAY</title>
     <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -82,22 +82,45 @@
 </div>
 
 <script>
-    const API_URL = 'https://iptv-org.github.io/api/channels.json';
-    let allChannels = [];
+    const CHANNELS_API = 'https://iptv-org.github.io/api/channels.json';
+    const GUIDES_API = 'https://iptv-org.github.io/api/guides.json';
+
+    // Sitios habilitados en nuestro generador de NovaPlay
+    const ENABLED_SITES = [
+        'mi.tv', 'gatotv.com', 'directv.com.ar', 'reportv.com.ar',
+        'programacion.tcc.com.uy', 'directv.com.uy', 'ontvtonight.com',
+        'directv.com', 'tvguide.com', 'tvpassport.com'
+    ];
+
+    let channelData = {};
+    let activeGuides = [];
 
     async function init() {
         try {
-            const resp = await fetch(API_URL);
-            const data = await resp.json();
+            // 1. Cargar metadatos de canales (Logos y nombres reales)
+            const respCh = await fetch(CHANNELS_API);
+            const dataCh = await respCh.json();
+            dataCh.forEach(ch => {
+                channelData[ch.id] = {
+                    name: ch.name,
+                    logo: ch.logo,
+                    countries: ch.countries.map(c => c.name).join(', ')
+                };
+            });
 
-            // Filtrar canales que tengan ID y pertenezcan a las regiones de interés o tengan logos
-            allChannels = data.filter(ch => ch.id && !ch.closed);
+            // 2. Cargar base de datos de Guías (El ID real de EPG)
+            const respGd = await fetch(GUIDES_API);
+            const dataGd = await respGd.json();
+
+            // Filtrar solo las guías de los sitios que estamos usando en NovaPlay
+            activeGuides = dataGd.filter(g => g.channel && ENABLED_SITES.includes(g.site));
 
             document.getElementById('loader').style.display = 'none';
             document.getElementById('searchInput').disabled = false;
             document.getElementById('searchInput').focus();
         } catch (e) {
-            alert('Error al cargar la base de datos de canales.');
+            console.error(e);
+            alert('Error al sincronizar la base de datos de EPG.');
         }
     }
 
@@ -112,29 +135,33 @@
             return;
         }
 
-        const filtered = allChannels.filter(ch =>
-            ch.name.toLowerCase().includes(query) ||
-            ch.id.toLowerCase().includes(query)
-        ).slice(0, 50); // Limitar a 50 resultados para fluidez
+        // Buscar en las guías activas
+        const filtered = activeGuides.filter(g =>
+            g.channel.toLowerCase().includes(query) ||
+            (g.site_name && g.site_name.toLowerCase().includes(query))
+        ).slice(0, 100);
 
-        infoContainer.innerText = `Encontrados ${filtered.length} canales`;
+        infoContainer.innerText = `Encontrados ${filtered.length} IDs compatibles con NovaPlay`;
         infoContainer.style.display = 'block';
 
-        listContainer.innerHTML = filtered.map(ch => `
-            <div class="channel-item">
-                <div class="ch-info">
-                    <img class="ch-logo" src="${ch.logo || 'https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
-                    <div class="ch-details">
-                        <div class="ch-name">${ch.name}</div>
-                        <div class="ch-country">${ch.countries.map(c => c.name).join(', ')}</div>
+        listContainer.innerHTML = filtered.map(g => {
+            const meta = channelData[g.channel] || { name: g.site_name, logo: null, countries: 'Global' };
+            return `
+                <div class="channel-item">
+                    <div class="ch-info">
+                        <img class="ch-logo" src="${meta.logo || 'https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'}" onerror="this.src='https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp'">
+                        <div class="ch-details">
+                            <div class="ch-name">${meta.name}</div>
+                            <div class="ch-country">${meta.countries} | Fuente: <b>${g.site}</b></div>
+                        </div>
+                    </div>
+                    <div class="ch-actions">
+                        <div class="epg-id-badge">${g.channel}</div>
+                        <button class="btn-copy" onclick="copyId('${g.channel}', this)">COPIAR ID</button>
                     </div>
                 </div>
-                <div class="ch-actions">
-                    <div class="epg-id-badge">${ch.id}</div>
-                    <button class="btn-copy" onclick="copyId('${ch.id}', this)">COPIAR ID</button>
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     function copyId(id, btn) {
