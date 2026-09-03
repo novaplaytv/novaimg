@@ -87,10 +87,17 @@ jobs:
         run: |
           git config user.name "NovaEPG Bot"
           git config user.email "nova-epg@users.noreply.github.com"
+          
+          # FASE REPARACIÓN (v83): Sincronización previa al push para evitar rechazos
+          git fetch origin main
+          git reset --soft origin/main
+          
           git add epg/guide.xml epg/guide.xml.gz epg-search/epg_db.json
+          
           if git diff --cached --quiet; then
             echo "Sin cambios detectados."
           else
             git commit -m "EPG & Search: Actualización automática (v81)"
-            git push
+            # Re-intentar push con pull previo si falla
+            git push || (git pull --rebase origin main && git push)
           fi
