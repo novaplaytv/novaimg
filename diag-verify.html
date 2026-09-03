@@ -144,9 +144,13 @@
                     if (response.ok) {
                         let text = await response.text();
 
-                        // FASE REPARACIÓN (v10): Auto-corrección de errores comunes de sintaxis
-                        // Corregir comilla extra después de un número (Ej: 453" -> 453)
+                        // FASE REPARACIÓN (v11): Auto-corrección masiva de errores de sintaxis
+                        // 1. Corregir comilla extra después de un número (Ej: 453" -> 453)
                         text = text.replace(/:\s*(\d+)"/g, ': $1');
+
+                        // 2. Corregir valores malformados "??" (Ej: "globalIndex": ?? -> "globalIndex": 0)
+                        // Se han detectado 1300 casos en el archivo original.
+                        text = text.replace(/:\s*\?\?/g, ': 0');
 
                         return JSON.parse(text);
                     }
