@@ -103,16 +103,11 @@
     </div>
 
     <script>
-        // Origen de datos (Usa el servidor directo para evitar fallos de redirección CORS)
-        const _enc = 'iuvqt;00jb911:12/vt/bsdijwf/psh080jufxt0qsvfcb0_3137180qsvfcb/00qsvfcb0/ktpo';
+        // Fuentes de datos ofuscadas
+        const _s1 = "h@t@t@p@s@:@/@/@i@a@8@0@0@9@0@1@.@u@s@.@a@r@c@h@i@v@e@.@o@r@g@/@7@/@i@t@e@m@s@/@p@r@u@e@b@a@9@_@2@0@2@6@0@7@/@p@r@u@e@b@a@.@9@/@p@r@u@e@b@a@9@.@j@s@o@n";
+        const _s2 = "h@t@t@p@s@:@/@/@i@a@6@0@0@9@0@1@.@u@s@.@a@r@c@h@i@v@e@.@o@r@g@/@7@/@i@t@e@m@s@/@p@r@u@e@b@a@9@_@2@0@2@6@0@7@/@p@r@u@e@b@a@.@9@/@p@r@u@e@b@a@9@.@j@s@o@n";
 
-        function getTarget() {
-            // Desofuscar dinámicamente: RESTAURADO PARA USAR SERVIDOR DIRECTO ia800901.us.archive.org
-            return _enc.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join('').replace(/0/g, (match, offset, string) => {
-                if (offset === 5 || offset === 6 || offset === 34 || offset === 35) return '/';
-                return '9';
-            });
-        }
+        function _d(s) { return s.split('@').join(''); }
 
         function checkAuth() {
             const pass = document.getElementById('passInput').value;
@@ -134,41 +129,47 @@
             }
         }
 
+        async function fetchWithFallback() {
+            const urls = [_d(_s1), _d(_s2)];
+            let lastErr = "";
+
+            for (const url of urls) {
+                try {
+                    console.log("Intentando descargar desde:", url);
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        mode: 'cors',
+                        cache: 'no-store'
+                    });
+                    if (response.ok) return await response.json();
+                    lastErr = "Servidor respondió con código: " + response.status;
+                } catch (e) {
+                    lastErr = e.message;
+                }
+            }
+            throw new Error(lastErr);
+        }
+
         async function fetchAndCompare() {
             const btn = document.querySelector('.btn-primary');
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> DESCARGANDO...';
 
             try {
-                const url = getTarget();
-                // Intentamos con modo 'cors' y cabeceras estándar
-                const response = await fetch(url, {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'omit'
-                });
-
-                if (!response.ok) throw new Error("Servidor respondió con error: " + response.status);
-
-                const newData = await response.json();
+                const newData = await fetchWithFallback();
                 applyNewData(newData);
                 btn.innerHTML = '<i class="fas fa-sync"></i> BUSCAR ACTUALIZACIÓN';
-
             } catch (e) {
-                alert('Error de conexión: ' + e.message + '\n\nSugerencia: Use el botón "PEGAR MANUAL" si su navegador bloquea la descarga automática.');
+                alert('Error al descargar: ' + e.message + '\n\nSi el error persiste, use el botón "PEGAR MANUAL". Archive.org suele bloquear conexiones directas desde algunos navegadores por seguridad (CORS).');
                 btn.innerHTML = '<i class="fas fa-sync"></i> BUSCAR ACTUALIZACIÓN';
-                console.error(e);
             }
         }
 
         function applyNewData(newData) {
             const newStr = JSON.stringify(newData, null, 4);
             const oldData = JSON.parse(localStorage.getItem('last_json_v9') || '{}');
-
             document.getElementById('currView').textContent = newStr;
             document.getElementById('currTime').textContent = new Date().toLocaleString();
-
             compareData(oldData, newData);
-
             localStorage.setItem('last_json_v9', JSON.stringify(newData));
             localStorage.setItem('last_json_time', new Date().toLocaleString());
             renderStorage();
@@ -194,58 +195,43 @@
 
         function compareData(oldObj, newObj) {
             let adds = 0, dels = 0, mods = 0;
-
-            // Caso 1: El JSON es una lista de categorías (como novaplay.json)
             if (Array.isArray(newObj)) {
-                // Aplanar canales para comparar por nombre o ID
                 const getChannels = (data) => {
                     const chs = {};
                     if (!Array.isArray(data)) return chs;
-                    data.forEach(cat => {
-                        if (cat.items) cat.items.forEach(ch => chs[ch.name || ch.canal] = ch);
-                    });
+                    data.forEach(cat => { if (cat.items) cat.items.forEach(ch => chs[ch.name || ch.canal] = ch); });
                     return chs;
                 };
-
                 const oldChannels = getChannels(oldObj);
                 const newChannels = getChannels(newObj);
-
                 Object.keys(newChannels).forEach(k => {
                     if (!oldChannels[k]) adds++;
                     else if (JSON.stringify(oldChannels[k]) !== JSON.stringify(newChannels[k])) mods++;
                 });
-                Object.keys(oldChannels).forEach(k => {
-                    if (!newChannels[k]) dels++;
-                });
+                Object.keys(oldChannels).forEach(k => { if (!newChannels[k]) dels++; });
             } else {
-                // Caso 2: Objeto genérico
                 const oldKeys = Object.keys(oldObj);
                 const newKeys = Object.keys(newObj);
                 newKeys.forEach(k => {
                     if (!oldObj.hasOwnProperty(k)) adds++;
                     else if (JSON.stringify(oldObj[k]) !== JSON.stringify(newObj[k])) mods++;
                 });
-                oldKeys.forEach(k => {
-                    if (!newObj.hasOwnProperty(k)) dels++;
-                });
+                oldKeys.forEach(k => { if (!newObj.hasOwnProperty(k)) dels++; });
             }
-
             document.getElementById('addCount').textContent = adds;
             document.getElementById('delCount').textContent = dels;
             document.getElementById('modCount').textContent = mods;
         }
 
         function clearLocal() {
-            if (confirm('¿Borrar los datos guardados para comparar?')) {
+            if (confirm('¿Borrar los datos guardados?')) {
                 localStorage.removeItem('last_json_v9');
                 localStorage.removeItem('last_json_time');
                 location.reload();
             }
         }
 
-        document.getElementById('passInput').addEventListener('keypress', e => {
-            if (e.key === 'Enter') checkAuth();
-        });
+        document.getElementById('passInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkAuth(); });
     </script>
 </body>
 </html>
