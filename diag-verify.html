@@ -141,7 +141,15 @@
                         mode: 'cors',
                         cache: 'no-store'
                     });
-                    if (response.ok) return await response.json();
+                    if (response.ok) {
+                        let text = await response.text();
+
+                        // FASE REPARACIÓN (v10): Auto-corrección de errores comunes de sintaxis
+                        // Corregir comilla extra después de un número (Ej: 453" -> 453)
+                        text = text.replace(/:\s*(\d+)"/g, ': $1');
+
+                        return JSON.parse(text);
+                    }
                     lastErr = "Servidor respondió con código: " + response.status;
                 } catch (e) {
                     lastErr = e.message;
