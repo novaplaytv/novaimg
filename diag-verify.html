@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sincronización de Datos | Diagnóstico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e50914;
+            --bg: #080a10;
+            --card-bg: #11151f;
+            --border: rgba(255,255,255,0.05);
+            --added: #10b981;
+            --removed: #ef4444;
+            --changed: #ffbb00;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; padding: 40px 20px; }
+
+        /* Login Overlay */
+        #auth-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .auth-card { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); text-align: center; width: 100%; max-width: 350px; }
+        input { width: 100%; padding: 15px; background: #000; border: 1px solid var(--border); border-radius: 12px; color: #fff; margin-bottom: 20px; text-align: center; }
+
+        .container { max-width: 1200px; margin: auto; display: none; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        h1 { font-size: 24px; font-weight: 900; color: var(--primary); }
+
+        .controls { display: flex; gap: 15px; margin-bottom: 30px; }
+        .btn { padding: 15px 30px; border-radius: 12px; border: none; cursor: pointer; font-weight: 800; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { filter: brightness(1.2); }
+        .btn-secondary { background: #222; color: #ccc; }
+
+        .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 20px; overflow: hidden; display: flex; flex-direction: column; }
+        .panel-header { font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between; }
+
+        pre { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; overflow: auto; max-height: 600px; padding: 15px; background: #000; border-radius: 12px; white-space: pre-wrap; }
+
+        .summary-bar { background: #1a1f2e; padding: 15px 25px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 30px; font-size: 13px; font-weight: 700; }
+        .summary-item i { margin-right: 8px; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <i class="fas fa-user-shield" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;"></i>
+            <h2 style="margin-bottom: 20px;">Acceso Restringido</h2>
+            <input type="password" id="passInput" placeholder="Contraseña de Staff">
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="checkAuth()">INGRESAR</button>
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <header>
+            <h1><i class="fas fa-code-compare"></i> COMPARADOR DE VERSIONES JSON</h1>
+            <div id="lastSync" style="font-size: 12px; color: #888;"></div>
+        </header>
+
+        <div class="summary-bar">
+            <div class="summary-item" style="color: var(--added)"><i class="fas fa-plus-circle"></i> NUEVOS: <span id="addCount">0</span></div>
+            <div class="summary-item" style="color: var(--removed)"><i class="fas fa-minus-circle"></i> ELIMINADOS: <span id="delCount">0</span></div>
+            <div class="summary-item" style="color: var(--changed)"><i class="fas fa-edit"></i> CAMBIOS: <span id="modCount">0</span></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="fetchAndCompare()">
+                <i class="fas fa-sync"></i> BUSCAR ACTUALIZACIÓN
+            </button>
+            <button class="btn btn-secondary" onclick="clearLocal()">
+                <i class="fas fa-trash-alt"></i> LIMPIAR MEMORIA
+            </button>
+        </div>
+
+        <div class="diff-grid">
+            <div class="panel">
+                <div class="panel-header">VERSIÓN ANTERIOR (LOCAL) <span id="prevTime"></span></div>
+                <pre id="prevView">No hay datos en memoria...</pre>
+            </div>
+            <div class="panel">
+                <div class="panel-header">VERSIÓN NUEVA (ARCHIVO.ORG) <span id="currTime"></span></div>
+                <pre id="currView">Haga clic en 'Buscar Actualización' para empezar...</pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Origen de datos ofuscado (Rot1)
+        const _enc = 'iuvqt;00bsdijwf/psh0dpxompbe0qsvfcb0_3137180qsvfcb/00qsvfcb0/ktpo';
+
+        function getTarget() {
+            // Desofuscar dinámicamente en memoria
+            return _enc.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join('').replace(/0/g, (match, offset, string) => {
+                if (offset === 5 || offset === 6 || offset === 52 || offset === 53) return '/';
+                return '9';
+            });
+        }
+
+        function checkAuth() {
+            const pass = document.getElementById('passInput').value;
+            if (pass === 'nova99') {
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+                renderStorage();
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        }
+
+        function renderStorage() {
+            const lastData = localStorage.getItem('last_json_v9');
+            const lastTime = localStorage.getItem('last_json_time');
+            if (lastData) {
+                document.getElementById('prevView').textContent = JSON.stringify(JSON.parse(lastData), null, 4);
+                document.getElementById('prevTime').textContent = lastTime;
+            }
+        }
+
+        async function fetchAndCompare() {
+            try {
+                const btn = document.querySelector('.btn-primary');
+                btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> DESCARGANDO...';
+
+                const response = await fetch(getTarget());
+                const newData = await response.json();
+                const newStr = JSON.stringify(newData, null, 4);
+
+                const oldData = JSON.parse(localStorage.getItem('last_json_v9') || '{}');
+
+                document.getElementById('currView').textContent = newStr;
+                document.getElementById('currTime').textContent = new Date().toLocaleString();
+
+                compareData(oldData, newData);
+
+                localStorage.setItem('last_json_v9', JSON.stringify(newData));
+                localStorage.setItem('last_json_time', new Date().toLocaleString());
+
+                btn.innerHTML = '<i class="fas fa-sync"></i> BUSCAR ACTUALIZACIÓN';
+                renderStorage();
+
+            } catch (e) {
+                alert('Error al descargar el archivo: ' + e.message);
+                console.error(e);
+            }
+        }
+
+        function compareData(oldObj, newObj) {
+            let adds = 0, dels = 0, mods = 0;
+
+            const oldKeys = Object.keys(oldObj);
+            const newKeys = Object.keys(newObj);
+
+            newKeys.forEach(k => {
+                if (!oldObj.hasOwnProperty(k)) adds++;
+                else if (JSON.stringify(oldObj[k]) !== JSON.stringify(newObj[k])) mods++;
+            });
+
+            oldKeys.forEach(k => {
+                if (!newObj.hasOwnProperty(k)) dels++;
+            });
+
+            document.getElementById('addCount').textContent = adds;
+            document.getElementById('delCount').textContent = dels;
+            document.getElementById('modCount').textContent = mods;
+        }
+
+        function clearLocal() {
+            if (confirm('¿Borrar los datos guardados para comparar?')) {
+                localStorage.removeItem('last_json_v9');
+                localStorage.removeItem('last_json_time');
+                location.reload();
+            }
+        }
+
+        document.getElementById('passInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') checkAuth();
+        });
+    </script>
+</body>
+</html>
