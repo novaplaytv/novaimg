@@ -624,47 +624,48 @@
     // --- Icon Manager Logic ---
     async function cargarCanales() {
         const grid = document.getElementById("channelGrid");
-        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#666; font-weight:600;"><i class="fas fa-sync fa-spin"></i> Cargando catálogo...</div>';
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#666; font-weight:600;"><i class="fas fa-sync fa-spin"></i> Cargando catálogo real...</div>';
         try {
-            const r = await fetch(CATALOGO_URL, { cache: "no-store" });
-            const html = await r.text();
-            const doc = new DOMParser().parseFromString(html, "text/html");
-            const cards = doc.querySelectorAll(".card");
+            // FASE REPARACIÓN (v92): Usar la API oficial para obtener el JSON real y evitar el raspado de HTML obsoleto
+            const { response, data } = await fetchJSON({ action: "obtener_json" }, true);
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || "No se pudo obtener el JSON de Supabase.");
+            }
+
             listaCanales = [];
+            const catalogo = data.json || [];
 
-            cards.forEach(card => {
-                const nameEl = card.querySelector("h2");
-                const numEl = card.querySelector(".channel-number");
-                const imgEl = card.querySelector("img");
+            catalogo.forEach(cat => {
+                if (!cat.items) return;
+                cat.items.forEach(ch => {
+                    const name = ch.name || "Sin nombre";
+                    const iconoUrl = ch.icono || "";
 
-                if (!nameEl || !imgEl) return;
-
-                const name = nameEl.textContent.trim();
-                const num = numEl ? numEl.textContent.replace(/CANAL/gi, "").trim() : "—";
-                const src = imgEl.getAttribute("src");
-
-                // Regex más robusto para extraer el nombre del archivo
-                // Busca lo que esté entre 'icons/' y un posible '?' o el final del string
-                const match = src?.match(/icons\/([^?#]+)/i);
-
-                if (name && match) {
-                    const fileName = match[1];
-                    listaCanales.push({
-                        name: name,
-                        num: num,
-                        file: fileName,
-                        icon: "https://novaplaytv.github.io/novaimg/icons/" + fileName
-                    });
-                }
+                    // Extraer nombre del archivo del icono (ej: 001.webp)
+                    const match = iconoUrl.match(/icons\/([^?#]+)/i);
+                    if (match) {
+                        const fileName = match[1];
+                        listaCanales.push({
+                            name: name,
+                            num: ch.canal || "—",
+                            file: fileName,
+                            icon: iconoUrl
+                        });
+                    }
+                });
             });
 
             if(listaCanales.length === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--error);">Catálogo vacío.</div>';
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--error);">Catálogo vacío o sin iconos locales configurados.</div>';
             } else {
+                // Ordenar por nombre para facilitar la búsqueda
+                listaCanales.sort((a, b) => a.name.localeCompare(b.name));
                 renderGrid(listaCanales);
             }
         } catch (e) {
-            grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--error);">Error de carga del catálogo.</div>';
+            console.error("Error cargando canales:", e);
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--error);">Error de carga: ${e.message}</div>`;
         }
     }
 
