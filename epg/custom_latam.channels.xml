@@ -10,11 +10,17 @@
   <channel site="mi.tv" lang="es" xmltv_id="py#universo-970" site_id="py#universo-970">Universo 970</channel>
   <channel site="mi.tv" lang="es" xmltv_id="ar#tvs" site_id="py#tvs">TVS</channel>
 
-  <!-- ESPN SUR (Argentina Feed) - mi.tv -->
-  <channel site="mi.tv" lang="es" xmltv_id="ar#espn" site_id="ar#espn">ESPN</channel>
-  <channel site="mi.tv" lang="es" xmltv_id="ar#espn-2" site_id="ar#espn-2">ESPN 2</channel>
-  <channel site="mi.tv" lang="es" xmltv_id="ar#espn-3" site_id="ar#espn-3">ESPN 3</channel>
-  <channel site="mi.tv" lang="es" xmltv_id="ar#espn-4" site_id="ar#espn-4">ESPN 4</channel>
+  <!-- ESPN AR (Argentina) - mi.tv -->
+  <channel site="mi.tv" lang="es" xmltv_id="ar#espn" site_id="ar#espn">ESPN AR</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="ar#espn-2" site_id="ar#espn-2">ESPN 2 AR</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="ar#espn-3" site_id="ar#espn-3">ESPN 3 AR</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="ar#espn-4" site_id="ar#espn-4">ESPN 4 AR</channel>
+
+  <!-- ESPN UY (Uruguay) - mi.tv -->
+  <channel site="mi.tv" lang="es" xmltv_id="uy#espn" site_id="uy#espn">ESPN UY</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="uy#espn-2" site_id="uy#espn-2">ESPN 2 UY</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="uy#espn-3" site_id="uy#espn-3">ESPN 3 UY</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="uy#espn-4" site_id="uy#espn-4">ESPN 4 UY</channel>
 
   <!-- Argentina - mi.tv -->
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn-premium" site_id="ar#espn-premium">ESPN Premium</channel>
