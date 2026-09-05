@@ -17,6 +17,7 @@
             --text-muted: #9aa3b2;
             --border: rgba(255,255,255,0.05);
             --success: #10b981;
+            --warning: #ffbb00;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,9 +36,8 @@
         #searchInput:focus { border-color: var(--primary); outline: none; background: #161b29; box-shadow: 0 15px 40px rgba(229, 9, 20, 0.15); }
 
         #countryFilter { padding: 0 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; min-width: 180px; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 20px; }
-        #countryFilter:focus { border-color: var(--primary); outline: none; }
 
-        .results-count { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
+        .results-count { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 15px; text-align: center; }
 
         .channel-list { display: grid; gap: 12px; }
         .channel-item { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
@@ -54,19 +54,12 @@
         .ch-actions { display: flex; align-items: center; gap: 10px; }
         .epg-id-badge { background: var(--input-bg); padding: 10px 15px; border-radius: 10px; font-family: monospace; font-size: 13px; color: var(--success); font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.2); }
         .btn-copy { background: var(--primary); color: #fff; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 800; transition: 0.2s; }
-        .btn-copy:hover { transform: scale(1.05); filter: brightness(1.2); }
-        .btn-copy:active { transform: scale(0.95); }
 
-        .loader { text-align: center; padding: 60px; display: none; }
+        .loader { text-align: center; padding: 60px; }
         .loader i { font-size: 40px; color: var(--primary); }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        @media (max-width: 600px) {
-            .search-container { flex-direction: column; }
-            #countryFilter { padding: 15px 20px; }
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        @media (max-width: 600px) { .search-container { flex-direction: column; } #countryFilter { padding: 15px 20px; } }
     </style>
 </head>
 <body>
@@ -81,16 +74,16 @@
     <div class="search-container">
         <div class="search-wrapper">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Escribe el nombre del canal (ej: HBO, ESPN, Telefe...)" disabled>
+            <input type="text" id="searchInput" placeholder="Escribe el nombre del canal (ej: HBO, ESPN...)" disabled>
         </div>
         <select id="countryFilter" disabled>
             <option value="">🌎 TODOS LOS PAÍSES</option>
         </select>
     </div>
 
-    <div id="loader" class="loader" style="display: block;">
+    <div id="loader" class="loader">
         <i class="fas fa-circle-notch fa-spin"></i>
-        <p style="margin-top: 20px; font-weight: 700; color: var(--text-muted);">Sincronizando Base de Datos Ligera...</p>
+        <p style="margin-top: 20px; font-weight: 700; color: var(--text-muted);">Sincronizando Base de Datos...</p>
     </div>
 
     <div id="resultsInfo" class="results-count" style="display: none;"></div>
@@ -104,24 +97,12 @@
     async function init() {
         try {
             const resp = await fetch(EPG_DB_URL + '?t=' + Date.now());
-            if (!resp.ok) throw new Error("Archivo no encontrado");
-
+            if (!resp.ok) throw new Error("Base de datos no encontrada");
             epgDatabase = await resp.json();
 
-            // v101: Determinar frescura de datos
-            let oldest = "99999999999999";
-            epgDatabase.forEach(ch => {
-                if (ch.progs && ch.progs[0]) {
-                    if (ch.progs[0][1] < oldest) oldest = ch.progs[0][1];
-                }
-            });
-
-            if (oldest !== "99999999999999") {
-                const y = oldest.slice(0,4), m = oldest.slice(4,6), d = oldest.slice(6,8);
-                const info = document.getElementById('resultsInfo');
-                info.style.display = 'block';
-                info.innerHTML = `📡 Datos Sincronizados: <b>${d}/${m}/${y}</b> | Total: ${epgDatabase.length} canales`;
-            }
+            const info = document.getElementById('resultsInfo');
+            info.style.display = 'block';
+            info.innerHTML = `📡 Datos Sincronizados: <b>${new Date().toLocaleDateString()}</b> | Total: ${epgDatabase.length} canales`;
 
             const countries = [...new Set(epgDatabase.map(ch => ch.country))].sort();
             const filter = document.getElementById('countryFilter');
@@ -139,7 +120,7 @@
             document.getElementById('searchInput').focus();
         } catch (e) {
             console.error(e);
-            alert('Error: No se pudo cargar la base de datos de búsqueda.');
+            alert('Error cargando la base de datos.');
         }
     }
 
@@ -147,22 +128,14 @@
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
         const country = document.getElementById('countryFilter').value;
         const listContainer = document.getElementById('channelList');
-        const infoContainer = document.getElementById('resultsInfo');
 
         if (query.length < 2 && !country) {
             listContainer.innerHTML = '';
-            // No ocultar infoContainer para mantener el rastro de fecha
             return;
         }
 
-        // v101: Comparación UTC estricta
         const now = new Date();
-        const nowStr = now.getUTCFullYear().toString() +
-                       (now.getUTCMonth() + 1).toString().padStart(2, '0') +
-                       now.getUTCDate().toString().padStart(2, '0') +
-                       now.getUTCHours().toString().padStart(2, '0') +
-                       now.getUTCMinutes().toString().padStart(2, '0') +
-                       now.getUTCSeconds().toString().padStart(2, '0');
+        const nowStr = now.getUTCFullYear().toString() + (now.getUTCMonth() + 1).toString().padStart(2, '0') + now.getUTCDate().toString().padStart(2, '0') + now.getUTCHours().toString().padStart(2, '0') + now.getUTCMinutes().toString().padStart(2, '0') + now.getUTCSeconds().toString().padStart(2, '0');
 
         const filtered = epgDatabase.filter(ch => {
             const matchesQuery = !query || ch.name.toLowerCase().includes(query) || ch.id.toLowerCase().includes(query);
@@ -185,8 +158,8 @@
                     const next = ch.progs.find(p => p[1] > nowStr);
                     if (next) {
                         currentProg = "Próximamente: " + next[0];
-                        statusStyle = "background:#ffbb00; box-shadow:0 0 5px #ffbb00;";
-                        textStyle = "color:#ffbb00";
+                        statusStyle = "background:var(--warning); box-shadow:0 0 5px var(--warning);";
+                        textStyle = "color:var(--warning)";
                     }
                 }
             }
@@ -218,10 +191,7 @@
             const originalText = btn.innerText;
             btn.innerText = '¡COPIADO!';
             btn.style.background = '#10b981';
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = '';
-            }, 1500);
+            setTimeout(() => { btn.innerText = originalText; btn.style.background = ''; }, 1500);
         });
     }
 
@@ -229,6 +199,5 @@
     document.getElementById('countryFilter').onchange = search;
     init();
 </script>
-
 </body>
 </html>
