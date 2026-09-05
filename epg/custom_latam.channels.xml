@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <channels>
-  <!-- Paraguay - mi.tv -->
+  <!-- Paraguay - mi.tv (Sincronizado UTC-3) -->
   <channel site="mi.tv" lang="es" xmltv_id="py#tigo-sports" site_id="py#tigo-sports">Tigo Sports</channel>
   <channel site="mi.tv" lang="es" xmltv_id="py#tigo-sports-2" site_id="py#tigo-sports-2">Tigo Sports 2</channel>
   <channel site="mi.tv" lang="es" xmltv_id="py#tigo-sports-3" site_id="py#tigo-sports-3">Tigo Sports 3</channel>
@@ -9,20 +9,38 @@
   <channel site="mi.tv" lang="es" xmltv_id="py#canal-100" site_id="py#canal-100">Canal 100</channel>
   <channel site="mi.tv" lang="es" xmltv_id="py#universo-970" site_id="py#universo-970">Universo 970</channel>
   <channel site="mi.tv" lang="es" xmltv_id="py#tvs" site_id="py#tvs">TVS</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="PopuTV.py" site_id="py#popu-tv">POPU TV</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="py#canal-13" site_id="py#canal-13">TRECE</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="py#unicanal" site_id="py#unicanal">UNICANAL</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="Telefuturo.py@SD" site_id="py#telefuturo">TELEFUTURO</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="SNT.py@SD" site_id="py#snt">SNT</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="C9N.py@SD" site_id="py#c9n">C9N</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="py#canal-5-paravision" site_id="py#canal-5-paravision">PARAVISION</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="py#abc-tv" site_id="py#abc-tv">ABC COLOR PY</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="Latele.py@SD" site_id="py#latele">LA TELE</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="SURTVItapua.py@SD" site_id="py#sur-tv-itapua">SUR TV</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="NPY.py@SD" site_id="py#npy">NPY</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="ParaguayTV.py@SD" site_id="py#paraguay-tv">PARAGUAY TV</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="py#hei-network" site_id="py#hei-network">HEI NOW</channel>
+  <channel site="mi.tv" lang="es" xmltv_id="TVMAX.py" site_id="py#tv-max">TV MAX</channel>
 
-  <!-- ESPN AR (Argentina) - mi.tv -->
+  <!-- ESPN - mi.tv (FUENTES CORREGIDAS - ELIMINAR DESFASE) -->
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn" site_id="ar#espn">ESPN AR</channel>
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn-2" site_id="ar#espn-2">ESPN 2 AR</channel>
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn-3" site_id="ar#espn-3">ESPN 3 AR</channel>
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn-4" site_id="ar#espn-4">ESPN 4 AR</channel>
-
-  <!-- ESPN UY (Uruguay) - mi.tv -->
   <channel site="mi.tv" lang="es" xmltv_id="uy#espn" site_id="uy#espn">ESPN UY</channel>
   <channel site="mi.tv" lang="es" xmltv_id="uy#espn-2" site_id="uy#espn-2">ESPN 2 UY</channel>
   <channel site="mi.tv" lang="es" xmltv_id="uy#espn-3" site_id="uy#espn-3">ESPN 3 UY</channel>
   <channel site="mi.tv" lang="es" xmltv_id="uy#espn-4" site_id="uy#espn-4">ESPN 4 UY</channel>
 
-  <!-- Argentina - mi.tv -->
+  <!-- Otros Argentina -->
   <channel site="mi.tv" lang="es" xmltv_id="ar#espn-premium" site_id="ar#espn-premium">ESPN Premium</channel>
   <channel site="mi.tv" lang="es" xmltv_id="ar#tnt-sports" site_id="ar#tnt-sports">TNT Sports</channel>
+
+  <!-- Otros Uruguay -->
+  <channel site="anteltv.com.uy" lang="es" xmltv_id="Canal5.uy" site_id="C5">Canal 5 UY</channel>
+  <channel site="anteltv.com.uy" lang="es" xmltv_id="TVCiudad.uy" site_id="TVC">TV Ciudad UY</channel>
+  <channel site="gatotv.com" lang="es" xmltv_id="uy#vtv" site_id="vtv_uruguay">VTV Uruguay</channel>
+  <channel site="gatotv.com" lang="es" xmltv_id="uy#vtv-plus" site_id="vtv_plus_uruguay">VTV Plus Uruguay</channel>
 </channels>
