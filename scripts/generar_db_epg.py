@@ -4,30 +4,24 @@ import re
 from datetime import datetime, timezone
 
 def parse_xmltv_date(date_str):
-    """Convierte fechas XMLTV a string YYYYMMDDHHMMSS en UTC."""
     if not date_str: return ""
     try:
-        # Extraer fecha y offset: 20260904073000 -0300 o 20260904073000 +0000
+        # Extraer fecha y offset: 20260904073000 -0300
         match = re.search(r'(\d{14})\s*([+-]\d{4})?', date_str)
         if match:
             date_part = match.group(1)
             offset_part = match.group(2)
             if offset_part:
-                # Parsear con zona horaria real del archivo
                 dt = datetime.strptime(date_part + offset_part, "%Y%m%d%H%M%S%z")
             else:
-                # Si no hay offset, asumir UTC
                 dt = datetime.strptime(date_part, "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
-
-            # NORMALIZACIÓN: Devolver siempre en UTC
             return dt.astimezone(timezone.utc).strftime('%Y%m%d%H%M%S')
     except:
         pass
-    # Fallback: solo los digitos
     return re.sub(r'[^0-9]', '', date_str)[:14]
 
 def main():
-    print("🚀 Generando Base de Datos EPG Sincronizada UTC (v102)...")
+    print("🚀 Generando Base de Datos EPG Resiliente (v103)...")
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.dirname(current_dir)
@@ -41,70 +35,72 @@ def main():
     channels_map = {}
     now_utc = datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')
 
-    re_channel = re.compile(r'<channel id="([^"]+)">')
+    # Regex ultra-flexibles
+    re_channel = re.compile(r'<channel[^>]+id="([^"]+)"')
     re_display_name = re.compile(r'<display-name[^>]*>(.*?)</display-name>')
-    re_icon = re.compile(r'<icon src="([^"]+)"')
-    re_prog = re.compile(r'<programme start="([^"]+)" stop="([^"]+)" channel="([^"]+)">')
+    re_icon = re.compile(r'<icon[^>]+src="([^"]+)"')
+    re_prog = re.compile(r'<programme[^>]+start="([^"]+)"[^>]+stop="([^"]+)"[^>]+channel="([^"]+)"')
     re_title = re.compile(r'<title[^>]*>(.*?)</title>')
 
     try:
-        print(f"📖 Leyendo guía (Hora actual UTC: {now_utc})...")
+        print("📖 Procesando guía...")
         with open(input_file, 'r', encoding='utf-8', errors='ignore') as f:
             for line in f:
-                line = line.strip()
+                # Buscar canales
+                c_match = re_channel.search(line)
+                if c_match:
+                    ch_id = c_match.group(1)
+                    name_match = re_display_name.search(line)
+                    icon_match = re_icon.search(line)
 
-                if '<channel' in line:
-                    match = re_channel.search(line)
-                    if match:
-                        ch_id = match.group(1)
-                        name_match = re_display_name.search(line)
-                        icon_match = re_icon.search(line)
-                        name = name_match.group(1) if name_match else ch_id
-                        icon = icon_match.group(1) if icon_match else ""
-                        country = "LATAM"
-                        if '#' in ch_id: country = ch_id.split('#')[0].upper()
+                    name = name_match.group(1) if name_match else ch_id
+                    icon = icon_match.group(1) if icon_match else ""
+                    country = "LATAM"
+                    if '#' in ch_id: country = ch_id.split('#')[0].upper()
+                    elif '.' in ch_id:
+                        parts = ch_id.split('.')
+                        if len(parts) > 1:
+                            # Extraer country code (AR, PY, UY...)
+                            code = parts[1][:2].upper()
+                            if code in ["AR", "PY", "UY", "CL", "BR"]: country = code
 
-                        channels_map[ch_id] = {
-                            'id': ch_id, 'name': name, 'logo': icon, 'country': country,
-                            'site': ch_id.split('@')[-1] if '@' in ch_id else "XMLTV",
-                            'progs': []
-                        }
+                    channels_map[ch_id] = {
+                        'id': ch_id, 'name': name, 'logo': icon, 'country': country,
+                        'site': ch_id.split('@')[-1] if '@' in ch_id else "XMLTV",
+                        'progs': []
+                    }
                     continue
 
-                if '<programme' in line:
-                    match = re_prog.search(line)
-                    if match:
-                        # v102: Procesar fechas CON offset para normalizar a UTC
-                        start_utc = parse_xmltv_date(match.group(1))
-                        stop_utc = parse_xmltv_date(match.group(2))
-                        ch_id = match.group(3)
+                # Buscar programas
+                p_match = re_prog.search(line)
+                if p_match:
+                    start_utc = parse_xmltv_date(p_match.group(1))
+                    stop_utc = parse_xmltv_date(p_match.group(2))
+                    ch_id = p_match.group(3)
 
-                        # Solo guardar programas que NO hayan terminado
-                        if ch_id in channels_map and stop_utc > now_utc:
-                            title_match = re_title.search(line)
-                            title = title_match.group(1) if title_match else "Sin título"
-                            title = title.replace('&amp;', '&').replace('&quot;', '"').replace('&apos;', "'")
+                    if ch_id in channels_map and stop_utc > now_utc:
+                        title_match = re_title.search(line)
+                        title = title_match.group(1) if title_match else "Sin título"
+                        title = title.replace('&amp;', '&').replace('&quot;', '"').replace('&apos;', "'").replace('&lt;', '<').replace('&gt;', '>')
 
+                        if len(channels_map[ch_id]['progs']) < 5:
                             channels_map[ch_id]['progs'].append([title, start_utc, stop_utc])
 
-        # Filtrar y ordenar
+        # Convertir a lista y limpiar canales sin programas
         final_list = []
         for ch_id, data in channels_map.items():
             if data['progs']:
-                # Ordenar por tiempo de inicio (UTC)
                 data['progs'].sort(key=lambda x: x[1])
-                # Tomar solo los primeros 10 (Suficiente para el buscador)
-                data['progs'] = data['progs'][:10]
                 final_list.append(data)
 
-        # Ordenar canales por nombre
+        # Ordenar por nombre
         final_list.sort(key=lambda x: x['name'])
 
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(final_list, f, separators=(',', ':'), ensure_ascii=False)
 
-        print(f"✓ Éxito: {len(final_list)} canales sincronizados en UTC.")
+        print(f"✓ Éxito: {len(final_list)} canales con programación indexados.")
 
     except Exception as e:
         print(f"❌ Error crítico: {e}")

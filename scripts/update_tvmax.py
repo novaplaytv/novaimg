@@ -2,16 +2,16 @@ import os
 from datetime import datetime, timedelta
 
 def update_epg():
-    template_path = 'epg_notweb/tvmax.template.xml'
-    output_path = 'epg_notweb/tvmax.xml'
+    template_path = 'novaepg/tvmax/tvmax.template.xml'
+    output_path = 'novaepg/tvmax/tvmax.xml'
 
     if not os.path.exists(template_path):
         print(f"❌ Error: No se encuentra {template_path}")
         return
 
-    # 1. Calcular el "Hoy" en Paraguay (UTC-4)
-    # GitHub Actions corre en UTC, le restamos 4 horas para tener la fecha real de Paraguay
-    now_py = datetime.utcnow() - timedelta(hours=4)
+    # 1. Calcular el "Hoy" en Paraguay (UTC-3)
+    # GitHub Actions corre en UTC, le restamos 3 horas para tener la fecha real de Paraguay
+    now_py = datetime.utcnow() - timedelta(hours=3)
 
     # 2. Encontrar el lunes de la semana actual
     # .weekday() devuelve 0 para Lunes, 4 para Viernes...
