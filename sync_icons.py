@@ -335,37 +335,6 @@ with open(
 
 
 # ==================================================
-# ELIMINAR WEBP QUE YA NO EXISTAN
-# ==================================================
-
-valid_files = {
-    item["archivo"]
-    for item in index
-    if item.get("archivo")
-}
-
-
-for filename in os.listdir(ICON_DIR):
-
-    if (
-        filename.endswith(".webp")
-        and filename not in valid_files
-    ):
-
-        path = os.path.join(
-            ICON_DIR,
-            filename
-        )
-
-        os.remove(path)
-
-        print(
-            f"Eliminado: {filename}",
-            flush=True
-        )
-
-
-# ==================================================
 # RESULTADO
 # ==================================================
 
