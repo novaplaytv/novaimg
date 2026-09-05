@@ -103,9 +103,25 @@
 
     async function init() {
         try {
-            const resp = await fetch(EPG_DB_URL);
+            const resp = await fetch(EPG_DB_URL + '?t=' + Date.now());
             if (!resp.ok) throw new Error("Archivo no encontrado");
+
             epgDatabase = await resp.json();
+
+            // v101: Determinar frescura de datos
+            let oldest = "99999999999999";
+            epgDatabase.forEach(ch => {
+                if (ch.progs && ch.progs[0]) {
+                    if (ch.progs[0][1] < oldest) oldest = ch.progs[0][1];
+                }
+            });
+
+            if (oldest !== "99999999999999") {
+                const y = oldest.slice(0,4), m = oldest.slice(4,6), d = oldest.slice(6,8);
+                const info = document.getElementById('resultsInfo');
+                info.style.display = 'block';
+                info.innerHTML = `📡 Datos Sincronizados: <b>${d}/${m}/${y}</b> | Total: ${epgDatabase.length} canales`;
+            }
 
             const countries = [...new Set(epgDatabase.map(ch => ch.country))].sort();
             const filter = document.getElementById('countryFilter');
@@ -123,7 +139,7 @@
             document.getElementById('searchInput').focus();
         } catch (e) {
             console.error(e);
-            alert('Error: No se ha generado la base de datos de búsqueda. Inicie el workflow en GitHub.');
+            alert('Error: No se pudo cargar la base de datos de búsqueda.');
         }
     }
 
@@ -135,11 +151,18 @@
 
         if (query.length < 2 && !country) {
             listContainer.innerHTML = '';
-            infoContainer.style.display = 'none';
+            // No ocultar infoContainer para mantener el rastro de fecha
             return;
         }
 
-        const nowStr = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+        // v101: Comparación UTC estricta
+        const now = new Date();
+        const nowStr = now.getUTCFullYear().toString() +
+                       (now.getUTCMonth() + 1).toString().padStart(2, '0') +
+                       now.getUTCDate().toString().padStart(2, '0') +
+                       now.getUTCHours().toString().padStart(2, '0') +
+                       now.getUTCMinutes().toString().padStart(2, '0') +
+                       now.getUTCSeconds().toString().padStart(2, '0');
 
         const filtered = epgDatabase.filter(ch => {
             const matchesQuery = !query || ch.name.toLowerCase().includes(query) || ch.id.toLowerCase().includes(query);
@@ -147,15 +170,25 @@
             return matchesQuery && matchesCountry;
         }).slice(0, 100);
 
-        infoContainer.innerText = `Encontrados ${filtered.length} IDs compatibles con NovaPlay`;
-        infoContainer.style.display = 'block';
-
         listContainer.innerHTML = filtered.map(ch => {
-            let currentProg = "Programación no disponible";
+            let currentProg = "Prog. no disponible (Hoy)";
+            let statusStyle = "background:#666; box-shadow:none; animation:none;";
+            let textStyle = "color:var(--text-muted)";
+
             if (ch.progs && ch.progs.length > 0) {
                 const match = ch.progs.find(p => nowStr >= p[1] && nowStr < p[2]);
-                if (match) currentProg = match[0];
-                else if (nowStr < ch.progs[0][1]) currentProg = "Próximamente: " + ch.progs[0][0];
+                if (match) {
+                    currentProg = match[0];
+                    statusStyle = "";
+                    textStyle = "";
+                } else {
+                    const next = ch.progs.find(p => p[1] > nowStr);
+                    if (next) {
+                        currentProg = "Próximamente: " + next[0];
+                        statusStyle = "background:#ffbb00; box-shadow:0 0 5px #ffbb00;";
+                        textStyle = "color:#ffbb00";
+                    }
+                }
             }
 
             return `
@@ -166,8 +199,8 @@
                             <div class="ch-name">${ch.name}</div>
                             <div class="ch-country">${ch.country} | Fuente: <b>${ch.site}</b></div>
                             <div class="ch-live">
-                                <span class="live-dot-mini"></span>
-                                <span>EN VIVO: ${currentProg}</span>
+                                <span class="live-dot-mini" style="${statusStyle}"></span>
+                                <span style="${textStyle}">EN VIVO: ${currentProg}</span>
                             </div>
                         </div>
                     </div>
