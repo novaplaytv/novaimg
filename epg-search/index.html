@@ -48,8 +48,10 @@
         .ch-details { overflow: hidden; flex-grow: 1; }
         .ch-name { font-weight: 800; font-size: 15px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .ch-country { font-size: 10px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .ch-live { font-size: 12px; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 6px; }
+        .ch-live { font-size: 12px; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+        .ch-next { font-size: 11px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .live-dot-mini { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 5px var(--success); animation: blink 1s infinite; }
+        .next-dot-mini { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; opacity: 0.5; }
 
         .ch-actions { display: flex; align-items: center; gap: 10px; }
         .epg-id-badge { background: var(--input-bg); padding: 10px 15px; border-radius: 10px; font-family: monospace; font-size: 13px; color: var(--success); font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.2); }
@@ -145,21 +147,36 @@
 
         listContainer.innerHTML = filtered.map(ch => {
             let currentProg = "Prog. no disponible (Hoy)";
+            let nextProg = "";
             let statusStyle = "background:#666; box-shadow:none; animation:none;";
             let textStyle = "color:var(--text-muted)";
 
             if (ch.progs && ch.progs.length > 0) {
-                const match = ch.progs.find(p => nowStr >= p[1] && nowStr < p[2]);
-                if (match) {
-                    currentProg = match[0];
+                const currentIndex = ch.progs.findIndex(p => nowStr >= p[1] && nowStr < p[2]);
+
+                if (currentIndex !== -1) {
+                    currentProg = ch.progs[currentIndex][0];
                     statusStyle = "";
                     textStyle = "";
+
+                    if (currentIndex + 1 < ch.progs.length) {
+                        const next = ch.progs[currentIndex + 1];
+                        const timeStr = next[1].slice(8, 10) + ":" + next[1].slice(10, 12);
+                        nextProg = `LO QUE SIGUE: <b>${next[0]}</b> (${timeStr})`;
+                    }
                 } else {
-                    const next = ch.progs.find(p => p[1] > nowStr);
-                    if (next) {
+                    const nextIndex = ch.progs.findIndex(p => p[1] > nowStr);
+                    if (nextIndex !== -1) {
+                        const next = ch.progs[nextIndex];
                         currentProg = "Próximamente: " + next[0];
                         statusStyle = "background:var(--warning); box-shadow:0 0 5px var(--warning);";
                         textStyle = "color:var(--warning)";
+
+                        if (nextIndex + 1 < ch.progs.length) {
+                            const afterNext = ch.progs[nextIndex + 1];
+                            const timeStr = afterNext[1].slice(8, 10) + ":" + afterNext[1].slice(10, 12);
+                            nextProg = `Y LUEGO: <b>${afterNext[0]}</b> (${timeStr})`;
+                        }
                     }
                 }
             }
@@ -175,6 +192,7 @@
                                 <span class="live-dot-mini" style="${statusStyle}"></span>
                                 <span style="${textStyle}">EN VIVO: ${currentProg}</span>
                             </div>
+                            ${nextProg ? `<div class="ch-next"><span class="next-dot-mini"></span><span>${nextProg}</span></div>` : ''}
                         </div>
                     </div>
                     <div class="ch-actions">
