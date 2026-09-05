@@ -1,14 +1,12 @@
 import os
 from datetime import datetime, timedelta
 
-def update_epg():
-    # Obtener la ruta base del repositorio (un nivel arriba de /scripts)
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    template_path = os.path.join(base_dir, 'novaepg/tvmax/tvmax.template.xml')
-    output_path = os.path.join(base_dir, 'novaepg/tvmax/tvmax.xml')
+def process_channel(channel_dir):
+    template_path = os.path.join(channel_dir, f"{os.path.basename(channel_dir)}.template.xml")
+    output_path = os.path.join(channel_dir, f"{os.path.basename(channel_dir)}.xml")
 
     if not os.path.exists(template_path):
-        print(f"❌ Error: No se encuentra {template_path}")
+        print(f"   ⚠️ No se encontró plantilla en {channel_dir}")
         return
 
     # 1. Calcular el "Hoy" en Paraguay (UTC-3)
@@ -16,8 +14,6 @@ def update_epg():
 
     # 2. Encontrar el lunes de la semana actual
     monday_py = now_py - timedelta(days=now_py.weekday())
-
-    print(f"📅 Sincronizando EPG para Paraguay (Hoy: {now_py.strftime('%Y-%m-%d')})")
 
     # 3. Preparar los reemplazos
     days_tags = {
@@ -30,6 +26,8 @@ def update_epg():
         "{{DOMINGO}}": (monday_py + timedelta(days=6)).strftime('%Y%m%d')
     }
 
+    print(f"   📅 Procesando {os.path.basename(channel_dir)} para la semana del {monday_py.strftime('%Y-%m-%d')}")
+
     with open(template_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -40,7 +38,24 @@ def update_epg():
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(new_content)
 
-    print(f"✅ Archivo tvmax.xml actualizado con éxito.")
+    print(f"   ✅ Canal {os.path.basename(channel_dir)} actualizado.")
+
+def main():
+    print("🚀 Iniciando Actualización Masiva de NovaEPG...")
+
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    novaepg_dir = os.path.join(base_dir, 'novaepg')
+
+    if not os.path.exists(novaepg_dir):
+        print("❌ Error: Directorio novaepg no encontrado.")
+        return
+
+    for folder in os.listdir(novaepg_dir):
+        full_path = os.path.join(novaepg_dir, folder)
+        if os.path.isdir(full_path):
+            process_channel(full_path)
+
+    print("🏁 Fin de la actualización masiva.")
 
 if __name__ == "__main__":
-    update_epg()
+    main()

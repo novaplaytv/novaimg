@@ -1,9 +1,9 @@
-name: Actualizar EPG TV MAX (Semanal)
+name: Actualizar Guías NovaEPG (Masivo)
 
 on:
   schedule:
-    - cron: '0 5 * * *' # Se ejecuta todos los días a las 05:00 UTC (01:00 AM PY)
-  workflow_dispatch: # Permite ejecución manual
+    - cron: '0 5 * * *' # Todos los días a las 01:00 AM PY (UTC-4 -> UTC-3)
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -20,17 +20,17 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Ejecutar script de actualización
-        run: python scripts/update_tvmax.py
+      - name: Ejecutar motor de actualización masiva
+        run: python scripts/update_novaepg.py
 
       - name: Commit y Push
         run: |
           git config user.name "NovaEPG Bot"
           git config user.email "nova-epg@users.noreply.github.com"
-          git add novaepg/tvmax/tvmax.xml
+          git add novaepg/
           if git diff --cached --quiet; then
             echo "Sin cambios en la programación."
           else
-            git commit -m "EPG: Actualización diaria de TV MAX (Semana Actual)"
+            git commit -m "EPG: Actualización masiva de guías perpetuas (Trece, TVMax...)"
             git push
           fi
