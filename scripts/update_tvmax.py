@@ -9,14 +9,15 @@ def update_epg():
         print(f"❌ Error: No se encuentra {template_path}")
         return
 
-    # 1. Calcular el "Hoy" en Paraguay (UTC-3)
-    # Paraguay adoptó el horario de verano (UTC-3) como hora oficial permanente.
-    now_py = datetime.utcnow() - timedelta(hours=3)
+    # 1. Calcular el "Hoy" en Paraguay (UTC-4)
+    # GitHub Actions corre en UTC, le restamos 4 horas para tener la fecha real de Paraguay
+    now_py = datetime.utcnow() - timedelta(hours=4)
 
     # 2. Encontrar el lunes de la semana actual
+    # .weekday() devuelve 0 para Lunes, 4 para Viernes...
     monday_py = now_py - timedelta(days=now_py.weekday())
 
-    print(f"📅 Sincronizando EPG para Paraguay (Hoy: {now_py.strftime('%Y-%m-%d')} [UTC-3])")
+    print(f"📅 Sincronizando EPG para Paraguay (Hoy: {now_py.strftime('%Y-%m-%d')})")
     print(f"📅 Semana iniciada el Lunes: {monday_py.strftime('%Y-%m-%d')}")
 
     # 3. Preparar los reemplazos para cada día
@@ -41,7 +42,7 @@ def update_epg():
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(new_content)
 
-    print("✅ Archivo tvmax.xml actualizado y sincronizado con UTC-3 (Paraguay).")
+    print("✅ Archivo tvmax.xml actualizado y sincronizado con el calendario de Paraguay.")
 
 if __name__ == "__main__":
     update_epg()

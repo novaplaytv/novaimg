@@ -105,13 +105,6 @@
         try {
             const resp = await fetch(EPG_DB_URL);
             if (!resp.ok) throw new Error("Archivo no encontrado");
-
-            // FASE REPARACIÓN (v92): Validar que la respuesta sea JSON real y no un error HTML de GitHub
-            const contentType = resp.headers.get("content-type");
-            if (contentType && contentType.includes("text/html")) {
-                throw new Error("La base de datos está siendo actualizada. Reintente en unos minutos.");
-            }
-
             epgDatabase = await resp.json();
 
             const countries = [...new Set(epgDatabase.map(ch => ch.country))].sort();
@@ -130,11 +123,7 @@
             document.getElementById('searchInput').focus();
         } catch (e) {
             console.error(e);
-            document.getElementById('loader').innerHTML = `
-                <i class="fas fa-exclamation-triangle" style="color:var(--primary); font-size:40px;"></i>
-                <p style="margin-top: 20px; font-weight: 700; color: #fff;">${e.message}</p>
-                <button onclick="location.reload()" class="btn-copy" style="margin-top:20px;">REINTENTAR CARGA</button>
-            `;
+            alert('Error: No se ha generado la base de datos de búsqueda. Inicie el workflow en GitHub.');
         }
     }
 
@@ -150,14 +139,7 @@
             return;
         }
 
-        // FASE REPARACIÓN (v92): Sincronización horaria UTC para comparación con DB
-        const now = new Date();
-        const nowStr = now.getUTCFullYear().toString() +
-                       (now.getUTCMonth() + 1).toString().padStart(2, '0') +
-                       now.getUTCDate().toString().padStart(2, '0') +
-                       now.getUTCHours().toString().padStart(2, '0') +
-                       now.getUTCMinutes().toString().padStart(2, '0') +
-                       now.getUTCSeconds().toString().padStart(2, '0');
+        const nowStr = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
 
         const filtered = epgDatabase.filter(ch => {
             const matchesQuery = !query || ch.name.toLowerCase().includes(query) || ch.id.toLowerCase().includes(query);
@@ -169,18 +151,11 @@
         infoContainer.style.display = 'block';
 
         listContainer.innerHTML = filtered.map(ch => {
-            let currentProg = "Programación no disponible (DB desactualizada)";
+            let currentProg = "Programación no disponible";
             if (ch.progs && ch.progs.length > 0) {
                 const match = ch.progs.find(p => nowStr >= p[1] && nowStr < p[2]);
-                if (match) {
-                    currentProg = match[0];
-                } else {
-                    // Buscar el programa más cercano en el futuro
-                    const next = ch.progs.find(p => p[1] > nowStr);
-                    if (next) {
-                        currentProg = "Próximamente: " + next[0];
-                    }
-                }
+                if (match) currentProg = match[0];
+                else if (nowStr < ch.progs[0][1]) currentProg = "Próximamente: " + ch.progs[0][0];
             }
 
             return `
@@ -191,8 +166,8 @@
                             <div class="ch-name">${ch.name}</div>
                             <div class="ch-country">${ch.country} | Fuente: <b>${ch.site}</b></div>
                             <div class="ch-live">
-                                <span class="live-dot-mini" style="${currentProg.includes('no disponible') ? 'background:#666; box-shadow:none; animation:none;' : ''}"></span>
-                                <span style="${currentProg.includes('no disponible') ? 'color:var(--text-muted)' : ''}">EN VIVO: ${currentProg}</span>
+                                <span class="live-dot-mini"></span>
+                                <span>EN VIVO: ${currentProg}</span>
                             </div>
                         </div>
                     </div>
