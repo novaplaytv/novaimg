@@ -25,6 +25,7 @@ jobs:
       - name: Generar catálogo
         env:
           NOVAPLAY_JSON_URL: ${{ secrets.NOVAPLAY_JSON_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           python scripts/generar_catalogo.py
 

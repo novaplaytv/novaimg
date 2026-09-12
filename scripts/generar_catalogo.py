@@ -1,4 +1,4 @@
-import os
+﻿import os
 import json
 import html
 import urllib.request
@@ -8,22 +8,32 @@ from datetime import datetime, timezone
 
 
 def descargar_json(url):
-    print("Descargando datos de NovaPlay...")
+    if not url:
+        raise ValueError("La URL de NovaPlay JSON está vacía. Verifica el SECRET 'NOVAPLAY_JSON_URL'.")
+        
+    print(f"Descargando datos desde: {url}")
     # Añadir timestamp para evitar caché del servidor
-    url_fresca = f"{url}?t={int(time.time())}"
+    url_fresca = f"{url}?t={int(time.time())}" if "?" not in url else f"{url}&t={int(time.time())}"
 
-    request = urllib.request.Request(
-        url_fresca,
-        headers={
-            "User-Agent": "NovaImg-Catalog-Generator/1.0"
-        }
-    )
+    headers = {
+        "User-Agent": "NovaImg-Catalog-Generator/1.0"
+    }
+    
+    # Si existe una API Key en el entorno (Supabase), usarla para evitar errores 400/401/403
+    api_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
+    if api_key:
+        headers["apikey"] = api_key
+        headers["Authorization"] = f"Bearer {api_key}"
 
-    with urllib.request.urlopen(
-        request,
-        timeout=60
-    ) as response:
-        return json.load(response)
+    request = urllib.request.Request(url_fresca, headers=headers)
+
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as e:
+        print(f"Error HTTP al descargar JSON: {e.code} - {e.reason}")
+        print(f"URL intentada: {url_fresca}")
+        raise
 
 
 def obtener_archivo_icono(icono_url):
@@ -55,13 +65,13 @@ def procesar_items(items, categoria_nombre):
         icono_url = str(item.get("icono", "")).strip()
 
         if not icono_url:
-            print(f"ℹ Canal sin icono definido en JSON: {nombre or numero}")
+            print(f"â„¹ Canal sin icono definido en JSON: {nombre or numero}")
             icono = "novasplash.webp"
             icono_url = "https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp"
         else:
             icono = obtener_archivo_icono(icono_url)
             if not icono:
-                print(f"⚠ No se pudo obtener archivo del icono: {nombre}")
+                print(f"âš  No se pudo obtener archivo del icono: {nombre}")
                 continue
 
         if not nombre:
@@ -87,16 +97,16 @@ def procesar_canales(data):
         for grupo in data:
             if not isinstance(grupo, dict):
                 continue
-            categoria_nombre = str(grupo.get("title", grupo.get("name", "SIN CATEGORÍA"))).strip()
+            categoria_nombre = str(grupo.get("title", grupo.get("name", "SIN CATEGORÃA"))).strip()
             if isinstance(grupo.get("items"), list):
                 items = grupo["items"]
-                print(f"Procesando categoría: {categoria_nombre} ({len(items)} items)")
+                print(f"Procesando categorÃ­a: {categoria_nombre} ({len(items)} items)")
                 canales.extend(procesar_items(items, categoria_nombre))
             elif "icono" in grupo:
                 canales.extend(procesar_items([grupo], categoria_nombre))
     elif isinstance(data, dict):
         if isinstance(data.get("items"), list):
-            canales.extend(procesar_items(data["items"], str(data.get("title", "SIN CATEGORÍA"))))
+            canales.extend(procesar_items(data["items"], str(data.get("title", "SIN CATEGORÃA"))))
         else:
             for clave, valor in data.items():
                 if isinstance(valor, list):
@@ -121,14 +131,14 @@ def generar_tarjetas(canales):
         categoria = html.escape(canal["categoria"])
         icono = html.escape(canal["icono"])
         icono_url = html.escape(canal["icono_url"], quote=True)
-        # Añadir timestamp a la ruta local para forzar actualización visual
+        # AÃ±adir timestamp a la ruta local para forzar actualizaciÃ³n visual
         ruta_local = f"icons/{icono}?t={ts}"
 
         tarjeta = f"""
         <article class="card" data-search="{nombre} {numero} {categoria} {icono} {icono_url}">
             <div class="card-header">
                 <div class="header-info">
-                    <div class="channel-number">CANAL {numero if numero else "—"}</div>
+                    <div class="channel-number">CANAL {numero if numero else "â€”"}</div>
                     <h2>{nombre}</h2>
                 </div>
                 <div class="category">{categoria}</div>
@@ -182,7 +192,7 @@ def generar_html(canales):
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NOVAPLAY | CATÁLOGO DE IMAGENES</title>
+    <title>NOVAPLAY | CATÃLOGO DE IMAGENES</title>
     <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -205,7 +215,7 @@ def generar_html(canales):
         * {{ box-sizing: border-box; outline: none; margin: 0; padding: 0; }}
         html, body {{ height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow: hidden; -webkit-font-smoothing: antialiased; }}
 
-        /* Navegación Premium */
+        /* NavegaciÃ³n Premium */
         .nova-nav {{ position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }}
         .nav-inner {{ max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }}
         .nav-brand {{ display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }}
@@ -236,7 +246,7 @@ def generar_html(canales):
         .nav-toggle {{ display: none; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }}
         .nav-toggle span {{ display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }}
 
-        /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
+        /* Dropdown de AdministraciÃ³n Premium - BLINDAJE TOTAL V4 */
         .admin-menu {{ position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }}
         .btn-admin {{ background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }}
 
@@ -385,7 +395,7 @@ def generar_html(canales):
             .nav-links.active {{ right: 0; }}
             .nav-links a {{ font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }}
 
-            /* Ajuste del botón PANEL en móvil */
+            /* Ajuste del botÃ³n PANEL en mÃ³vil */
             .admin-menu {{ width: 100%; height: auto; justify-content: center; padding: 0; flex-direction: column; }}
             .admin-menu.active .dropdown-content {{ opacity: 1; visibility: visible; display: flex; }}
             .btn-admin {{ width: 100%; justify-content: center; padding: 18px; font-size: 16px; border-radius: 15px; }}
@@ -419,10 +429,10 @@ def generar_html(canales):
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | GALERÍA
+            NOVAPLAY | GALERÃA
         </a>
 
-        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menÃº">
             <span></span>
             <span></span>
             <span></span>
@@ -437,10 +447,10 @@ def generar_html(canales):
                     <a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
                     <a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
                     <a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
-                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
-                    <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
+                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de SeÃ±al</a>
+                    <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> GestiÃ³n de Iconos</a>
                     <a href="https://novaplaytv.github.io/novaimg/generador/"><i class="fas fa-magic"></i> Icon Studio</a>
-                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar SesiÃ³n</a>
                 </div>
             </div>
         </div>
@@ -451,14 +461,14 @@ def generar_html(canales):
     <header>
         <div class="header-content">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
-            <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
+            <p class="description">GestiÃ³n centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
             <div class="stats">
                 <i class="fas fa-tv"></i> &nbsp; {len(canales)} canales indexados
             </div>
         </div>
     </header>
     <section class="controls">
-        <input id="search" type="search" placeholder="Buscar canal, categoría o nombre de archivo...">
+        <input id="search" type="search" placeholder="Buscar canal, categorÃ­a o nombre de archivo...">
         <section class="category-filters">
             {filtro_botones}
         </section>
@@ -484,9 +494,9 @@ def generar_html(canales):
 
     <footer>
         <div class="footer-text">
-            © 2026 NOVAPLAY TV<br>
-            © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS<br>
-            <span style="font-size: 11px; opacity: 0.5;">Sincronización automática: {fecha}</span>
+            Â© 2026 NOVAPLAY TV<br>
+            Â© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS<br>
+            <span style="font-size: 11px; opacity: 0.5;">SincronizaciÃ³n automÃ¡tica: {fecha}</span>
         </div>
     </footer>
 </main>
@@ -568,7 +578,7 @@ function checkAuth() {{
 }}
 
 function cerrarSesion() {{
-    openModal("Cerrar Sesión", "¿Estás seguro que deseas salir del Catálogo?", () => {{
+    openModal("Cerrar SesiÃ³n", "Â¿EstÃ¡s seguro que deseas salir del CatÃ¡logo?", () => {{
         localStorage.removeItem("novaimg_session_token");
         localStorage.removeItem("novaplay_session_token");
         location.reload();
@@ -628,7 +638,7 @@ if ('serviceWorker' in navigator) {{
 document.addEventListener('DOMContentLoaded', () => {{
     checkAuth();
 
-    // Toggle Menú Móvil
+    // Toggle MenÃº MÃ³vil
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     const adminMenu = document.getElementById('adminMenu');
@@ -641,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {{
         }});
     }}
 
-    // Toggle Dropdown en Móvil
+    // Toggle Dropdown en MÃ³vil
     if (btnAdmin) {{
         btnAdmin.addEventListener('click', (e) => {{
             if (window.innerWidth <= 900) {{
@@ -651,7 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {{
         }});
     }}
 
-    // Cerrar menú al clickear link (móvil)
+    // Cerrar menÃº al clickear link (mÃ³vil)
     document.querySelectorAll('.nav-links a').forEach(link => {{
         link.addEventListener('click', () => {{
             if (navToggle) navToggle.classList.remove('active');
@@ -684,7 +694,7 @@ def main():
     with open("index.html", "w", encoding="utf-8") as archivo:
         archivo.write(contenido)
 
-    print("✓ index.html generado correctamente.")
+    print("âœ“ index.html generado correctamente.")
 
 
 if __name__ == "__main__":
